@@ -24,6 +24,14 @@ jobs:
         env:
           YOUTUBE_API_KEY: ${{ secrets.YOUTUBE_API_KEY }}
         run: |
+          # Check for the existence of the API key
+          if [ -z "${{ secrets.YOUTUBE_API_KEY }}" ]; then
+            echo "The API key is missing!"
+            exit 1
+          else
+            echo "The API key is set."
+          fi
+
           # Install jq and curl if not already available on the runner
           sudo apt-get install jq curl
           # Fetch the latest video from the channel using the YouTube API
