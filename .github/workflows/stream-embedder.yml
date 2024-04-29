@@ -1,0 +1,49 @@
+name: Update Live Video
+
+on:
+  schedule:
+    # Run at 10:05 AM and 10:10 AM EST every Sunday
+    - cron: '5 15 * * 0'
+    - cron: '10 15 * * 0'
+  workflow_dispatch:
+
+jobs:
+  update-live-video:
+    runs-on: ubuntu-latest
+    name: Update the live.html with the latest YouTube live video URL
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+
+      - name: Setup Node
+        uses: actions/setup-node@v3
+        with:
+          node-version: "16"
+
+      - name: Fetch the latest live video URL
+        env:
+          YOUTUBE_API_KEY: ${{ secrets.YOUTUBE_API_KEY }}
+        run: |
+          # Install jq and curl if not already available on the runner
+          sudo apt-get install jq curl
+          # Fetch the latest video from the channel using the YouTube API
+          DATA=$(curl -s "https://www.googleapis.com/youtube/v3/search?part=snippet&channelId=UCaWvM15oR08RL5DYKxQ4TzA&eventType=live&type=video&key=$YOUTUBE_API_KEY")
+          # Extract video ID
+          VIDEO_ID=$(echo $DATA | jq -r '.items[0].id.videoId')
+          # Check if we got a video ID
+          if [ -z "$VIDEO_ID" ] || [ "$VIDEO_ID" == "null" ]; then
+            echo "No live video found."
+            exit 1
+          fi
+          # Form the new embed URL
+          NEW_URL="https://www.youtube.com/embed/$VIDEO_ID"
+          # Update the live.html file
+          sed -i "s~https://www.youtube.com/embed/[a-zA-Z0-9_-]*~$NEW_URL~" Live.html
+
+      - name: Commit and push if there are changes
+        run: |
+          git config --global user.email "action@github.com"
+          git config --global user.name "GitHub Action"
+          git add Live.html
+          git commit -m "Update live.html with the latest live video URL" || exit 0 # if no changes exit gracefully
+          git push
