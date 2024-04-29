@@ -35,7 +35,7 @@ jobs:
           # Install jq and curl if not already available on the runner
           sudo apt-get install jq curl
           # Fetch the latest video from the channel using the YouTube API
-          DATA=$(curl -s "https://www.googleapis.com/youtube/v3/search?part=snippet&channelId=UCaWvM15oR08RL5DYKxQ4TzA&eventType=live&type=video&key=$YOUTUBE_API_KEY")
+          DATA=$(curl -s "https://www.googleapis.com/youtube/v3/search?part=snippet&channelId=UCaWvM15oR08RL5DYKxQ4TzA&type=video&order=date&maxResults=1&key=$YOUTUBE_API_KEY")
           # Extract video ID
           VIDEO_ID=$(echo $DATA | jq -r '.items[0].id.videoId')
           # Check if we got a video ID
