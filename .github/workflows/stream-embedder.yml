@@ -2,56 +2,76 @@ name: Update Live Video
 
 on:
   schedule:
-    # Run at 10:05 AM and 10:10 AM EST every Sunday
-    - cron: '30 14 * * 0'
-    - cron: '55 14 * * 0'
+    # These cron settings are placeholders and will be dynamically adjusted
+    - cron: '15 15 * * 0'  # Initially set for 11:15 AM EDT (15:15 UTC)
+    - cron: '25 15 * * 0'  # Initially set for 11:25 AM EDT (15:25 UTC)
+
   workflow_dispatch:
 
 jobs:
   update-live-video:
     runs-on: ubuntu-latest
-    name: Update the live.html with the latest YouTube live video URL
+    name: Update the live.html with the latest YouTube live video URL and Adjust Cron Schedules
     steps:
-      - name: Checkout
+      - name: Checkout Repository
         uses: actions/checkout@v3
 
-      - name: Setup Node
+      - name: Setup Node.js Environment
         uses: actions/setup-node@v3
         with:
           node-version: "16"
 
-      - name: Fetch the latest live video URL
+      - name: Install Required Tools
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y jq curl
+
+      - name: Determine DST Status
+        id: dst_check
+        run: |
+          # Using a Python command to check if DST is active in the 'America/New_York' timezone
+          echo "DST_ACTIVE=$(python -c 'from datetime import datetime; from pytz import timezone; print(datetime.now(timezone("America/New_York")).dst() != timedelta(0))')" >> $GITHUB_ENV
+
+      - name: Fetch the Latest Live Video URL
         env:
           YOUTUBE_API_KEY: ${{ secrets.YOUTUBE_API_KEY }}
         run: |
-          # Check for the existence of the API key
-          if [ -z "${{ secrets.YOUTUBE_API_KEY }}" ]; then
-            echo "The API key is missing!"
-            exit 1
-          else
-            echo "The API key is set."
-          fi
-
-          # Install jq and curl if not already available on the runner
-          sudo apt-get install jq curl
-          # Fetch the latest video from the channel using the YouTube API
           DATA=$(curl -s "https://www.googleapis.com/youtube/v3/search?part=snippet&channelId=UCaWvM15oR08RL5DYKxQ4TzA&type=video&order=date&maxResults=1&key=$YOUTUBE_API_KEY")
-          # Extract video ID
           VIDEO_ID=$(echo $DATA | jq -r '.items[0].id.videoId')
-          # Check if we got a video ID
           if [ -z "$VIDEO_ID" ] || [ "$VIDEO_ID" == "null" ]; then
             echo "No live video found."
             exit 1
           fi
-          # Form the new embed URL
           NEW_URL="https://www.youtube.com/embed/$VIDEO_ID"
-          # Update the live.html file
           sed -i "s~https://www.youtube.com/embed/[a-zA-Z0-9_-]*~$NEW_URL~" Live.html
+          echo "Live.html updated" >> $GITHUB_ENV
 
-      - name: Commit and push if there are changes
+      - name: Update Cron Schedules Based on DST Status
+        run: |
+          if [ "$DST_ACTIVE" == "True" ]; then
+            # DST is active, use EDT schedules
+            sed -i 's~cron: "15 16 \* \* 0"~cron: "15 15 \* \* 0" # 11:15 AM EDT (15:15 UTC)~g' .github/workflows/stream-embedder.yml
+            sed -i 's~cron: "25 16 \* \* 0"~cron: "25 15 \* \* 0" # 11:25 AM EDT (15:25 UTC)~g' .github/workflows/stream-embedder.yml
+          else
+            # DST is inactive, use EST schedules
+            sed -i 's~cron: "15 15 \* \* 0"~cron: "15 16 \* \* 0" # 11:15 AM EST (16:15 UTC)~g' .github/workflows/stream-embedder.yml
+            sed -i 's~cron: "25 15 \* \* 0"~cron: "25 16 \* \* 0" # 11:25 AM EST (16:25 UTC)~g' .github/workflows/stream-embedder.yml
+          echo "stream-embedder.yml updated based on DST status" >> $GITHUB_ENV
+
+      - name: Commit and Push Live.html Changes
+        if: contains(env.GITHUB_ENV, 'Live.html updated')
         run: |
           git config --global user.email "action@github.com"
           git config --global user.name "GitHub Action"
           git add Live.html
-          git commit -m "Update live.html with the latest live video URL" || exit 0 # if no changes exit gracefully
+          git commit -m "Updated live.html with the latest YouTube live video URL"
+          git push
+
+      - name: Commit and Push stream-embedder.yml Changes
+        if: contains(env.GITHUB_ENV, 'stream-embedder.yml updated based on DST status')
+        run: |
+          git config --global user.email "action@github.com"
+          git config --global user.name "GitHub Action"
+          git add .github/workflows/stream-embedder.yml
+          git commit -m "Updated stream-embedder.yml cron expressions based on DST status"
           git push
