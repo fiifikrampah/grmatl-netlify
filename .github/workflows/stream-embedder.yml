@@ -64,8 +64,9 @@ jobs:
           git config --global user.email "action@github.com"
           git config --global user.name "GitHub Action"
           git add Live.html
-          git commit -m "Updated live.html with the latest YouTube live video URL"
-          git push
+          git diff --staged --exit-code || echo "No changes to commit for Live.html"
+          git commit -m "Updated live.html with the latest YouTube live video URL" || echo "No changes to commit."
+          git push || echo "No changes to push."
 
       - name: Commit and Push stream-embedder.yml Changes
         if: env.STREAM_EMBEDDER_YML_UPDATED == 'true'
@@ -73,5 +74,6 @@ jobs:
           git config --global user.email "action@github.com"
           git config --global user.name "GitHub Action"
           git add .github/workflows/stream-embedder.yml
-          git commit -m "Updated stream-embedder.yml cron expressions based on DST status"
-          git push
+          git diff --staged --exit-code || echo "No changes to commit for stream-embedder.yml"
+          git commit -m "Updated stream-embedder.yml cron expressions based on DST status" || echo "No changes to commit."
+          git push || echo "No changes to push."
