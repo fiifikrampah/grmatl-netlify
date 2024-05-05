@@ -1,4 +1,4 @@
-# Great Redemption Ministries Official Website
+# Great Redemption Ministries Website
 
 Welcome to the repository for the Great Redemption Ministries' website, accessible at [grmatl.org](https://grmatl.org). This site is a central hub for the church, providing information, resources, and live stream links to service streams on Youtube and Facebook.
 
