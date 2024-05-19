@@ -3,8 +3,8 @@ name: Update Live Video
 on:
   schedule:
     # These cron settings are placeholders and will be dynamically adjusted
-    - cron: '05 15 * * 0'  # Initially set for 11:15 AM EDT (15:05 UTC)
-    - cron: '25 15 * * 0'  # Initially set for 11:25 AM EDT (15:15 UTC)
+    - cron: '05 15 * * 0'  # Initially set for 11:15 AM EDT (15:15 UTC)
+    - cron: '25 15 * * 0'  # Initially set for 11:25 AM EDT (15:25 UTC)
 
   workflow_dispatch:
 
@@ -49,13 +49,13 @@ jobs:
         run: |
           if [ "$DST_ACTIVE" == "True" ]; then
             # DST is active, use EDT schedules
-            sed -i 's~cron: "05 16 \* \* 0"~cron: "05 15 \* \* 0" # 11:15 AM EDT (15:05 UTC)~g' .github/workflows/stream-embedder.yml
-            sed -i 's~cron: "15 16 \* \* 0"~cron: "15 15 \* \* 0" # 11:25 AM EDT (15:15 UTC)~g' .github/workflows/stream-embedder.yml
+            sed -i 's~cron: "05 16 \* \* 0"~cron: "05 15 \* \* 0" # 11:15 AM EDT (15:15 UTC)~g' .github/workflows/stream-embedder.yml
+            sed -i 's~cron: "15 16 \* \* 0"~cron: "15 15 \* \* 0" # 11:25 AM EDT (15:25 UTC)~g' .github/workflows/stream-embedder.yml
             echo "STREAM_EMBEDDER_YML_UPDATED=true" >> $GITHUB_ENV
           else
             # DST is inactive, use EST schedules
-            sed -i 's~cron: "05 15 \* \* 0"~cron: "05 16 \* \* 0" # 11:15 AM EST (16:05 UTC)~g' .github/workflows/stream-embedder.yml
-            sed -i 's~cron: "15 15 \* \* 0"~cron: "15 16 \* \* 0" # 11:25 AM EST (16:15 UTC)~g' .github/workflows/stream-embedder.yml
+            sed -i 's~cron: "05 15 \* \* 0"~cron: "05 16 \* \* 0" # 11:15 AM EST (16:15 UTC)~g' .github/workflows/stream-embedder.yml
+            sed -i 's~cron: "15 15 \* \* 0"~cron: "15 16 \* \* 0" # 11:25 AM EST (16:25 UTC)~g' .github/workflows/stream-embedder.yml
             echo "STREAM_EMBEDDER_YML_UPDATED=true" >> $GITHUB_ENV
           fi
       - name: Commit and Push Live.html Changes
