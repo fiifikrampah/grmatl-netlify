@@ -68,6 +68,12 @@
       opacity: 0.9;
     }
 
+    .giving-button.register-button {
+      padding: 15px 32px;
+      font-size: 1.25rem;
+      font-weight: bold;
+    }
+
     .zelle-instructions {
       font-size: 1.1rem;
       color: #555;
@@ -117,6 +123,92 @@
       margin-top: 20px;
       font-size: 0.9rem;
     }
+
+    .payment-info {
+      margin-top: 3rem;
+      padding-top: 2rem;
+    }
+
+    .payment-intro {
+      text-align: center;
+      font-size: 1.1rem;
+      color: #555;
+      margin-bottom: 2rem;
+    }
+
+    .payment-methods-container {
+      display: flex;
+      justify-content: center;
+      gap: 2rem;
+      flex-wrap: wrap;
+    }
+
+    .payment-method {
+      border: 1px solid #ddd;
+      border-radius: 8px;
+      padding: 1.5rem 2rem;
+      background-color: #fff;
+      text-align: center;
+      width: 100%;
+      max-width: 320px;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+      display: flex;
+      flex-direction: column;
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
+    }
+
+    .payment-method:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+    }
+
+    .payment-method h3 {
+      font-size: 1.75rem;
+      color: #252669;
+      margin-top: 0;
+      margin-bottom: 1rem;
+    }
+
+    .payment-method p {
+        flex-grow: 1;
+        margin-bottom: 1.5rem;
+        color: #555;
+        font-size: 1.1rem;
+    }
+
+    .payment-detail {
+      font-weight: bold;
+      font-size: 1.5rem;
+      color: #252669;
+      margin: 0;
+    }
+
+    .payment-detail-container {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.5rem;
+    }
+
+    .payment-method .giving-button {
+        margin-top: auto;
+        align-self: center;
+    }
+
+    .copy-button {
+      padding: 6px 12px;
+      background-color: #eee;
+      color: #333;
+      border: 1px solid #ddd;
+      border-radius: 5px;
+      cursor: pointer;
+      font-size: 1rem;
+      transition: background-color 0.2s;
+    }
+
+    .copy-button:hover {
+        background-color: #d8d8d8;
+    }
   </style>
 </head>
 
@@ -132,11 +224,11 @@
           style="font-size: 1rem; letter-spacing: 0; font-weight: 700; text-transform: uppercase;">
           <a class="u-button-style u-custom-left-right-menu-spacing u-custom-padding-bottom u-custom-text-active-color u-custom-text-color u-custom-text-hover-color u-custom-top-bottom-menu-spacing u-nav-link u-text-body-alt-color"
             href="#">
-            <svg class="u-svg-link" preserveAspectRatio="xMidYMin slice" viewBox="0 0 302 302" style="undefined">
+            <svg class="u-svg-link" preserveAspectRatio="xMidYMin slice" viewBox="0 0 302 302">
               <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#svg-8a8f"></use>
             </svg>
             <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1"
-              id="svg-8a8f" x="0px" y="0px" viewBox="0 0 302 302" style="enable-background:new 0 0 302 302;"
+              id="svg-8a8f" x="0px" y="0px" viewBox="0 0 302 302"
               xml:space="preserve" class="u-svg-content">
               <g>
                 <rect y="36" width="302" height="30"></rect>
@@ -217,22 +309,36 @@
   <section class="u-align-center u-clearfix u-white-5 u-section-2" id="sec-f7d4">
     <div class="u-clearfix u-sheet u-sheet-1">
       <br><br><br>
-      <h1 class="u-text u-text-1">Youth & Children Summer Camp 2025</h1>
+      <h1 class="u-text u-text-1">Youth & Children's Summer Camp 2025</h1>
       <p class="thanksgiving-text">
-        Join us at the Youth & Children Summer Camp from July 14th to 18th, 2025! Whether you're a parent signing up your
+        Join us at the Youth & Children's Summer Camp from July 14th to 18th, 2025! Whether you're a parent signing up your
         kids or a youth investing in your own growth, this camp offers fun activities and meaningful experiences. Make
         new friends, deepen your faith, and build confidence at Great Redemption Ministries!
       </p>
       <div class="giving-options">
-        <button onclick="window.open('https://forms.gle/uPJAx8dkiEWcynfM9', '_blank')" class="giving-button">REGISTER</button>
+        <button onclick="window.open('https://forms.gle/uPJAx8dkiEWcynfM9', '_blank')" class="giving-button register-button">REGISTER</button>
       </div>
-      <p class="zelle-instructions">After registering, please return to this page to pay via one of the following methods:</p>
-      <p class="zelle-instructions"><strong>Cash:</strong> Please bring cash payment to the camp.</p>
-      <p class="zelle-instructions"><strong>Zelle:</strong> Please send to the following number and label the payment as "camp".<br> <span
-          class="zelle-number">404-940-8162</span></p>
-      <p class="zelle-instructions"><strong>CashApp:</strong> Please label the payment as "camp".</p>
-      <div class="giving-options">
-        <button onclick="location.href='https://cash.app/$grmatl'" class="giving-button">CashApp</button>
+      <div class="payment-info">
+        <p class="payment-intro">After registering, you can pay using one of the methods below:</p>
+        <div class="payment-methods-container">
+          <div class="payment-method">
+            <h3>Cash</h3>
+            <p>Payment can be made by cash at the camp.</p>
+          </div>
+          <div class="payment-method">
+            <h3>Zelle</h3>
+            <p>Send payment to the number below. Please label the payment as "camp".</p>
+            <div class="payment-detail-container">
+              <p class="payment-detail">404-940-8162</p>
+              <button class="copy-button" onclick="copyToClipboard('404-940-8162', this)">Copy</button>
+            </div>
+          </div>
+          <div class="payment-method">
+            <h3>CashApp</h3>
+            <p>Click the button below to pay. Please label the payment as "camp".</p>
+            <button onclick="location.href='https://cash.app/$grmatl'" class="giving-button">Open CashApp</button>
+          </div>
+        </div>
       </div>
     </div>
   </section>
@@ -275,6 +381,22 @@
         2024 Great Redemption Ministries Inc.</p>
     </div>
   </footer>
+  <script>
+    function copyToClipboard(text, button) {
+      navigator.clipboard.writeText(text).then(function() {
+        var originalText = button.innerText;
+        button.innerText = 'Copied!';
+        button.disabled = true;
+        setTimeout(function() {
+          button.innerText = originalText;
+          button.disabled = false;
+        }, 2000);
+      }, function(err) {
+        console.error('Could not copy text: ', err);
+        alert('Failed to copy text.');
+      });
+    }
+  </script>
 </body>
 
 </html>
