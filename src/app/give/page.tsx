@@ -1,47 +1,19 @@
 "use client"
 
-import { useState } from 'react'
 import { Card, CardContent } from '@/components/ui/card'
 import { Button } from '@/components/ui/button'
-import { Heart, CreditCard, Building, DollarSign, X, Copy, Check } from 'lucide-react'
+import { Heart, CreditCard, Building, DollarSign, Copy } from 'lucide-react'
 
 export default function Give() {
-  const [showZelleModal, setShowZelleModal] = useState(false)
-  const [copied, setCopied] = useState(false)
-
-  const copyToClipboard = async () => {
+  const copyToClipboard = async (text: string) => {
     try {
-      await navigator.clipboard.writeText('404-940-8162')
-      setCopied(true)
-      setTimeout(() => setCopied(false), 2000) // Reset after 2 seconds
+      await navigator.clipboard.writeText(text)
+      // You could add a toast notification here
+      console.log('Copied to clipboard')
     } catch (err) {
       console.error('Failed to copy: ', err)
     }
   }
-  const givingOptions = [
-    {
-      icon: CreditCard,
-      title: "Tithely",
-      description: "Give securely online through our Tithely portal",
-      action: "Give via Tithely",
-      link: "https://tithe.ly/give_new/www/#/tithely/give-one-time/307704",
-    },
-    {
-      icon: Building,
-      title: "Zelle",
-      description: "Direct bank transfer using your banking app",
-      action: "Show Zelle Number",
-      zelleNumber: "404-940-8162",
-    },
-    {
-      icon: DollarSign,
-      title: "Cash App",
-      description: "Send donations quickly and securely via Cash App",
-      action: "Open Cash App",
-      link: "https://cash.app/$grmatl",
-    },
-
-  ]
 
   return (
     <div className="py-20 bg-gradient-to-br from-grm-blue-50 to-grm-blue-100">
@@ -57,34 +29,54 @@ export default function Give() {
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-12 max-w-5xl mx-auto">
-            {givingOptions.map((option, index) => {
-              const Icon = option.icon
-              return (
-                <Card key={index} className="h-full hover:shadow-lg transition-shadow">
-                  <CardContent className="p-6 text-center">
-                    <Icon className="h-12 w-12 mx-auto mb-4 text-grm-primary" />
-                    <h3 className="text-xl font-semibold text-gray-900 mb-3">{option.title}</h3>
-                    <p className="text-gray-600 mb-4">{option.description}</p>
-                    {option.link ? (
-                      <a href={option.link} target="_blank" rel="noopener noreferrer">
-                        <Button className="w-full cursor-pointer hover:scale-105 transition-all duration-200 bg-green-600 hover:bg-green-700">
-                          {option.action}
-                        </Button>
-                      </a>
-                    ) : option.zelleNumber ? (
-                      <Button
-                        className="w-full cursor-pointer hover:scale-105 transition-all duration-200 bg-grm-primary hover:bg-grm-secondary text-white"
-                        onClick={() => setShowZelleModal(true)}
-                      >
-                        {option.action}
-                      </Button>
-                    ) : (
-                      <Button className="w-full cursor-pointer hover:scale-105 transition-all duration-200">{option.action}</Button>
-                    )}
-                  </CardContent>
-                </Card>
-              )
-            })}
+            {/* Tithely */}
+            <Card className="h-full hover:shadow-lg transition-shadow group">
+              <CardContent className="p-6 text-center">
+                <CreditCard className="h-12 w-12 mx-auto mb-4 text-grm-primary group-hover:scale-110 transition-transform duration-200" />
+                <h3 className="text-xl font-semibold text-gray-900 mb-3">Tithely</h3>
+                <p className="text-gray-600 mb-4">Give securely online through our Tithely portal</p>
+                <a href="https://tithe.ly/give_new/www/#/tithely/give-one-time/307704" target="_blank" rel="noopener noreferrer">
+                  <Button className="w-full cursor-pointer hover:scale-105 transition-all duration-200 bg-green-600 hover:bg-green-700">
+                    Give via Tithely
+                  </Button>
+                </a>
+              </CardContent>
+            </Card>
+
+            {/* Zelle */}
+            <Card className="h-full hover:shadow-lg transition-shadow group">
+              <CardContent className="p-6 text-center">
+                <Building className="h-12 w-12 mx-auto mb-4 text-grm-primary group-hover:scale-110 transition-transform duration-200" />
+                <h3 className="text-xl font-semibold text-gray-900 mb-3">Zelle</h3>
+                <p className="text-gray-600 mb-4">Direct bank transfer using your banking app</p>
+                <div className="bg-grm-blue-50 rounded-lg p-4 mb-4 border border-grm-blue-200">
+                  <p className="text-2xl font-bold text-grm-primary mb-3 font-mono">404-940-8162</p>
+                  <Button
+                    onClick={() => copyToClipboard('404-940-8162')}
+                    variant="outline"
+                    size="sm"
+                    className="w-full hover:bg-grm-secondary hover:text-white transition-all duration-200 border-grm-primary text-grm-primary hover:border-grm-secondary"
+                  >
+                    <Copy className="h-4 w-4 mr-2" />
+                    Copy Number
+                  </Button>
+                </div>
+              </CardContent>
+            </Card>
+
+            {/* Cash App */}
+            <Card className="h-full hover:shadow-lg transition-shadow group">
+              <CardContent className="p-6 text-center">
+                <DollarSign className="h-12 w-12 mx-auto mb-4 text-grm-primary group-hover:scale-110 transition-transform duration-200" />
+                <h3 className="text-xl font-semibold text-gray-900 mb-3">Cash App</h3>
+                <p className="text-gray-600 mb-4">Send donations quickly and securely via Cash App</p>
+                <a href="https://cash.app/$grmatl" target="_blank" rel="noopener noreferrer">
+                  <Button className="w-full cursor-pointer hover:scale-105 transition-all duration-200 bg-green-600 hover:bg-green-700">
+                    Open Cash App
+                  </Button>
+                </a>
+              </CardContent>
+            </Card>
           </div>
 
           {/* Featured Giving Section */}
@@ -111,59 +103,7 @@ export default function Give() {
           </div>
         </div>
 
-        {/* Zelle Modal */}
-      {showZelleModal && (
-        <div className="fixed inset-0 backdrop-blur-md bg-black/20 flex items-center justify-center z-50 p-4">
-          <div className="bg-white rounded-lg shadow-xl max-w-md w-full p-8 text-center">
-            <div className="flex justify-end mb-4">
-              <button
-                onClick={() => setShowZelleModal(false)}
-                className="text-gray-400 hover:text-gray-600 transition-colors"
-              >
-                <X className="h-6 w-6" />
-              </button>
-            </div>
 
-            <div className="mb-6">
-              <Building className="h-16 w-16 mx-auto mb-4 text-grm-primary" />
-              <h3 className="text-2xl font-bold text-gray-900 mb-2">Zelle Phone Number</h3>
-              <p className="text-gray-600 mb-4">Use this phone number to send donations via Zelle</p>
-            </div>
-
-            <div className="bg-grm-blue-50 rounded-lg p-6 mb-6">
-              <div className="flex items-center justify-center space-x-4">
-                <p className="text-3xl font-bold text-grm-primary font-mono">
-                  404-940-8162
-                </p>
-                <button
-                  onClick={copyToClipboard}
-                  className="flex items-center space-x-2 bg-white hover:bg-gray-50 text-grm-primary px-4 py-2 rounded-lg border border-grm-blue-200 transition-colors"
-                  title="Copy to clipboard"
-                >
-                  {copied ? (
-                    <>
-                      <Check className="h-5 w-5 text-green-600" />
-                      <span className="text-sm font-medium text-green-600">Copied!</span>
-                    </>
-                  ) : (
-                    <>
-                      <Copy className="h-5 w-5" />
-                      <span className="text-sm font-medium">Copy</span>
-                    </>
-                  )}
-                </button>
-              </div>
-            </div>
-
-            <Button
-              onClick={() => setShowZelleModal(false)}
-              className="w-full bg-grm-primary hover:bg-grm-secondary"
-            >
-              Close
-            </Button>
-          </div>
-        </div>
-      )}
     </div>
   )
 }
