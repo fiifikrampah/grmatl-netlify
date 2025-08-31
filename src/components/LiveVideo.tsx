@@ -7,8 +7,14 @@ import { Clock, Users, Heart, Play } from 'lucide-react'
 
 export default function LiveVideo() {
   // This URL will be updated by the GitHub Actions workflow
-  const liveVideoUrl = "https://www.youtube.com/embed/HB2yeJqMHnM?si=4o0cL6UmrvIApmrY"
+  const baseVideoUrl = "https://www.youtube.com/embed/HB2yeJqMHnM?si=4o0cL6UmrvIApmrY"
   const [showVideo, setShowVideo] = useState(false)
+  const [shouldAutoplay, setShouldAutoplay] = useState(false)
+
+  // Create autoplay URL when video should start playing
+  const videoUrl = shouldAutoplay
+    ? `${baseVideoUrl}&autoplay=1&mute=0&rel=0&modestbranding=1&showinfo=0`
+    : baseVideoUrl
 
   const features = [
     {
@@ -47,7 +53,10 @@ export default function LiveVideo() {
             // Cover Image with Play Button
             <div
               className="w-full h-full rounded-lg shadow-2xl cursor-pointer overflow-hidden relative group"
-              onClick={() => setShowVideo(true)}
+              onClick={() => {
+                setShouldAutoplay(true)
+                setShowVideo(true)
+              }}
             >
               <Image
                 src="/images/thumbnail.jpg"
@@ -76,7 +85,7 @@ export default function LiveVideo() {
           ) : (
             // YouTube Video
             <iframe
-              src={liveVideoUrl}
+              src={videoUrl}
               title="YouTube video player"
               className="w-full h-full rounded-lg shadow-2xl"
               frameBorder="0"
