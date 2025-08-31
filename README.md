@@ -1,4 +1,4 @@
-# Great Redemption Ministries - Next.js Site
+# Great Redemption Ministries
 
 This is a modern, responsive website for Great Redemption Ministries built with Next.js 15, TypeScript, and Tailwind CSS, featuring shadcn/ui components.
 
@@ -120,20 +120,7 @@ The site uses a modern color scheme:
 
 ## Deployment
 
-The site is optimized for deployment on Netlify:
-
-1. Connect your GitHub repository to Netlify
-2. Set build command: `npm run build`
-3. Set publish directory: `.next`
-4. Add environment variables if needed
-
-## Contributing
-
-1. Fork the repository
-2. Create a feature branch
-3. Make your changes
-4. Test thoroughly
-5. Submit a pull request
+The site is deployed via Netlify
 
 ## License
 
