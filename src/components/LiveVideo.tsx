@@ -50,7 +50,7 @@ export default function LiveVideo() {
               onClick={() => setShowVideo(true)}
             >
               <Image
-                src="/images/We Are Live 1920x1080.jpg"
+                src="/images/thumbnail.jpg"
                 alt="Great Redemption Ministries Live Stream"
                 fill
                 className="object-cover transition-transform duration-300 group-hover:scale-105"
