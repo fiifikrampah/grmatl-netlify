@@ -3,7 +3,7 @@ import { Clock, Users, Heart } from 'lucide-react'
 
 export default function LiveVideo() {
   // This URL will be updated by the GitHub Actions workflow
-  const liveVideoUrl = "https://www.youtube.com/embed/zDaDS4SOxdc?si=4o0cL6UmrvIApmrY"
+  const liveVideoUrl = "https://www.youtube.com/embed/HB2yeJqMHnM?si=4o0cL6UmrvIApmrY"
 
   const features = [
     {
