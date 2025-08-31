@@ -1,7 +1,6 @@
 "use client"
 
 import { useState } from 'react'
-import Layout from '@/components/Layout'
 import { Card, CardContent } from '@/components/ui/card'
 import { Button } from '@/components/ui/button'
 import { Heart, CreditCard, Building, DollarSign, X, Copy, Check } from 'lucide-react'
@@ -45,8 +44,7 @@ export default function Give() {
   ]
 
   return (
-    <Layout>
-      <div className="py-20 bg-gradient-to-br from-grm-blue-50 to-grm-blue-100">
+    <div className="py-20 bg-gradient-to-br from-grm-blue-50 to-grm-blue-100">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-16">
             <h1 className="text-4xl md:text-5xl font-bold text-gray-900 mb-6">
@@ -112,9 +110,8 @@ export default function Give() {
             </div>
           </div>
         </div>
-      </div>
 
-      {/* Zelle Modal */}
+        {/* Zelle Modal */}
       {showZelleModal && (
         <div className="fixed inset-0 backdrop-blur-md bg-black/20 flex items-center justify-center z-50 p-4">
           <div className="bg-white rounded-lg shadow-xl max-w-md w-full p-8 text-center">
@@ -167,6 +164,6 @@ export default function Give() {
           </div>
         </div>
       )}
-    </Layout>
+    </div>
   )
 }

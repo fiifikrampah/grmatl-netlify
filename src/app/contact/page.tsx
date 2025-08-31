@@ -1,4 +1,3 @@
-import Layout from '@/components/Layout'
 import { Card, CardContent } from '@/components/ui/card'
 import { MapPin, Phone, Mail, Clock } from 'lucide-react'
 
@@ -28,7 +27,6 @@ export default function Contact() {
   ]
 
   return (
-    <Layout>
       <div className="py-20 bg-gray-50">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-16">
@@ -84,6 +82,5 @@ export default function Contact() {
           </div>
         </div>
       </div>
-    </Layout>
   )
 }
