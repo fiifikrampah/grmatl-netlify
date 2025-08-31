@@ -11,7 +11,7 @@ on:
 jobs:
   update-live-video:
     runs-on: ubuntu-latest
-    name: Update the live.html with the latest YouTube live video URL and Adjust Cron Schedules
+    name: Update the live video URL with the latest YouTube live video
     steps:
       - name: Checkout Repository
         uses: actions/checkout@v3
@@ -42,8 +42,9 @@ jobs:
             exit 1
           fi
           NEW_URL="https://www.youtube.com/embed/$VIDEO_ID"
-          sed -i "s~https://www.youtube.com/embed/[a-zA-Z0-9_-]*~$NEW_URL~" Live.html
-          echo "LIVE_HTML_UPDATED=true" >> $GITHUB_ENV
+          # Update the live video URL in the Next.js component
+          sed -i "s~https://www.youtube.com/embed/[^\"]*~$NEW_URL~" src/components/LiveVideo.tsx
+          echo "LIVE_VIDEO_UPDATED=true" >> $GITHUB_ENV
 
       - name: Update Cron Schedules Based on DST Status
         run: |
@@ -58,14 +59,14 @@ jobs:
             sed -i 's~cron: "15 15 \* \* 0"~cron: "15 16 \* \* 0" # 11:25 AM EST (16:25 UTC)~g' .github/workflows/stream-embedder.yml
             echo "STREAM_EMBEDDER_YML_UPDATED=true" >> $GITHUB_ENV
           fi
-      - name: Commit and Push Live.html Changes
-        if: env.LIVE_HTML_UPDATED == 'true'
+      - name: Commit and Push LiveVideo Component Changes
+        if: env.LIVE_VIDEO_UPDATED == 'true'
         run: |
           git config --global user.email "action@github.com"
           git config --global user.name "GitHub Action"
-          git add Live.html
-          git diff --staged --exit-code || echo "No changes to commit for Live.html"
-          git commit -m "Updated live.html with the latest YouTube live video URL" || echo "No changes to commit."
+          git add src/components/LiveVideo.tsx
+          git diff --staged --exit-code || echo "No changes to commit for LiveVideo component"
+          git commit -m "Updated live video URL in LiveVideo component" || echo "No changes to commit."
           git push || echo "No changes to push."
 
       - name: Commit and Push stream-embedder.yml Changes

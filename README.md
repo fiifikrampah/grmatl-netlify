@@ -1,39 +1,140 @@
-# Great Redemption Ministries Website
+# Great Redemption Ministries - Next.js Site
 
-Welcome to the repository for the Great Redemption Ministries' website, accessible at [grmatl.org](https://grmatl.org). This site is a central hub for the church, providing information, resources, and live stream links to service streams on Youtube and Facebook.
+This is a modern, responsive website for Great Redemption Ministries built with Next.js 15, TypeScript, and Tailwind CSS, featuring shadcn/ui components.
 
-## Domain Management
+## Features
 
-The domain for this site, grmatl.org, is currently purchased and managed through Squarespace, having been transferred from Google Domains.
+- **Modern Design**: Clean, professional design with responsive layout
+- **Mobile-First**: Optimized for all screen sizes
+- **Fast Performance**: Built with Next.js for optimal performance
+- **Accessible**: Proper semantic HTML and ARIA labels
+- **SEO Optimized**: Comprehensive metadata and structured data
+- **Live Streaming**: Integrated YouTube live streaming with automatic updates
+
+## Tech Stack
+
+- **Framework**: Next.js 15 with App Router
+- **Language**: TypeScript
+- **Styling**: Tailwind CSS
+- **UI Components**: shadcn/ui
+- **Icons**: Lucide React
+- **Deployment**: Ready for Netlify
+
+## Project Structure
+
+```
+src/
+├── app/                    # Next.js App Router pages
+│   ├── about/             # About page
+│   ├── contact/           # Contact page
+│   ├── give/              # Giving page
+│   ├── live/              # Live streaming page
+│   ├── layout.tsx         # Root layout
+│   └── page.tsx           # Home page
+├── components/            # Reusable components
+│   ├── ui/               # shadcn/ui components
+│   ├── Header.tsx        # Navigation header
+│   ├── Footer.tsx        # Site footer
+│   ├── Layout.tsx        # Page layout wrapper
+│   ├── HomePage.tsx      # Home page content
+│   ├── AboutPage.tsx     # About page content
+│   ├── LivePage.tsx      # Live page content
+│   └── LiveVideo.tsx     # Live video embed component
+└── lib/                  # Utility functions
+    └── utils.ts          # shadcn/ui utilities
+```
+
+## Live Video Integration
+
+The site includes automatic live video updates through GitHub Actions:
+
+### How It Works
+
+1. **GitHub Actions Workflow** (`.github/workflows/stream-embedder.yml`):
+   - Runs twice weekly (Sundays at 11:15 AM and 11:25 AM EST)
+   - Fetches latest YouTube live video from the church's channel
+   - Updates the embed URL in `src/components/LiveVideo.tsx`
+   - Adjusts cron schedules based on DST status
+
+2. **LiveVideo Component** (`src/components/LiveVideo.tsx`):
+   - Contains the YouTube embed with placeholder URL
+   - GitHub Actions updates the URL automatically
+   - Displays live stream with service information
+
+### YouTube API Setup
+
+To enable automatic live video updates:
+
+1. Get a YouTube Data API v3 key
+2. Add it as a GitHub repository secret named `YOUTUBE_API_KEY`
+3. The workflow will automatically fetch and update the latest live video
+
+### Channel Configuration
+
+The workflow is configured for channel ID: `UCaWvM15oR08RL5DYKxQ4TzA`
+Update this in the workflow file if the channel ID changes.
+
+## Development
+
+### Prerequisites
+
+- Node.js 18+
+- npm or yarn
+
+### Installation
+
+```bash
+npm install
+```
+
+### Development Server
+
+```bash
+npm run dev
+```
+
+Visit `http://localhost:3000` to view the site.
+
+### Build for Production
+
+```bash
+npm run build
+npm start
+```
+
+## Pages
+
+- **Home** (`/`): Welcome page with hero section, about, services, and location
+- **About** (`/about`): Church history, founder information, and ministries
+- **Live** (`/live`): Live streaming and sermon archive
+- **Contact** (`/contact`): Contact information and location map
+- **Give** (`/give`): Online giving options and information
+
+## Styling
+
+The site uses a modern color scheme:
+- Primary: Blue (#1B5299)
+- Secondary: Light Blue (#4a7bc8)
+- Text: Dark Gray (#333)
+- Background: White (#fff)
 
 ## Deployment
 
-This website is deployed via [Netlify](https://www.netlify.com/), enabling continuous deployment directly from this GitHub repository. Each push to the main branch triggers a new deployment, ensuring that the latest changes are always live.
+The site is optimized for deployment on Netlify:
 
-### Netlify Build Status
-
-[![Netlify Status](https://api.netlify.com/api/v1/badges/32201475-7055-4e11-8f1a-a366bb93a6c6/deploy-status)](https://app.netlify.com/sites/ecstatic-ramanujan-f17c62/deploys)
-
-## Automation with GitHub Actions
-
-This repository uses GitHub Actions to automate several routine tasks:
-
-- **Live Stream URL Updates**: The `Live.html` file is automatically updated with the latest YouTube live stream URL based on a scheduled trigger every Sunday.
-
-- **Manual Trigger**: The workflow can also be triggered manually via the GitHub Actions interface, allowing for immediate updates when needed outside of the regular schedule.
+1. Connect your GitHub repository to Netlify
+2. Set build command: `npm run build`
+3. Set publish directory: `.next`
+4. Add environment variables if needed
 
 ## Contributing
 
-Contributions to this repository are welcome, especially from community members of Great Redemption Ministries. If you'd like to contribute, please fork the repository and submit a pull request.
+1. Fork the repository
+2. Create a feature branch
+3. Make your changes
+4. Test thoroughly
+5. Submit a pull request
 
-For any issues or feature requests, please open an issue in this repository, and we will address it as promptly as possible.
+## License
 
-## Contact
-
-For more information about the website or to report any problems, please contact [grmmedia16@gmail.com](mailto:grmmedia16@gmail.com).
-
-Thank you for visiting our site and supporting our Church!
-
----
-
-For developers looking to make updates or learn about our deployment processes, please refer to the specific files and workflows within this repository for detailed guidance.
+Copyright © Great Redemption Ministries Inc. All rights reserved.
