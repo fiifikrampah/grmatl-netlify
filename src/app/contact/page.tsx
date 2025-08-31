@@ -11,12 +11,12 @@ export default function Contact() {
     {
       icon: Phone,
       title: "Phone",
-      content: "(404) 555-0123",
+      content: "404-940-8162",
     },
     {
       icon: Mail,
       title: "Email",
-      content: "info@grmatl.org",
+      content: "grmmedia16@gmail.com",
     },
   ]
 
