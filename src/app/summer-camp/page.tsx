@@ -2,13 +2,11 @@
 
 import { useState } from "react";
 import Link from "next/link";
-import { Calendar, MapPin, Users, DollarSign, ArrowLeft, ArrowRight, BookOpen, Trophy, CheckCircle, X } from "lucide-react";
+import { Calendar, MapPin, Users, DollarSign, ArrowLeft, ArrowRight, BookOpen, Trophy, CheckCircle } from "lucide-react";
 
 export default function SummerCampPage() {
   const [formStep, setFormStep] = useState(1);
   const [selectedPaymentMethod, setSelectedPaymentMethod] = useState("");
-  const [showSuccessModal, setShowSuccessModal] = useState(false);
-  const [isSubmitting, setIsSubmitting] = useState(false);
 
   // Configuration - easy to change year and registration status
   const currentYear = new Date().getFullYear();
@@ -48,41 +46,17 @@ export default function SummerCampPage() {
     }));
   };
 
-  // Handle form submission
-  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-    setIsSubmitting(true);
 
-    try {
-      // Simulate form submission (in a real app, this would be the actual form submission)
-      await new Promise(resolve => setTimeout(resolve, 2000)); // Simulate API call
 
-      // Show success modal
-      setShowSuccessModal(true);
-      setIsSubmitting(false);
 
-      // Reset form after successful submission
-      setFormStep(1);
-      setSelectedPaymentMethod("");
-      setFormData({
-        firstName: '',
-        lastName: '',
-        email: '',
-        age: '',
-        emergencyContactName: '',
-        emergencyContactPhone: '',
-        city: '',
-        transportation: '',
-        foodAllergies: ''
-      });
 
-    } catch (error) {
-      console.error('Form submission error:', error);
-      setIsSubmitting(false);
+  // Check if form was successfully submitted
+  const [isFormSuccess] = useState(() => {
+    if (typeof window !== 'undefined') {
+      return new URLSearchParams(window.location.search).get('success') === 'true'
     }
-  };
-
-
+    return false
+  })
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-grm-blue-50 via-white to-grm-blue-50">
@@ -166,6 +140,47 @@ export default function SummerCampPage() {
           </div>
         </div>
       </section>
+
+      {/* Success Message */}
+      {isFormSuccess && (
+        <section id="registration-success" className="py-16 px-4 sm:px-6 lg:px-8 bg-green-50">
+          <div className="max-w-4xl mx-auto text-center">
+            <div className="bg-white rounded-2xl shadow-xl p-8 border border-green-200">
+              <div className="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-6">
+                <CheckCircle className="h-10 w-10 text-green-600" />
+              </div>
+              <h2 className="text-3xl font-bold text-gray-900 mb-4">Registration Submitted Successfully!</h2>
+              <p className="text-lg text-gray-700 mb-6">
+                Thank you for registering for the {currentYear} Youth &amp; Children&apos;s Summer Camp.
+              </p>
+              <div className="bg-green-50 rounded-lg p-6 mb-6 border border-green-200">
+                <h4 className="font-semibold text-green-800 mb-2">What happens next?</h4>
+                <ul className="text-sm text-green-700 text-left space-y-2">
+                  <li>• You will receive a confirmation email shortly</li>
+                  <li>• Payment instructions will be sent to your email</li>
+                  <li>• Contact us if you have any questions</li>
+                  <li>• Save the camp dates: July 14th - 18th, {currentYear}</li>
+                </ul>
+              </div>
+              <div className="flex flex-col sm:flex-row gap-4 justify-center">
+                <Link
+                  href="/"
+                  className="inline-flex items-center justify-center px-6 py-3 bg-grm-primary text-white font-semibold rounded-lg hover:bg-grm-secondary transition-colors duration-200 shadow-lg hover:shadow-xl"
+                >
+                  Return to Home
+                </Link>
+                <a
+                  href="/contact"
+                  className="inline-flex items-center justify-center px-6 py-3 bg-white text-grm-primary font-semibold rounded-lg hover:bg-grm-blue-50 transition-colors duration-200 shadow-lg hover:shadow-xl border-2 border-grm-primary"
+                >
+                  Contact Us
+                </a>
+              </div>
+            </div>
+          </div>
+        </section>
+      )}
+
       {/* Registration Form Section */}
       <section id="register" className="py-16 px-4 sm:px-6 lg:px-8 bg-white">
         <div className="max-w-6xl mx-auto">
@@ -185,7 +200,7 @@ export default function SummerCampPage() {
                   name="summer-camp-registration"
                   method="POST"
                   data-netlify="true"
-                  onSubmit={handleSubmit}
+                  action="/?success=true#registration-success"
                   className="max-w-2xl mx-auto space-y-6"
                 >
               {/* Netlify form detection */}
@@ -514,17 +529,10 @@ export default function SummerCampPage() {
                     </button>
                     <button
                       type="submit"
-                      disabled={!selectedPaymentMethod || isSubmitting}
+                      disabled={!selectedPaymentMethod}
                       className="flex-1 bg-grm-primary text-white font-semibold py-4 px-8 rounded-xl hover:bg-grm-secondary transition-all duration-300 shadow-lg hover:shadow-xl disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center"
                     >
-                      {isSubmitting ? (
-                        <>
-                          <div className="animate-spin rounded-full h-5 w-5 border-b-2 border-white mr-2"></div>
-                          Submitting...
-                        </>
-                      ) : (
-                        'Submit Registration'
-                      )}
+                      Submit Registration
                     </button>
                   </div>
                 </>
@@ -671,69 +679,7 @@ export default function SummerCampPage() {
         </div>
       </section>
 
-      {/* Success Modal */}
-      {showSuccessModal && (
-        <div className="fixed inset-0 backdrop-blur-md bg-black/20 flex items-center justify-center z-50 p-4">
-          <div className="bg-white rounded-lg shadow-xl max-w-md w-full p-8 text-center relative">
-            <button
-              onClick={() => setShowSuccessModal(false)}
-              className="absolute top-4 right-4 text-gray-400 hover:text-gray-600 transition-colors"
-            >
-              <X className="h-6 w-6" />
-            </button>
 
-            <div className="mb-6">
-              <div className="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-4">
-                <CheckCircle className="h-10 w-10 text-green-600" />
-              </div>
-              <h3 className="text-2xl font-bold text-gray-900 mb-2">Registration Submitted!</h3>
-              <p className="text-gray-600 mb-4">
-                Thank you for registering for the {currentYear} Youth &amp; Children&apos;s Summer Camp.
-              </p>
-            </div>
-
-            <div className="bg-grm-blue-50 rounded-lg p-4 mb-6">
-              <h4 className="font-semibold text-grm-primary mb-2">What happens next?</h4>
-              <ul className="text-sm text-gray-600 text-left space-y-1">
-                <li>• You&apos;ll receive a confirmation email at {formData.email} with camp details</li>
-                {selectedPaymentMethod === 'Cash' && (
-                  <>
-                    <li>• Please remember to bring the exact payment amount to camp</li>
-                    <li>• Payment will be collected upon arrival</li>
-                  </>
-                )}
-                {(selectedPaymentMethod === 'Zelle' || selectedPaymentMethod === 'CashApp') && (
-                  <>
-                    <li>• Please send payment as soon as possible to {selectedPaymentMethod === 'Zelle' ? '404-940-8162' : '$grmatl'}</li>
-                    <li>• Label the payment as &quot;camp&quot; for easy identification</li>
-                    <li>• You&apos;ll receive payment confirmation once processed</li>
-                  </>
-                )}
-                {formData.transportation === 'Yes' && (
-                  <li>• We&apos;ll be in touch soon regarding transportation arrangements</li>
-                )}
-                <li>• Contact us at any time with questions: 404-940-8162</li>
-              </ul>
-            </div>
-
-            <div className="flex space-x-3">
-              <button
-                onClick={() => setShowSuccessModal(false)}
-                className="flex-1 bg-gray-200 text-gray-700 font-semibold py-3 px-6 rounded-lg hover:bg-gray-300 transition-all duration-200"
-              >
-                Close
-              </button>
-              <a
-                href="/contact"
-                className="flex-1 bg-grm-primary text-white font-semibold py-3 px-6 rounded-lg hover:bg-grm-secondary transition-all duration-200 text-center"
-                onClick={() => setShowSuccessModal(false)}
-              >
-                Contact Us
-              </a>
-            </div>
-          </div>
-        </div>
-      )}
     </div>
   );
 }
