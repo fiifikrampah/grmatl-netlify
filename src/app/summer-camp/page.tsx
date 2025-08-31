@@ -6,11 +6,45 @@ import { Calendar, MapPin, Users, DollarSign, ArrowLeft, ArrowRight, BookOpen, T
 
 export default function SummerCampPage() {
   const [formStep, setFormStep] = useState(1);
-
+  const [selectedPaymentMethod, setSelectedPaymentMethod] = useState("");
+  const [formData, setFormData] = useState({
+    firstName: '',
+    lastName: '',
+    email: '',
+    age: '',
+    emergencyContactName: '',
+    emergencyContactPhone: '',
+    city: '',
+    transportation: '',
+    foodAllergies: ''
+  });
 
   // Configuration - easy to change year and registration status
   const currentYear = new Date().getFullYear();
   const isRegistrationOpen = true; // Set to false to close registration
+
+  // Check if Step 1 is valid
+  const isStep1Valid = () => {
+    return (
+      formData.firstName.trim() !== '' &&
+      formData.lastName.trim() !== '' &&
+      formData.email.trim() !== '' &&
+      formData.age.trim() !== '' &&
+      formData.emergencyContactName.trim() !== '' &&
+      formData.emergencyContactPhone.trim() !== '' &&
+      formData.city.trim() !== '' &&
+      formData.transportation !== ''
+    );
+  };
+
+  // Handle input changes
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+    const { name, value } = e.target;
+    setFormData(prev => ({
+      ...prev,
+      [name]: value
+    }));
+  };
 
 
 
@@ -198,6 +232,8 @@ export default function SummerCampPage() {
                         type="text"
                         id="firstName"
                         name="firstName"
+                        value={formData.firstName}
+                        onChange={handleInputChange}
                         required
                         className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-grm-primary focus:border-transparent transition-colors duration-200"
                         placeholder="Enter first name"
@@ -211,6 +247,8 @@ export default function SummerCampPage() {
                         type="text"
                         id="lastName"
                         name="lastName"
+                        value={formData.lastName}
+                        onChange={handleInputChange}
                         required
                         className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-grm-primary focus:border-transparent transition-colors duration-200"
                         placeholder="Enter last name"
@@ -227,6 +265,8 @@ export default function SummerCampPage() {
                       type="email"
                       id="email"
                       name="email"
+                      value={formData.email}
+                      onChange={handleInputChange}
                       required
                       className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-grm-primary focus:border-transparent transition-colors duration-200"
                       placeholder="Enter your email address"
@@ -242,6 +282,8 @@ export default function SummerCampPage() {
                       type="number"
                       id="age"
                       name="age"
+                      value={formData.age}
+                      onChange={handleInputChange}
                       required
                       min="1"
                       max="25"
@@ -260,6 +302,8 @@ export default function SummerCampPage() {
                         type="text"
                         id="emergencyContactName"
                         name="emergencyContactName"
+                        value={formData.emergencyContactName}
+                        onChange={handleInputChange}
                         required
                         className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-grm-primary focus:border-transparent transition-colors duration-200"
                         placeholder="Enter emergency contact name"
@@ -273,8 +317,10 @@ export default function SummerCampPage() {
                         type="tel"
                         id="emergencyContactPhone"
                         name="emergencyContactPhone"
+                        value={formData.emergencyContactPhone}
+                        onChange={handleInputChange}
                         required
-                        className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-grm-primary focus:border-transparent transition-colors duration-200"
+                        className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-grm-primary focus:border-transparent transition-colors duration-200"
                         placeholder="Enter phone number"
                       />
                     </div>
@@ -289,6 +335,8 @@ export default function SummerCampPage() {
                       type="text"
                       id="city"
                       name="city"
+                      value={formData.city}
+                      onChange={handleInputChange}
                       required
                       className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-grm-primary focus:border-transparent transition-colors duration-200"
                       placeholder="Enter your city"
@@ -306,6 +354,8 @@ export default function SummerCampPage() {
                           type="radio"
                           name="transportation"
                           value="Yes"
+                          checked={formData.transportation === "Yes"}
+                          onChange={handleInputChange}
                           required
                           className="mr-2 text-grm-primary focus:ring-grm-primary"
                         />
@@ -316,6 +366,8 @@ export default function SummerCampPage() {
                           type="radio"
                           name="transportation"
                           value="No"
+                          checked={formData.transportation === "No"}
+                          onChange={handleInputChange}
                           required
                           className="mr-2 text-grm-primary focus:ring-grm-primary"
                         />
@@ -332,6 +384,8 @@ export default function SummerCampPage() {
                     <textarea
                       id="foodAllergies"
                       name="foodAllergies"
+                      value={formData.foodAllergies}
+                      onChange={handleInputChange}
                       rows={3}
                       className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-grm-primary focus:border-transparent transition-colors duration-200 resize-none"
                       placeholder="Please list any food allergies or dietary restrictions (optional)"
@@ -343,7 +397,8 @@ export default function SummerCampPage() {
                     <button
                       type="button"
                       onClick={() => setFormStep(2)}
-                      className="w-full bg-grm-primary text-white font-semibold py-4 px-8 rounded-xl hover:bg-grm-secondary transition-all duration-300 shadow-lg hover:shadow-xl text-lg flex items-center justify-center"
+                      disabled={!isStep1Valid()}
+                      className="w-full bg-grm-primary text-white font-semibold py-4 px-8 rounded-xl hover:bg-grm-secondary transition-all duration-300 shadow-lg hover:shadow-xl disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:bg-grm-primary text-lg flex items-center justify-center"
                     >
                       Next: Choose Payment Method
                       <ArrowRight className="ml-2 h-5 w-5" />
@@ -371,10 +426,16 @@ export default function SummerCampPage() {
                         type="radio"
                         name="paymentMethod"
                         value="Cash"
+                        checked={selectedPaymentMethod === "Cash"}
+                        onChange={(e) => setSelectedPaymentMethod(e.target.value)}
                         className="sr-only"
                         required
                       />
-                      <div className="p-4 border-2 rounded-lg cursor-pointer transition-all duration-200 border-gray-200 hover:border-grm-blue-300">
+                      <div className={`p-4 border-2 rounded-lg cursor-pointer transition-all duration-200 relative ${
+                        selectedPaymentMethod === "Cash"
+                          ? "border-grm-primary bg-grm-blue-50"
+                          : "border-gray-200 hover:border-grm-blue-300"
+                      }`}>
                         <div className="flex items-center space-x-4">
                           <div className="w-12 h-12 bg-grm-primary rounded-full flex items-center justify-center">
                             <DollarSign className="h-6 w-6 text-white" />
@@ -383,21 +444,31 @@ export default function SummerCampPage() {
                             <h4 className="font-semibold text-grm-primary">Cash</h4>
                             <p className="text-gray-600 text-sm">Pay on arrival at the camp</p>
                           </div>
-
                         </div>
+                        {selectedPaymentMethod === "Cash" && (
+                          <div className="absolute top-1/2 right-3 w-5 h-5 bg-grm-primary rounded-full flex items-center justify-center transform -translate-y-1/2">
+                            <div className="w-2 h-2 bg-white rounded-full"></div>
+                          </div>
+                        )}
                       </div>
                     </label>
 
                     {/* Zelle Payment */}
                     <label className="block">
-                                            <input
+                      <input
                         type="radio"
                         name="paymentMethod"
                         value="Zelle"
+                        checked={selectedPaymentMethod === "Zelle"}
+                        onChange={(e) => setSelectedPaymentMethod(e.target.value)}
                         className="sr-only"
                         required
                       />
-                      <div className="p-4 border-2 rounded-lg cursor-pointer transition-all duration-200 border-gray-200 hover:border-grm-blue-300">
+                      <div className={`p-4 border-2 rounded-lg cursor-pointer transition-all duration-200 relative ${
+                        selectedPaymentMethod === "Zelle"
+                          ? "border-grm-primary bg-grm-blue-50"
+                          : "border-gray-200 hover:border-grm-blue-300"
+                      }`}>
                         <div className="flex items-center space-x-4">
                           <div className="w-12 h-12 bg-grm-primary rounded-full flex items-center justify-center">
                             <div className="text-xl font-bold text-white">Z</div>
@@ -406,21 +477,31 @@ export default function SummerCampPage() {
                             <h4 className="font-semibold text-grm-primary">Zelle</h4>
                             <p className="text-gray-600 text-sm">Send to 404-940-8162 (label as &quot;camp&quot;)</p>
                           </div>
-
                         </div>
+                        {selectedPaymentMethod === "Zelle" && (
+                          <div className="absolute top-1/2 right-3 w-5 h-5 bg-grm-primary rounded-full flex items-center justify-center transform -translate-y-1/2">
+                            <div className="w-2 h-2 bg-white rounded-full"></div>
+                          </div>
+                        )}
                       </div>
                     </label>
 
                     {/* CashApp Payment */}
                     <label className="block">
-                                            <input
+                      <input
                         type="radio"
                         name="paymentMethod"
                         value="CashApp"
+                        checked={selectedPaymentMethod === "CashApp"}
+                        onChange={(e) => setSelectedPaymentMethod(e.target.value)}
                         className="sr-only"
                         required
                       />
-                      <div className="p-4 border-2 rounded-lg cursor-pointer transition-all duration-200 border-gray-200 hover:border-grm-blue-300">
+                      <div className={`p-4 border-2 rounded-lg cursor-pointer transition-all duration-200 relative ${
+                        selectedPaymentMethod === "CashApp"
+                          ? "border-grm-primary bg-grm-blue-50"
+                          : "border-gray-200 hover:border-grm-blue-300"
+                      }`}>
                         <div className="flex items-center space-x-4">
                           <div className="w-12 h-12 bg-grm-primary rounded-full flex items-center justify-center">
                             <div className="text-xl font-bold text-white">$</div>
@@ -429,8 +510,12 @@ export default function SummerCampPage() {
                             <h4 className="font-semibold text-grm-primary">CashApp</h4>
                             <p className="text-gray-600 text-sm">Send to $grmatl (label as &quot;camp&quot;)</p>
                           </div>
-
                         </div>
+                        {selectedPaymentMethod === "CashApp" && (
+                          <div className="absolute top-1/2 right-3 w-5 h-5 bg-grm-primary rounded-full flex items-center justify-center transform -translate-y-1/2">
+                            <div className="w-2 h-2 bg-white rounded-full"></div>
+                          </div>
+                        )}
                       </div>
                     </label>
                   </div>
@@ -447,7 +532,8 @@ export default function SummerCampPage() {
                     </button>
                     <button
                       type="submit"
-                      className="flex-1 bg-grm-primary text-white font-semibold py-4 px-8 rounded-xl hover:bg-grm-secondary transition-all duration-300 shadow-lg hover:shadow-xl flex items-center justify-center"
+                      disabled={!selectedPaymentMethod}
+                      className="flex-1 bg-grm-primary text-white font-semibold py-4 px-8 rounded-xl hover:bg-grm-secondary transition-all duration-300 shadow-lg hover:shadow-xl disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center"
                     >
                       Submit Registration
                     </button>
