@@ -8,21 +8,16 @@ export default function SummerCampPage() {
   const [isFormValid, setIsFormValid] = useState(false);
   const [selectedPaymentMethod, setSelectedPaymentMethod] = useState("");
 
-  // Configuration - easy to change year and registration status
+  // Camp Configuration
   const currentYear = new Date().getFullYear();
-  const isRegistrationOpen = true; // Set to false to close registration
+  const isRegistrationOpen = false; // Set to false to close registration
+  const date = "July 14th to 18th"; // Date of the camp
 
   // Check if form is valid
   const checkFormValidity = (form: HTMLFormElement) => {
     const isValid = form.checkValidity();
     setIsFormValid(isValid);
   };
-
-
-
-
-
-
 
 
   return (
@@ -54,7 +49,7 @@ export default function SummerCampPage() {
             </h1>
             <p className="text-xl md:text-2xl text-gray-600 max-w-4xl mx-auto leading-relaxed">
               Join us for an unforgettable week of fun, friendship, and faith from{" "}
-              <span className="font-semibold text-grm-secondary text-[20px]">July 14th to 18th</span>
+              <span className="font-semibold text-grm-secondary text-[20px]">{date}</span>
             </p>
           </div>
 
@@ -109,7 +104,6 @@ export default function SummerCampPage() {
       </section>
 
 
-
       {/* Registration Form Section */}
       <section id="register" className="py-16 px-4 sm:px-6 lg:px-8 bg-white">
         <div className="max-w-6xl mx-auto">
@@ -145,7 +139,7 @@ export default function SummerCampPage() {
               <input type="hidden" name="form-name" value="summer-camp-registration" />
 
               {/* Hidden field for email forwarding */}
-              <input type="hidden" name="_to" value="swdev2202@gmail.com" />
+              <input type="hidden" name="_to" value="grmmedia16@gmail.com" />
 
               <div className="text-center mb-6">
                 <h3 className="text-2xl font-bold text-grm-primary">Registration Information</h3>
