@@ -73,11 +73,11 @@ export default function LiveVideo() {
                 </div>
               </div>
               {/* Text overlay */}
-              <div className="absolute bottom-6 left-6 right-6">
-                <h3 className="text-white text-2xl font-bold mb-2 drop-shadow-lg">
+              <div className="absolute bottom-4 md:bottom-6 left-4 md:left-6 right-4 md:right-6">
+                <h3 className="text-white text-xl md:text-2xl font-bold mb-1 md:mb-2 drop-shadow-lg">
                   Join Our Live Service
                 </h3>
-                <p className="text-white/90 text-lg drop-shadow-lg">
+                <p className="text-white/90 text-base md:text-lg drop-shadow-lg">
                   Click to start watching
                 </p>
               </div>
