@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import Link from "next/link";
-import { Calendar, MapPin, Users, DollarSign, BookOpen, Trophy, CheckCircle } from "lucide-react";
+import { Calendar, MapPin, Users, DollarSign, BookOpen, Trophy } from "lucide-react";
 
 export default function SummerCampPage() {
   const [isFormValid, setIsFormValid] = useState(false);
@@ -23,13 +23,7 @@ export default function SummerCampPage() {
 
 
 
-  // Check if form was successfully submitted
-  const [isFormSuccess] = useState(() => {
-    if (typeof window !== 'undefined') {
-      return new URLSearchParams(window.location.search).get('success') === 'true'
-    }
-    return false
-  })
+
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-grm-blue-50 via-white to-grm-blue-50">
@@ -114,45 +108,7 @@ export default function SummerCampPage() {
         </div>
       </section>
 
-      {/* Success Message */}
-      {isFormSuccess && (
-        <section id="registration-success" className="py-16 px-4 sm:px-6 lg:px-8 bg-green-50">
-          <div className="max-w-4xl mx-auto text-center">
-            <div className="bg-white rounded-2xl shadow-xl p-8 border border-green-200">
-              <div className="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-6">
-                <CheckCircle className="h-10 w-10 text-green-600" />
-              </div>
-              <h2 className="text-3xl font-bold text-gray-900 mb-4">Registration Submitted Successfully!</h2>
-              <p className="text-lg text-gray-700 mb-6">
-                Thank you for registering for the {currentYear} Youth &amp; Children&apos;s Summer Camp.
-              </p>
-              <div className="bg-green-50 rounded-lg p-6 mb-6 border border-green-200">
-                <h4 className="font-semibold text-green-800 mb-2">What happens next?</h4>
-                <ul className="text-sm text-green-700 text-left space-y-2">
-                  <li>• You will receive a confirmation email shortly</li>
-                  <li>• Payment instructions will be sent to your email</li>
-                  <li>• Contact us if you have any questions</li>
-                  <li>• Save the camp dates: July 14th - 18th, {currentYear}</li>
-                </ul>
-              </div>
-              <div className="flex flex-col sm:flex-row gap-4 justify-center">
-                <Link
-                  href="/"
-                  className="inline-flex items-center justify-center px-6 py-3 bg-grm-primary text-white font-semibold rounded-lg hover:bg-grm-secondary transition-colors duration-200 shadow-lg hover:shadow-xl"
-                >
-                  Return to Home
-                </Link>
-                <a
-                  href="/contact"
-                  className="inline-flex items-center justify-center px-6 py-3 bg-white text-grm-primary font-semibold rounded-lg hover:bg-grm-blue-50 transition-colors duration-200 shadow-lg hover:shadow-xl border-2 border-grm-primary"
-                >
-                  Contact Us
-                </a>
-              </div>
-            </div>
-          </div>
-        </section>
-      )}
+
 
       {/* Registration Form Section */}
       <section id="register" className="py-16 px-4 sm:px-6 lg:px-8 bg-white">
@@ -182,7 +138,7 @@ export default function SummerCampPage() {
                   name="summer-camp-registration"
                   method="POST"
                   data-netlify="true"
-                  action="/?success=true#registration-success"
+                  action="/summer-camp/success"
                   className="max-w-2xl mx-auto space-y-6"
                 >
               {/* Netlify form detection */}
