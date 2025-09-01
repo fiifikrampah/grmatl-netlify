@@ -156,7 +156,7 @@ export default function SummerCampPage() {
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                     <div>
                       <label htmlFor="firstName" className="block text-sm font-semibold text-grm-primary mb-2">
-                        First Name *
+                        First Name <span className="text-red-500">*</span>
                       </label>
                       <input
                         type="text"
@@ -169,7 +169,7 @@ export default function SummerCampPage() {
                     </div>
                     <div>
                       <label htmlFor="lastName" className="block text-sm font-semibold text-grm-primary mb-2">
-                        Last Name *
+                        Last Name <span className="text-red-500">*</span>
                       </label>
                       <input
                         type="text"
@@ -185,7 +185,7 @@ export default function SummerCampPage() {
                   {/* Email Field */}
                   <div>
                     <label htmlFor="email" className="block text-sm font-semibold text-grm-primary mb-2">
-                      Email Address *
+                      Email Address <span className="text-red-500">*</span>
                     </label>
                     <input
                       type="email"
@@ -200,7 +200,7 @@ export default function SummerCampPage() {
                   {/* Age Field */}
                   <div>
                     <label htmlFor="age" className="block text-sm font-semibold text-grm-primary mb-2">
-                      Age *
+                      Age <span className="text-red-500">*</span>
                     </label>
                     <input
                       type="number"
@@ -218,7 +218,7 @@ export default function SummerCampPage() {
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-8">
                     <div>
                       <label htmlFor="emergencyContactName" className="block text-sm font-semibold text-grm-primary mb-2">
-                        Emergency Contact Name *
+                        Emergency Contact Name <span className="text-red-500">*</span>
                       </label>
                       <input
                         type="text"
@@ -231,7 +231,7 @@ export default function SummerCampPage() {
                     </div>
                     <div>
                       <label htmlFor="emergencyContactPhone" className="block text-sm font-semibold text-grm-primary mb-2">
-                        Emergency Contact Phone # *
+                        Emergency Contact Phone # <span className="text-red-500">*</span>
                       </label>
                       <input
                         type="tel"
@@ -250,7 +250,7 @@ export default function SummerCampPage() {
                   {/* City Field */}
                   <div>
                     <label htmlFor="city" className="block text-sm font-semibold text-grm-primary mb-2">
-                      City you&apos;re located in *
+                      City you&apos;re located in <span className="text-red-500">*</span>
                     </label>
                     <input
                       type="text"
@@ -265,7 +265,7 @@ export default function SummerCampPage() {
                   {/* Transportation Field */}
                   <div>
                     <label className="block text-sm font-semibold text-grm-primary mb-2">
-                      Transportation needed? *
+                      Transportation needed? <span className="text-red-500">*</span>
                     </label>
                     <div className="flex space-x-6">
                       <label className="flex items-center">
@@ -428,7 +428,7 @@ export default function SummerCampPage() {
                   </div>
 
               <p className="text-sm text-gray-500 text-center">
-                * Required fields.
+                <span className="text-red-500">*</span> Required fields.
               </p>
                 </form>
               </div>
