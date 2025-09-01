@@ -146,10 +146,6 @@ export default function SummerCampPage() {
 
               {/* Hidden field for email forwarding */}
               <input type="hidden" name="_to" value="swdev2202@gmail.com" />
-              <input type="hidden" name="_subject" value="Summer Camp Registration - New Participant" />
-
-              {/* Debug field to help identify form data issues */}
-              <input type="hidden" name="debug_info" value="Form submitted from summer camp page" />
 
               <div className="text-center mb-6">
                 <h3 className="text-2xl font-bold text-grm-primary">Registration Information</h3>
@@ -317,9 +313,6 @@ export default function SummerCampPage() {
                     <h3 className="text-2xl font-bold text-grm-primary">Payment Method</h3>
                     <p className="text-gray-600 mt-2">Select how you would like to pay for the camp</p>
                   </div>
-
-                  {/* Hidden payment method field for Netlify */}
-                  <input type="hidden" name="payment_method_selected" value={selectedPaymentMethod} />
 
                   {/* Payment Methods */}
                   <div className="space-y-4">
