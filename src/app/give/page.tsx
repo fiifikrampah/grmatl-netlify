@@ -1,15 +1,19 @@
 "use client"
 
+import { useState } from 'react'
 import { Card, CardContent } from '@/components/ui/card'
 import { Button } from '@/components/ui/button'
-import { Heart, CreditCard, Building, DollarSign, Copy } from 'lucide-react'
+import { Heart, CreditCard, Building, DollarSign, Copy, Check } from 'lucide-react'
 
 export default function Give() {
+  const [copied, setCopied] = useState(false)
+
   const copyToClipboard = async (text: string) => {
     try {
       await navigator.clipboard.writeText(text)
-      // You could add a toast notification here
-      console.log('Copied to clipboard')
+      setCopied(true)
+      // Reset after 2 seconds
+      setTimeout(() => setCopied(false), 2000)
     } catch (err) {
       console.error('Failed to copy: ', err)
     }
@@ -52,13 +56,25 @@ export default function Give() {
                 <div className="bg-grm-blue-50 rounded-lg p-4 mb-4 border border-grm-blue-200">
                   <p className="text-2xl font-bold text-grm-primary mb-3 font-mono">404-940-8162</p>
                   <Button
-                    onClick={() => copyToClipboard('404-940-8162')}
-                    variant="outline"
+                    onClick={() => !copied && copyToClipboard('404-940-8162')}
                     size="sm"
-                    className="w-full hover:bg-grm-secondary hover:text-white transition-all duration-200 border-grm-primary text-grm-primary hover:border-grm-secondary"
+                    className={`w-full transition-all duration-200 hover:scale-105 ${
+                      copied
+                        ? 'bg-green-600 hover:bg-green-700 shadow-lg font-semibold cursor-default'
+                        : 'bg-grm-primary hover:bg-grm-secondary cursor-pointer'
+                    } text-white`}
                   >
-                    <Copy className="h-4 w-4 mr-2" />
-                    Copy Number
+                    {copied ? (
+                      <>
+                        <Check className="h-4 w-4 mr-2" />
+                        Copied!
+                      </>
+                    ) : (
+                      <>
+                        <Copy className="h-4 w-4 mr-2" />
+                        Copy Number
+                      </>
+                    )}
                   </Button>
                 </div>
               </CardContent>
