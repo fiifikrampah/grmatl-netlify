@@ -219,7 +219,7 @@ export default function SummerCampPage() {
                   </div>
 
                   {/* Emergency Contact Fields */}
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-8">
                     <div>
                       <label htmlFor="emergencyContactName" className="block text-sm font-semibold text-grm-primary mb-2">
                         Emergency Contact Name *
@@ -247,6 +247,9 @@ export default function SummerCampPage() {
                       />
                     </div>
                   </div>
+
+                  {/* Field Separator */}
+                  <hr className="my-8 border-gray-200" />
 
                   {/* City Field */}
                   <div>
@@ -293,7 +296,7 @@ export default function SummerCampPage() {
                   </div>
 
                   {/* Food Allergies Field */}
-                  <div>
+                  <div className="mb-8">
                     <label htmlFor="foodAllergies" className="block text-sm font-semibold text-grm-primary mb-2">
                       Any food allergies?
                     </label>
@@ -301,16 +304,22 @@ export default function SummerCampPage() {
                       id="foodAllergies"
                       name="food_allergies"
                       rows={3}
-                      className="w-full px-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-grm-primary focus:border-transparent transition-colors duration-200 resize-none"
+                      className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-grm-primary focus:border-transparent transition-colors duration-200 resize-none"
                       placeholder="Please list any food allergies or dietary restrictions (optional)"
                     />
                   </div>
+
+                  {/* Field Separator */}
+                  <hr className="my-8 border-gray-200" />
 
                   {/* Payment Method Selection */}
                   <div className="text-center mb-6">
                     <h3 className="text-2xl font-bold text-grm-primary">Payment Method</h3>
                     <p className="text-gray-600 mt-2">Select how you would like to pay for the camp</p>
                   </div>
+
+                  {/* Hidden payment method field for Netlify */}
+                  <input type="hidden" name="payment_method_selected" value={selectedPaymentMethod} />
 
                   {/* Payment Methods */}
                   <div className="space-y-4">
