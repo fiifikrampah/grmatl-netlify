@@ -148,6 +148,9 @@ export default function SummerCampPage() {
               <input type="hidden" name="_to" value="swdev2202@gmail.com" />
               <input type="hidden" name="_subject" value="Summer Camp Registration - New Participant" />
 
+              {/* Debug field to help identify form data issues */}
+              <input type="hidden" name="debug_info" value="Form submitted from summer camp page" />
+
               <div className="text-center mb-6">
                 <h3 className="text-2xl font-bold text-grm-primary">Registration Information</h3>
                 <p className="text-gray-600 mt-2">Please fill out all required fields below</p>
@@ -162,7 +165,7 @@ export default function SummerCampPage() {
                       <input
                         type="text"
                         id="firstName"
-                        name="firstName"
+                        name="first_name"
                         required
                         className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-grm-primary focus:border-transparent transition-colors duration-200"
                         placeholder="Enter first name"
@@ -175,7 +178,7 @@ export default function SummerCampPage() {
                       <input
                         type="text"
                         id="lastName"
-                        name="lastName"
+                        name="last_name"
                         required
                         className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-grm-primary focus:border-transparent transition-colors duration-200"
                         placeholder="Enter last name"
@@ -224,7 +227,7 @@ export default function SummerCampPage() {
                       <input
                         type="text"
                         id="emergencyContactName"
-                        name="emergencyContactName"
+                        name="emergency_contact_name"
                         required
                         className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-grm-primary focus:border-transparent transition-colors duration-200"
                         placeholder="Enter emergency contact name"
@@ -237,7 +240,7 @@ export default function SummerCampPage() {
                       <input
                         type="tel"
                         id="emergencyContactPhone"
-                        name="emergencyContactPhone"
+                        name="emergency_contact_phone"
                         required
                         className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-grm-primary focus:border-transparent transition-colors duration-200"
                         placeholder="Enter phone number"
@@ -296,7 +299,7 @@ export default function SummerCampPage() {
                     </label>
                     <textarea
                       id="foodAllergies"
-                      name="foodAllergies"
+                      name="food_allergies"
                       rows={3}
                       className="w-full px-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-grm-primary focus:border-transparent transition-colors duration-200 resize-none"
                       placeholder="Please list any food allergies or dietary restrictions (optional)"
@@ -313,15 +316,15 @@ export default function SummerCampPage() {
                   <div className="space-y-4">
                     {/* Cash Payment */}
                     <label className="block cursor-pointer">
-                      <input
-                        type="radio"
-                        name="paymentMethod"
-                        value="Cash"
-                        checked={selectedPaymentMethod === "Cash"}
-                        onChange={(e) => setSelectedPaymentMethod(e.target.value)}
-                        className="sr-only"
-                        required
-                      />
+                                              <input
+                          type="radio"
+                          name="payment_method"
+                          value="Cash"
+                          checked={selectedPaymentMethod === "Cash"}
+                          onChange={(e) => setSelectedPaymentMethod(e.target.value)}
+                          className="sr-only"
+                          required
+                        />
                       <div className={`p-4 border-2 rounded-lg transition-all duration-200 relative ${
                         selectedPaymentMethod === "Cash"
                           ? "border-grm-primary bg-grm-blue-50"
@@ -348,7 +351,7 @@ export default function SummerCampPage() {
                     <label className="block cursor-pointer">
                       <input
                         type="radio"
-                        name="paymentMethod"
+                        name="payment_method"
                         value="Zelle"
                         checked={selectedPaymentMethod === "Zelle"}
                         onChange={(e) => setSelectedPaymentMethod(e.target.value)}
@@ -381,7 +384,7 @@ export default function SummerCampPage() {
                     <label className="block cursor-pointer">
                       <input
                         type="radio"
-                        name="paymentMethod"
+                        name="payment_method"
                         value="CashApp"
                         checked={selectedPaymentMethod === "CashApp"}
                         onChange={(e) => setSelectedPaymentMethod(e.target.value)}
