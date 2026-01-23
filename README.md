@@ -78,7 +78,7 @@ Update this in the workflow file if the channel ID changes.
 
 ### Prerequisites
 
-- Node.js 18+
+- Node.js 20+ (LTS recommended)
 - npm or yarn
 
 ### Installation

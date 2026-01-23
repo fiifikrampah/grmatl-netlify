@@ -1,8 +1,7 @@
 import type { Metadata } from "next";
 import { Lato } from "next/font/google";
 import "./globals.css";
-import Header from "@/components/Header";
-import Footer from "@/components/Footer";
+import ConditionalLayout from "@/components/ConditionalLayout";
 
 const lato = Lato({
   subsets: ["latin"],
@@ -71,11 +70,9 @@ export default function RootLayout({
       <body
         className={`${lato.variable} font-sans antialiased bg-white text-gray-900`}
       >
-        <Header />
-        <main className="flex-grow pt-20">
+        <ConditionalLayout>
           {children}
-        </main>
-        <Footer />
+        </ConditionalLayout>
       </body>
     </html>
   );
