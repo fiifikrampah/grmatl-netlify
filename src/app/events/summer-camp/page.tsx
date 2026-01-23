@@ -34,9 +34,9 @@ export default function SummerCampPage() {
     const formData = new FormData(form);
 
     // Convert FormData to object
-    const data: Record<string, any> = {};
+    const data: Record<string, string> = {};
     formData.forEach((value, key) => {
-      data[key] = value;
+      data[key] = typeof value === 'string' ? value : value.name;
     });
 
     try {

@@ -1,7 +1,8 @@
 import { createClient } from '@/lib/supabase/server'
 import { NextResponse } from 'next/server'
+import type { SupabaseClient } from '@supabase/supabase-js'
 
-async function checkAdmin(supabase: any) {
+async function checkAdmin(supabase: SupabaseClient) {
   const { data: { user }, error: authError } = await supabase.auth.getUser()
   
   if (authError || !user) {

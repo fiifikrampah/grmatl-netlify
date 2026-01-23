@@ -56,7 +56,7 @@ export async function GET(request: Request) {
       // Group by event_slug and count
       const eventMap = new Map<string, { count: number; latest: string }>()
       
-      responses?.forEach((response: any) => {
+      responses?.forEach((response: { event_slug: string; created_at: string }) => {
         const slug = response.event_slug
         if (!eventMap.has(slug)) {
           eventMap.set(slug, { count: 0, latest: response.created_at })

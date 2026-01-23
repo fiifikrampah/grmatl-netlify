@@ -1,6 +1,6 @@
 "use client"
 
-import { useEffect, useState } from 'react'
+import { useEffect, useState, useCallback } from 'react'
 import { useRouter } from 'next/navigation'
 import { Download, FileText, Calendar, ArrowLeft, Trash2 } from 'lucide-react'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
@@ -16,7 +16,7 @@ interface Event {
 interface EventResponse {
   id: string
   event_slug: string
-  response_data: Record<string, any>
+  response_data: Record<string, unknown>
   created_at: string
 }
 
@@ -31,22 +31,7 @@ export default function AdminDashboard() {
   const [responseToDelete, setResponseToDelete] = useState<string | null>(null)
   const [isDeleting, setIsDeleting] = useState(false)
 
-  useEffect(() => {
-    checkAuth()
-    fetchEvents()
-    // Scroll to top on mount
-    window.scrollTo(0, 0)
-  }, [])
-
-  useEffect(() => {
-    if (selectedEvent) {
-      fetchResponses(selectedEvent)
-      // Scroll to top when selecting an event
-      window.scrollTo(0, 0)
-    }
-  }, [selectedEvent])
-
-  const checkAuth = async () => {
+  const checkAuth = useCallback(async () => {
     try {
       const response = await fetch('/api/auth/me')
       const data = await response.json()
@@ -55,12 +40,12 @@ export default function AdminDashboard() {
       } else {
         router.push('/admin/login')
       }
-    } catch (error) {
+    } catch {
       router.push('/admin/login')
     }
-  }
+  }, [router])
 
-  const fetchEvents = async () => {
+  const fetchEvents = useCallback(async () => {
     try {
       const response = await fetch('/api/admin/responses')
       if (response.ok) {
@@ -72,9 +57,9 @@ export default function AdminDashboard() {
     } finally {
       setLoading(false)
     }
-  }
+  }, [])
 
-  const fetchResponses = async (eventSlug: string) => {
+  const fetchResponses = useCallback(async (eventSlug: string) => {
     try {
       const response = await fetch(`/api/admin/responses?event_slug=${eventSlug}`)
       if (response.ok) {
@@ -84,7 +69,22 @@ export default function AdminDashboard() {
     } catch (error) {
       console.error('Error fetching responses:', error)
     }
-  }
+  }, [])
+
+  useEffect(() => {
+    checkAuth()
+    fetchEvents()
+    // Scroll to top on mount
+    window.scrollTo(0, 0)
+  }, [checkAuth, fetchEvents])
+
+  useEffect(() => {
+    if (selectedEvent) {
+      fetchResponses(selectedEvent)
+      // Scroll to top when selecting an event
+      window.scrollTo(0, 0)
+    }
+  }, [selectedEvent, fetchResponses])
 
 
   const handleDeleteClick = (responseId: string) => {

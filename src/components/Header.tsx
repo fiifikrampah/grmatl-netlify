@@ -33,7 +33,7 @@ export default function Header() {
       const response = await fetch('/api/auth/me')
       const data = await response.json()
       setIsAdmin(!!data.user)
-    } catch (error) {
+    } catch {
       setIsAdmin(false)
     }
   }

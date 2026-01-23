@@ -4,7 +4,6 @@ import Link from "next/link";
 import { CheckCircle } from "lucide-react";
 
 export default function SummerCampSuccessPage() {
-  const currentYear = new Date().getFullYear();
   const date = "July 14th to 18th";
 
   return (
