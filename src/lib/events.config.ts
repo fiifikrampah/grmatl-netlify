@@ -30,6 +30,15 @@ export const events: EventConfig[] = [
     display: true,
     imageUrl: '/images/events/heart-to-heart-2026.jpg',
   },
+  {
+    slug: 'fire-friday',
+    title: 'Fire Friday',
+    description: 'Join us for our monthly Watch Night Service on the last Friday of each month.\n\n🔥 Monthly Event - Last Friday\n🕐 9pm - 1am\n📍 GRM Main Auditorium',
+    path: '/events/fire-friday',
+    isRegistrationOpen: false, // No registration required
+    display: true,
+    imageUrl: '/images/events/fire-friday.jpg',
+  },
   // Add more events here as you create them
   // Example:
   // {

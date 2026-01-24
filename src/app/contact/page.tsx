@@ -11,7 +11,7 @@ export default function Contact() {
     {
       icon: Phone,
       title: "Phone",
-      content: "404-940-8162",
+      content: "404-210-1136",
     },
     {
       icon: Mail,

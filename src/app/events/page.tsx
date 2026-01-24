@@ -7,81 +7,124 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/com
 import { Button } from '@/components/ui/button'
 import { getDisplayedEvents } from '@/lib/events.config'
 
+// Helper function to get the last Friday of the current month
+function getLastFridayOfMonth(): Date {
+  const now = new Date();
+  const year = now.getFullYear();
+  const month = now.getMonth();
+  
+  // Get the last day of the month
+  const lastDay = new Date(year, month + 1, 0);
+  
+  // Find the last Friday
+  let lastFriday = lastDay;
+  while (lastFriday.getDay() !== 5) { // 5 = Friday
+    lastFriday = new Date(lastFriday.getTime() - 24 * 60 * 60 * 1000);
+  }
+  
+  return lastFriday;
+}
+
 export default function EventsPage() {
   const events = getDisplayedEvents()
+  const lastFriday = getLastFridayOfMonth()
+  
+  // Format the date for Fire Friday
+  const fireFridayDate = lastFriday.toLocaleDateString('en-US', {
+    month: 'long',
+    day: 'numeric',
+    year: 'numeric'
+  })
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-grm-blue-50 to-white pt-20 pb-16 px-4 sm:px-6 lg:px-8">
+    <div className="min-h-screen bg-white pt-20 pb-8 px-4 sm:px-6 lg:px-8">
       <div className="max-w-7xl mx-auto">
         {/* Header */}
-        <div className="text-center py-8 sm:py-12 mb-8 sm:mb-12">
-          <h1 className="text-3xl sm:text-4xl md:text-5xl font-bold text-grm-primary mb-4">
+        <div className="text-center mb-6">
+          <h1 className="text-3xl sm:text-4xl md:text-5xl font-bold text-grm-primary mb-2">
             Upcoming Events
           </h1>
           <p className="text-lg sm:text-xl text-gray-600 max-w-2xl mx-auto">
-            Join us for these exciting events.
+            Join us for worship, fellowship, and community events.
           </p>
         </div>
 
         {/* Events Grid */}
         {events.length === 0 ? (
-          <div className="text-center py-16">
-            <p className="text-gray-600 text-lg">No events available at this time.</p>
-            <p className="text-gray-500 mt-2">Check back soon for upcoming events!</p>
+          <div className="text-center py-12 bg-gray-50 rounded-xl border border-gray-200">
+            <Calendar className="h-12 w-12 text-gray-400 mx-auto mb-3" />
+            <p className="text-gray-700 text-lg font-semibold mb-1">No events available at this time.</p>
+            <p className="text-gray-500 text-sm">Check back soon for upcoming events!</p>
           </div>
         ) : (
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
             {events.map((event) => (
               <Card
                 key={event.slug}
-                className="overflow-hidden hover:shadow-xl transition-shadow duration-300 flex flex-col"
+                className="overflow-hidden hover:shadow-lg transition-all duration-300 flex flex-col group border border-gray-200 hover:border-grm-primary/50"
               >
                 {event.imageUrl ? (
-                  <div className="relative w-full h-64 sm:h-80">
+                  <div className="relative w-full h-64 sm:h-80 overflow-hidden bg-gray-50">
                     <Image
                       src={event.imageUrl}
                       alt={event.title}
                       fill
-                      className="object-contain"
+                      className="object-contain group-hover:scale-[1.03] transition-transform duration-300"
                     />
                   </div>
                 ) : (
-                  <div className="w-full h-48 sm:h-56 bg-gradient-to-br from-grm-primary to-grm-secondary flex items-center justify-center">
-                    <Calendar className="h-16 w-16 text-white opacity-50" />
+                  <div className="w-full h-48 bg-gradient-to-br from-grm-primary to-grm-secondary flex items-center justify-center">
+                    <Calendar className="h-12 w-12 text-white/70" />
                   </div>
                 )}
-                <CardHeader>
-                  <CardTitle className="text-xl sm:text-2xl text-grm-primary">
-                    {event.title}
-                  </CardTitle>
+                <CardHeader className="pb-3 pt-4">
+                  <div className="flex items-start justify-between gap-2 mb-2">
+                    <CardTitle className="text-xl sm:text-2xl text-grm-primary font-bold leading-tight group-hover:text-grm-secondary transition-colors">
+                      {event.title}
+                    </CardTitle>
+                    {!event.isRegistrationOpen && (
+                      <span className="px-2 py-0.5 text-xs font-medium text-gray-600 bg-gray-100 rounded-full whitespace-nowrap flex-shrink-0">
+                        No Registration
+                      </span>
+                    )}
+                  </div>
                   {event.description && (
-                    <CardDescription className="text-sm sm:text-base text-gray-600">
+                    <CardDescription className="text-sm sm:text-base text-gray-600 leading-relaxed">
                       {event.description.split('\n').map((line, index) => {
                         if (!line.trim()) {
                           return <br key={index} />;
                         }
+                        // Replace "Monthly Event - Last Friday" with actual date for Fire Friday
+                        if (event.slug === 'fire-friday' && line.includes('🔥') && line.includes('Monthly Event - Last Friday')) {
+                          return (
+                            <div key={index} className={index > 0 ? 'mt-1' : ''}>
+                              <span>🔥 </span>
+                              <span className="font-semibold text-gray-700">{fireFridayDate}</span>
+                            </div>
+                          );
+                        }
                         // Format lines with emojis - bold the text after emoji
-                        if (line.includes('📅') || line.includes('🕐') || line.includes('👔')) {
-                          const emojiMatch = line.match(/^(📅|🕐|👔)\s*(.+)$/);
+                        if (line.includes('📅') || line.includes('🕐') || line.includes('👔') || line.includes('🔥') || line.includes('📍')) {
+                          const emojiMatch = line.match(/^(📅|🕐|👔|🔥|📍)\s*(.+)$/);
                           if (emojiMatch) {
                             const [, emoji, text] = emojiMatch;
                             return (
-                              <div key={index} className={index > 0 ? 'mt-1.5' : ''}>
+                              <div key={index} className={index > 0 ? 'mt-1' : ''}>
                                 <span>{emoji} </span>
-                                <span className="font-semibold text-gray-800">{text}</span>
+                                <span className="font-semibold text-gray-700">{text}</span>
                               </div>
                             );
                           }
                         }
-                        return <div key={index} className={index > 0 ? 'mt-1.5' : ''}>{line}</div>;
+                        return <div key={index} className={index > 0 ? 'mt-1' : ''}>{line}</div>;
                       })}
                     </CardDescription>
                   )}
                 </CardHeader>
-                <CardContent className="flex-grow flex flex-col justify-end">
+                <CardContent className="pt-2 pb-4">
                   <Link href={event.path} className="w-full">
-                    <Button className="w-full bg-grm-primary hover:bg-grm-secondary text-white">
-                      View Details & Register
+                    <Button className="w-full bg-grm-primary hover:bg-grm-secondary text-white font-semibold py-3 text-base shadow-sm hover:shadow transition-all duration-200">
+                      {event.isRegistrationOpen ? 'View Details & Register' : 'View Details'}
                       <ArrowRight className="ml-2 h-4 w-4" />
                     </Button>
                   </Link>

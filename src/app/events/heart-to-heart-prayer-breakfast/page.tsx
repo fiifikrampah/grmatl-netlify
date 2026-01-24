@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import Link from "next/link";
+import Image from "next/image";
 import { Calendar, MapPin, Users, Heart, Clock, Shirt } from "lucide-react";
 import { getEventBySlug } from "@/lib/events.config";
 
@@ -125,9 +126,23 @@ export default function HeartToHeartPrayerBreakfastPage() {
                 Prayer Breakfast
               </span>
             </h1>
-            <p className="text-xl md:text-2xl text-red-800/90 max-w-4xl mx-auto leading-relaxed mb-6">
+            <p className="text-xl md:text-2xl text-red-800/90 max-w-4xl mx-auto leading-relaxed mb-8">
               Join us for a special morning of prayer, fellowship, and breakfast
             </p>
+
+            {/* Event Flyer */}
+            <div className="mb-12 max-w-2xl mx-auto">
+              <div className="relative rounded-2xl overflow-hidden shadow-2xl border-4 border-amber-200">
+                <Image
+                  src="/images/events/heart-to-heart-2026.JPG"
+                  alt="Heart to Heart Prayer Breakfast Flyer"
+                  width={800}
+                  height={1200}
+                  className="w-full h-auto object-contain"
+                  priority
+                />
+              </div>
+            </div>
 
             {/* Event Details */}
             <div className="flex flex-col items-center justify-center gap-4 text-lg text-red-900 mb-6">
@@ -192,8 +207,8 @@ export default function HeartToHeartPrayerBreakfastPage() {
           <div className="bg-amber-50/80 rounded-3xl shadow-2xl p-10 max-w-4xl mx-auto border-2 border-amber-200 relative overflow-hidden">
             <div className="absolute top-0 right-0 w-32 h-32 bg-amber-100/50 rounded-full -translate-y-16 translate-x-16"></div>
             <p className="text-lg text-red-900 leading-relaxed relative z-10 font-medium">
-              Come together for a meaningful morning of prayer, connection, and community. 
-              Whether you&apos;re coming alone or bringing guests, all are welcome to join us 
+              Come together for a meaningful morning of prayer, connection, and community.
+              Whether you&apos;re coming alone or bringing guests, all are welcome to join us
               for this special Heart to Heart Prayer Breakfast.
             </p>
           </div>
@@ -426,10 +441,10 @@ export default function HeartToHeartPrayerBreakfastPage() {
               Contact Us
             </a>
             <a
-              href="tel:404-940-8162"
+              href="tel:404-210-1136"
               className="inline-flex items-center justify-center px-8 py-4 bg-white text-red-900 font-semibold rounded-lg hover:bg-white/90 transition-colors duration-200 shadow-lg hover:shadow-xl border-2 border-amber-400"
             >
-              Call: 404-940-8162
+              Call: 404-210-1136
             </a>
           </div>
         </div>

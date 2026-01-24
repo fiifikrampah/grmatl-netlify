@@ -27,9 +27,18 @@ export async function POST(request: Request) {
       .single()
 
     if (insertError) {
-      console.error('Error creating response:', insertError)
+      console.error('Error creating response:', {
+        message: insertError.message,
+        code: insertError.code,
+        details: insertError.details,
+        hint: insertError.hint,
+        fullError: insertError
+      })
       return NextResponse.json(
-        { error: 'Failed to submit response' },
+        { 
+          error: 'Failed to submit response',
+          details: process.env.NODE_ENV === 'development' ? insertError.message : undefined
+        },
         { status: 500 }
       )
     }
@@ -37,6 +46,12 @@ export async function POST(request: Request) {
     return NextResponse.json({ response }, { status: 201 })
   } catch (error) {
     console.error('Error in POST /api/event-responses:', error)
-    return NextResponse.json({ error: 'Internal server error' }, { status: 500 })
+    return NextResponse.json(
+      { 
+        error: 'Internal server error',
+        details: process.env.NODE_ENV === 'development' ? (error instanceof Error ? error.message : String(error)) : undefined
+      },
+      { status: 500 }
+    )
   }
 }

@@ -439,7 +439,7 @@ export default function SummerCampPage() {
                           </div>
                           <div className="flex-1">
                             <h4 className="font-semibold text-blue-900">Zelle</h4>
-                            <p className="text-gray-600 text-sm">Send to 404-940-8162 (label as &quot;camp&quot;)</p>
+                            <p className="text-gray-600 text-sm">Send to 404-210-1136 (label as &quot;camp&quot;)</p>
                           </div>
                         </div>
                         {selectedPaymentMethod === "Zelle" && (
@@ -646,10 +646,10 @@ export default function SummerCampPage() {
               Contact Us
             </a>
             <a
-              href="tel:404-940-8162"
+              href="tel:404-210-1136"
               className="inline-flex items-center justify-center px-8 py-4 bg-white text-blue-900 font-semibold rounded-lg hover:bg-blue-50 transition-colors duration-200 shadow-lg hover:shadow-xl border-2 border-yellow-400"
             >
-              Call: 404-940-8162
+              Call: 404-210-1136
             </a>
           </div>
         </div>
