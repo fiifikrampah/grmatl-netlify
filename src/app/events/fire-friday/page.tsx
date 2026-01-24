@@ -128,16 +128,13 @@ export default function FireFridayPage() {
             <div className="relative rounded-2xl overflow-hidden shadow-2xl border-4 border-orange-500/50">
               <Image
                 src="/images/events/fire-friday.jpg"
-                alt="Fire Friday Watch Night Service Flyer - January 2026"
+                alt="Fire Friday Watch Night Service Flyer"
                 width={800}
                 height={1200}
                 className="w-full h-auto object-contain"
                 priority
               />
             </div>
-            <p className="text-sm text-orange-200/70 text-center mt-3 italic">
-              Flyer shown is for January 2026. Fire Friday occurs every last Friday of the month.
-            </p>
           </div>
 
           {/* Event Highlights */}
