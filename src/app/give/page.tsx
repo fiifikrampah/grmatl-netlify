@@ -54,9 +54,9 @@ export default function Give() {
                 <h3 className="text-xl font-semibold text-gray-900 mb-3">Zelle</h3>
                 <p className="text-gray-600 mb-4">Direct bank transfer using your banking app</p>
                 <div className="bg-grm-blue-50 rounded-lg p-4 mb-4 border border-grm-blue-200">
-                  <p className="text-2xl font-bold text-grm-primary mb-3 font-mono">404-210-1136</p>
+                  <p className="text-2xl font-bold text-grm-primary mb-3 font-mono">404-940-8162</p>
                   <Button
-                    onClick={() => !copied && copyToClipboard('404-210-1136')}
+                    onClick={() => !copied && copyToClipboard('404-940-8162')}
                     size="sm"
                     className={`w-full transition-all duration-200 hover:scale-105 ${
                       copied
