@@ -25,6 +25,28 @@ function getLastFridayOfMonth(): Date {
   return lastFriday;
 }
 
+// Helper function to extract date from event description
+function getEventDate(event: { slug: string; description: string }): Date | null {
+  if (event.slug === 'fire-friday') {
+    return getLastFridayOfMonth();
+  }
+  
+  // Try to parse date from description (format: "📅 Saturday, February 14th, 2026")
+  const dateMatch = event.description.match(/📅\s*([^🕐👔🔥📍\n]+)/);
+  if (dateMatch) {
+    const dateStr = dateMatch[1].trim();
+    // Try to parse common date formats
+    // "Saturday, February 14th, 2026" -> "February 14, 2026"
+    const cleanedDate = dateStr.replace(/(\d+)(st|nd|rd|th)/g, '$1');
+    const parsedDate = new Date(cleanedDate);
+    if (!isNaN(parsedDate.getTime())) {
+      return parsedDate;
+    }
+  }
+  
+  return null;
+}
+
 export default function EventsPage() {
   const events = getDisplayedEvents()
   const lastFriday = getLastFridayOfMonth()
@@ -34,6 +56,19 @@ export default function EventsPage() {
     month: 'long',
     day: 'numeric',
     year: 'numeric'
+  })
+  
+  // Sort events by date
+  const sortedEvents = [...events].sort((a, b) => {
+    const dateA = getEventDate(a);
+    const dateB = getEventDate(b);
+    
+    // Events without dates go to the end
+    if (!dateA && !dateB) return 0;
+    if (!dateA) return 1;
+    if (!dateB) return -1;
+    
+    return dateA.getTime() - dateB.getTime();
   })
 
   return (
@@ -50,7 +85,7 @@ export default function EventsPage() {
         </div>
 
         {/* Events Grid */}
-        {events.length === 0 ? (
+        {sortedEvents.length === 0 ? (
           <div className="text-center py-12 bg-gray-50 rounded-xl border border-gray-200">
             <Calendar className="h-12 w-12 text-gray-400 mx-auto mb-3" />
             <p className="text-gray-700 text-lg font-semibold mb-1">No events available at this time.</p>
@@ -58,7 +93,7 @@ export default function EventsPage() {
           </div>
         ) : (
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
-            {events.map((event) => (
+            {sortedEvents.map((event) => (
               <Card
                 key={event.slug}
                 className="overflow-hidden hover:shadow-lg transition-all duration-300 flex flex-col group border border-gray-200 hover:border-grm-primary/50"
