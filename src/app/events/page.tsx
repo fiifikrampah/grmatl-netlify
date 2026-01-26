@@ -92,27 +92,27 @@ export default function EventsPage() {
             <p className="text-gray-500 text-sm">Check back soon for upcoming events!</p>
           </div>
         ) : (
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5 items-stretch">
             {sortedEvents.map((event) => (
               <Card
                 key={event.slug}
-                className="overflow-hidden hover:shadow-lg transition-all duration-300 flex flex-col group border border-gray-200 hover:border-grm-primary/50"
+                className="overflow-hidden hover:shadow-lg transition-all duration-300 flex flex-col group border border-gray-200 hover:border-grm-primary/50 h-full"
               >
                 {event.imageUrl ? (
-                  <div className="relative w-full h-64 sm:h-80 overflow-hidden bg-gray-50">
+                  <div className="relative w-full h-64 sm:h-80 overflow-hidden bg-gray-50 flex-shrink-0">
                     <Image
                       src={event.imageUrl}
                       alt={event.title}
                       fill
-                      className="object-contain group-hover:scale-[1.03] transition-transform duration-300"
+                      className="object-cover group-hover:scale-[1.03] transition-transform duration-300"
                     />
                   </div>
                 ) : (
-                  <div className="w-full h-48 bg-gradient-to-br from-grm-primary to-grm-secondary flex items-center justify-center">
+                  <div className="w-full h-64 sm:h-80 bg-gradient-to-br from-grm-primary to-grm-secondary flex items-center justify-center flex-shrink-0">
                     <Calendar className="h-12 w-12 text-white/70" />
                   </div>
                 )}
-                <CardHeader className="pb-3 pt-4">
+                <CardHeader className="pb-3 pt-4 flex-grow flex flex-col">
                   <div className="flex items-start justify-between gap-2 mb-2">
                     <CardTitle className="text-xl sm:text-2xl text-grm-primary font-bold leading-tight group-hover:text-grm-secondary transition-colors">
                       {event.title}
@@ -124,7 +124,7 @@ export default function EventsPage() {
                     )}
                   </div>
                   {event.description && (
-                    <CardDescription className="text-sm sm:text-base text-gray-600 leading-relaxed">
+                    <CardDescription className="text-sm sm:text-base text-gray-600 leading-relaxed flex-grow">
                       {event.description.split('\n').map((line, index) => {
                         if (!line.trim()) {
                           return <br key={index} />;
@@ -156,12 +156,16 @@ export default function EventsPage() {
                     </CardDescription>
                   )}
                 </CardHeader>
-                <CardContent className="pt-2 pb-4">
-                  <Link href={event.path} className="w-full">
-                    <Button className="w-full bg-grm-primary hover:bg-grm-secondary text-white font-semibold py-3 text-base shadow-sm hover:shadow transition-all duration-200">
+                <CardContent className="pt-2 pb-4 flex-shrink-0">
+                  <Link 
+                    href={event.path} 
+                    className="w-full bg-gradient-to-r from-[#1B5299] to-[#2d6bc7] hover:from-[#2d6bc7] hover:to-[#1B5299] text-white font-semibold py-3 px-5 text-base shadow-md hover:shadow-lg transition-all duration-300 rounded-md flex items-center justify-center gap-2 group cursor-pointer border-0 outline-none focus-visible:ring-2 focus-visible:ring-[#1B5299] focus-visible:ring-offset-2 block text-center no-underline"
+                    style={{ color: 'white' }}
+                  >
+                    <span className="text-white">
                       {event.isRegistrationOpen ? 'View Details & Register' : 'View Details'}
-                      <ArrowRight className="ml-2 h-4 w-4" />
-                    </Button>
+                    </span>
+                    <ArrowRight className="h-4 w-4 text-white group-hover:translate-x-1 transition-transform duration-300 flex-shrink-0" />
                   </Link>
                 </CardContent>
               </Card>

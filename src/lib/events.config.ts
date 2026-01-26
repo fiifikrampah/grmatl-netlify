@@ -39,6 +39,15 @@ export const events: EventConfig[] = [
     display: true,
     imageUrl: '/images/events/fire-friday.jpg',
   },
+  {
+    slug: 'baptism',
+    title: 'Baptism Service',
+    description: 'Interested in being baptized? Register and we\'ll contact you with details about upcoming baptism classes.\n\n📅 Date TBA\n📍 GRM Main Auditorium',
+    path: '/events/baptism',
+    isRegistrationOpen: true, // Registration required
+    display: true,
+    imageUrl: '/images/events/temp-baptism.jpg',
+  },
   // Add more events here as you create them
   // Example:
   // {
