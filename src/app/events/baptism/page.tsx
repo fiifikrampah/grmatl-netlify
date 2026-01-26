@@ -401,10 +401,10 @@ export default function BaptismPage() {
               Contact Us
             </a>
             <a
-              href="tel:404-940-8162"
+              href="tel:404-210-1136"
               className="inline-flex items-center justify-center px-8 py-4 bg-white text-[#2070B4] font-semibold rounded-lg hover:bg-[#86BEE2]/20 transition-colors duration-200 shadow-lg hover:shadow-xl border-2 border-[#2070B4]"
             >
-              Call: 404-940-8162
+              Call: 404-210-1136
             </a>
           </div>
         </div>
