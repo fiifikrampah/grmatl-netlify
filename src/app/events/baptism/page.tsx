@@ -1,7 +1,6 @@
 "use client";
 
 import { useState } from "react";
-import Link from "next/link";
 import Image from "next/image";
 import { Calendar, MapPin, Droplet, Users } from "lucide-react";
 import { getEventBySlug } from "@/lib/events.config";
@@ -212,7 +211,7 @@ export default function BaptismPage() {
             <div className="absolute top-0 right-0 w-32 h-32 bg-[#86BEE2]/50 rounded-full -translate-y-16 translate-x-16"></div>
             <p className="text-lg text-[#0D2B45] leading-relaxed relative z-10 font-medium">
               Baptism is a beautiful expression of your commitment to follow Christ. 
-              If you're interested in being baptized, please register below. We'll begin classes soon and will contact you with further details.
+              If you&apos;re interested in being baptized, please register below. We&apos;ll begin classes soon and will contact you with further details.
             </p>
           </div>
         </div>
@@ -258,7 +257,7 @@ export default function BaptismPage() {
                   Registration
                 </h2>
                 <p className="text-lg text-[#0D2B45] max-w-2xl mx-auto">
-                  If you're interested in being baptized, please fill out the form below. We'll contact you with details about upcoming baptism classes.
+                  If you&apos;re interested in being baptized, please fill out the form below. We&apos;ll contact you with details about upcoming baptism classes.
                 </p>
               </div>
 

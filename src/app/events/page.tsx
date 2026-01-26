@@ -4,7 +4,6 @@ import Link from 'next/link'
 import Image from 'next/image'
 import { Calendar, ArrowRight } from 'lucide-react'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
-import { Button } from '@/components/ui/button'
 import { getDisplayedEvents } from '@/lib/events.config'
 
 // Helper function to get the last Friday of the current month

@@ -1,9 +1,7 @@
 "use client";
 
-import Link from "next/link";
 import Image from "next/image";
 import { Calendar, MapPin, Clock, Flame } from "lucide-react";
-import { getEventBySlug } from "@/lib/events.config";
 
 // Helper function to get the last Friday of the current month
 function getLastFridayOfMonth(): Date {
@@ -24,7 +22,6 @@ function getLastFridayOfMonth(): Date {
 }
 
 export default function FireFridayPage() {
-  const eventConfig = getEventBySlug('fire-friday');
   const lastFriday = getLastFridayOfMonth();
   const time = "9pm - 1am";
   const location = "GRM Main Auditorium";
