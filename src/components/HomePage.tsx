@@ -111,14 +111,14 @@ export default function HomePage() {
             className="flex flex-col sm:flex-row gap-3 sm:gap-4 justify-center items-center px-4 animate-fade-in-up"
             style={{ animationDelay: '0.5s', opacity: 0, animationFillMode: 'forwards' }}
           >
-            <Link href="/live">
-              <Button size="lg" className="w-auto bg-white text-grm-primary hover:bg-grm-blue-50 text-base sm:text-lg px-6 sm:px-8 py-5 sm:py-6 rounded-full transition-all duration-300 transform hover:scale-105 cursor-pointer">
+            <Link href="/live" className="w-full sm:w-auto">
+              <Button size="lg" className="w-full sm:w-auto bg-white text-grm-primary hover:bg-grm-blue-50 text-base sm:text-lg px-6 sm:px-8 py-5 sm:py-6 rounded-full transition-all duration-300 transform hover:scale-105 cursor-pointer">
                 <Play className="mr-2 h-4 w-4 sm:h-5 sm:w-5 fill-current" />
                 Watch Live
               </Button>
             </Link>
-            <Link href="/contact">
-              <Button size="lg" className="w-auto bg-transparent border-2 border-white text-white hover:bg-white hover:text-[#1B5299] text-base sm:text-lg px-6 sm:px-8 py-5 sm:py-6 rounded-full backdrop-blur-sm transition-all duration-300 cursor-pointer">
+            <Link href="/contact" className="w-full sm:w-auto">
+              <Button size="lg" className="w-full sm:w-auto bg-transparent border-2 border-white text-white hover:bg-white hover:text-[#1B5299] text-base sm:text-lg px-6 sm:px-8 py-5 sm:py-6 rounded-full backdrop-blur-sm transition-all duration-300 cursor-pointer">
                 Plan Your Visit
               </Button>
             </Link>
