@@ -48,7 +48,7 @@ export default function Footer() {
                 alt="Great Redemption Ministries"
                 width={80}
                 height={80}
-                className="brightness-0 invert opacity-90 hover:opacity-100 transition-opacity w-16 h-16 sm:w-20 sm:h-20 mx-auto sm:mx-0"
+                className="brightness-0 invert opacity-90 hover:opacity-100 transition-opacity w-16 h-auto sm:w-20 mx-auto sm:mx-0"
               />
             </Link>
             <p className="text-gray-400 leading-relaxed text-sm">
