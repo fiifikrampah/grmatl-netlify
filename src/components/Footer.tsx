@@ -90,25 +90,25 @@ export default function Footer() {
             </ul>
           </div>
 
-          {/* Contact Info */}
+          {/* Contact Info - icons hidden on mobile */}
           <div className="text-center sm:text-left">
             <h3 className="text-base sm:text-lg font-semibold mb-4 sm:mb-6">Visit Us</h3>
             <ul className="space-y-3 sm:space-y-4">
               <li className="flex items-start gap-3 text-gray-400 text-sm justify-center sm:justify-start">
-                <MapPin className="h-5 w-5 mt-0.5 text-grm-primary shrink-0" />
+                <MapPin className="h-5 w-5 mt-0.5 text-grm-primary shrink-0 hidden sm:block" />
                 <span>
                   24 Geneva St,<br />
                   Hapeville, GA 30354
                 </span>
               </li>
               <li className="flex items-center gap-3 text-gray-400 text-sm justify-center sm:justify-start">
-                <Phone className="h-5 w-5 text-grm-primary shrink-0" />
+                <Phone className="h-5 w-5 text-grm-primary shrink-0 hidden sm:block" />
                 <a href="tel:+14042101136" className="hover:text-white transition-colors">
                   404-210-1136
                 </a>
               </li>
               <li className="flex items-center gap-3 text-gray-400 text-sm justify-center sm:justify-start">
-                <Mail className="h-5 w-5 text-grm-primary shrink-0" />
+                <Mail className="h-5 w-5 text-grm-primary shrink-0 hidden sm:block" />
                 <a href="mailto:grmmedia16@gmail.com" className="hover:text-white transition-colors">
                   grmmedia16@gmail.com
                 </a>

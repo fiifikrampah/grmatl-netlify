@@ -329,7 +329,7 @@ export default function HomePage() {
             <div className="grid grid-cols-1 lg:grid-cols-2">
               <div className="p-12 lg:p-16 flex flex-col justify-center">
                 <div className="flex items-center gap-2 text-grm-primary font-bold tracking-wider uppercase text-sm mb-4">
-                  <MapPin className="h-4 w-4" />
+                  <MapPin className="h-4 w-4 hidden sm:block" />
                   Visit Us
                 </div>
                 <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-6">We&apos;re Saving a Seat for You</h2>
@@ -340,7 +340,7 @@ export default function HomePage() {
                 </p>
                 <div className="space-y-4">
                   <div className="flex items-center gap-4">
-                    <div className="w-12 h-12 rounded-full bg-blue-50 flex items-center justify-center text-grm-primary shrink-0">
+                    <div className="w-12 h-12 rounded-full bg-blue-50 hidden sm:flex items-center justify-center text-grm-primary shrink-0">
                       <MapPin className="h-5 w-5" />
                     </div>
                     <div>
