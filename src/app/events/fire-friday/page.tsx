@@ -8,16 +8,16 @@ function getLastFridayOfMonth(): Date {
   const now = new Date();
   const year = now.getFullYear();
   const month = now.getMonth();
-  
+
   // Get the last day of the month
   const lastDay = new Date(year, month + 1, 0);
-  
+
   // Find the last Friday
   let lastFriday = lastDay;
   while (lastFriday.getDay() !== 5) { // 5 = Friday
     lastFriday = new Date(lastFriday.getTime() - 24 * 60 * 60 * 1000);
   }
-  
+
   return lastFriday;
 }
 
@@ -36,7 +36,7 @@ export default function FireFridayPage() {
     day: 'numeric',
     year: 'numeric'
   });
-  
+
   // Format the date for display (long format)
   const formattedDate = lastFriday.toLocaleDateString('en-US', {
     weekday: 'long',
@@ -46,7 +46,7 @@ export default function FireFridayPage() {
   });
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-gray-900 via-red-900 to-gray-900">
+    <div className="bg-gradient-to-b from-gray-900 via-red-900 to-gray-900 min-h-screen pt-24">
       {/* Hero Section */}
       <section className="relative py-20 px-4 sm:px-6 lg:px-8 overflow-hidden">
         {/* Subtle background patterns - fire/flame themed */}

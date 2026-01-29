@@ -67,7 +67,7 @@ export default function HeartToHeartPrayerBreakfastSuccessPage() {
             <div className="mt-6 space-y-2 text-lg text-red-900">
               <p><span className="font-semibold text-amber-600">Time:</span> {time}</p>
               <p><span className="font-semibold text-amber-600">Location:</span> {location}</p>
-              <p className="mt-4"><span className="font-semibold text-amber-600">Dress Code:</span> <span className="text-amber-700 font-semibold">{dressCode}</span></p>
+              <p className="mt-4"><span className="font-semibold text-amber-600">Dress Code:</span> <span className="text-amber-700 font-semibold">Formal Attire - Red & Pink</span></p>
             </div>
           </div>
 

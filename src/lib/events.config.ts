@@ -42,7 +42,7 @@ export const events: EventConfig[] = [
   {
     slug: 'baptism',
     title: 'Baptism Service',
-    description: 'Interested in being baptized? Register and we\'ll contact you with details about upcoming baptism classes.\n\n📅 Date TBA\n📍 GRM Main Auditorium',
+    description: 'Interested in baptism? Register and we\'ll contact you with details about upcoming classes.\n\n📅 Date TBA\n🕐 Time TBA\n📍 GRM Main Auditorium',
     path: '/events/baptism',
     isRegistrationOpen: true, // Registration required
     display: true,

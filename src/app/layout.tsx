@@ -1,12 +1,11 @@
 import type { Metadata } from "next";
-import { Lato } from "next/font/google";
+import { Manrope } from "next/font/google";
 import "./globals.css";
 import ConditionalLayout from "@/components/ConditionalLayout";
 
-const lato = Lato({
+const manrope = Manrope({
   subsets: ["latin"],
-  weight: ["100", "300", "400", "700", "900"],
-  variable: "--font-lato",
+  variable: "--font-manrope",
 });
 
 export const metadata: Metadata = {
@@ -68,7 +67,7 @@ export default function RootLayout({
         <meta name="theme-color" content="#1B5299" />
       </head>
       <body
-        className={`${lato.variable} font-sans antialiased bg-white text-gray-900`}
+        className={`${manrope.variable} font-sans antialiased bg-white text-gray-900 overflow-x-hidden`}
       >
         <ConditionalLayout>
           {children}

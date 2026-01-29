@@ -5,6 +5,7 @@ import Image from "next/image";
 import { Calendar, MapPin, Droplet, Users } from "lucide-react";
 import { getEventBySlug } from "@/lib/events.config";
 
+
 export default function BaptismPage() {
   const [isFormValid, setIsFormValid] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -65,8 +66,8 @@ export default function BaptismPage() {
   };
 
   return (
-    <div className="min-h-screen bg-white">
-      {/* Hero Section */}
+    <div className="bg-white pt-24">
+      {/* Hero Section Content */}
       <section className="relative py-20 px-4 sm:px-6 lg:px-8 overflow-hidden">
         {/* Creative water/baptism themed background patterns */}
         <div className="absolute inset-0 overflow-hidden pointer-events-none">
@@ -77,7 +78,7 @@ export default function BaptismPage() {
               <path d="M0,250 Q300,200 600,250 T1200,250 L1200,400 L0,400 Z" fill="#86BEE2"/>
             </svg>
           </div>
-          
+
           {/* Water droplet patterns - varied sizes and rotations */}
           <div className="absolute top-20 right-10 w-72 h-72 opacity-[0.05] transform rotate-12">
             <svg viewBox="0 0 200 200" className="w-full h-full">
@@ -99,7 +100,7 @@ export default function BaptismPage() {
               <path d="M100 20c-20 0-40 20-40 40 0 20 20 40 40 60 20-20 40-40 40-60 0-20-20-40-40-40z" fill="#86BEE2"/>
             </svg>
           </div>
-          
+
           {/* Ripple patterns */}
           <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] opacity-[0.02]">
             <svg viewBox="0 0 200 200" className="w-full h-full">
@@ -108,12 +109,12 @@ export default function BaptismPage() {
               <circle cx="100" cy="100" r="70" fill="none" stroke="#2070B4" strokeWidth="2"/>
             </svg>
           </div>
-          
+
           {/* Layered gradient overlays */}
           <div className="absolute top-0 left-0 w-full h-full bg-gradient-to-br from-[#E2E8EB]/25 via-transparent to-[#86BEE2]/25"></div>
           <div className="absolute top-0 right-0 w-1/2 h-full bg-gradient-to-l from-[#2070B4]/8 via-transparent to-transparent"></div>
           <div className="absolute bottom-0 left-0 w-full h-1/2 bg-gradient-to-t from-[#0D2B45]/10 via-transparent to-transparent"></div>
-          
+
           {/* Glowing orbs */}
           <div className="absolute -top-32 -right-32 w-96 h-96 bg-[#2070B4]/6 rounded-full blur-3xl"></div>
           <div className="absolute -bottom-32 -left-32 w-96 h-96 bg-[#080A0C]/6 rounded-full blur-3xl"></div>
@@ -210,7 +211,7 @@ export default function BaptismPage() {
           <div className="bg-[#E2E8EB]/80 rounded-3xl shadow-2xl p-10 max-w-4xl mx-auto border-2 border-[#86BEE2] relative overflow-hidden">
             <div className="absolute top-0 right-0 w-32 h-32 bg-[#86BEE2]/50 rounded-full -translate-y-16 translate-x-16"></div>
             <p className="text-lg text-[#0D2B45] leading-relaxed relative z-10 font-medium">
-              Baptism is a beautiful expression of your commitment to follow Christ. 
+              Baptism is a beautiful expression of your commitment to follow Christ.
               If you&apos;re interested in being baptized, please register below. We&apos;ll begin classes soon and will contact you with further details.
             </p>
           </div>
@@ -237,14 +238,14 @@ export default function BaptismPage() {
               <path d="M100 20c-20 0-40 20-40 40 0 20 20 40 40 60 20-20 40-40 40-60 0-20-20-40-40-40z" fill="#86BEE2"/>
             </svg>
           </div>
-          
+
           {/* Subtle wave pattern at bottom */}
           <div className="absolute bottom-0 left-0 w-full h-32 opacity-[0.02]">
             <svg viewBox="0 0 1200 200" className="w-full h-full" preserveAspectRatio="none">
               <path d="M0,150 Q300,100 600,150 T1200,150 L1200,200 L0,200 Z" fill="#86BEE2"/>
             </svg>
           </div>
-          
+
           {/* Gradient overlays */}
           <div className="absolute top-0 left-0 w-full h-full bg-gradient-to-br from-[#E2E8EB]/15 via-transparent to-[#86BEE2]/15"></div>
           <div className="absolute top-0 right-0 w-1/3 h-full bg-gradient-to-l from-[#2070B4]/5 via-transparent to-transparent"></div>

@@ -5,6 +5,7 @@ import Link from "next/link";
 import { Calendar, MapPin, Users, DollarSign, BookOpen, Trophy, Tent, Mountain } from "lucide-react";
 import { getEventBySlug } from "@/lib/events.config";
 
+
 export default function SummerCampPage() {
   const [isFormValid, setIsFormValid] = useState(false);
   const [selectedPaymentMethod, setSelectedPaymentMethod] = useState("");
@@ -68,8 +69,8 @@ export default function SummerCampPage() {
   };
 
   return (
-    <div className="min-h-screen bg-white">
-      {/* Hero Section */}
+    <div className="bg-white pt-24">
+      {/* Hero Section Content (Camp Highlights) */}
       <section className="relative py-20 px-4 sm:px-6 lg:px-8 overflow-hidden">
         {/* Subtle background patterns - large decorative elements */}
         <div className="absolute inset-0 overflow-hidden pointer-events-none">

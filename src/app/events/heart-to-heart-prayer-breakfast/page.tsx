@@ -6,6 +6,7 @@ import Image from "next/image";
 import { Calendar, MapPin, Users, Heart, Clock, Shirt } from "lucide-react";
 import { getEventBySlug } from "@/lib/events.config";
 
+
 export default function HeartToHeartPrayerBreakfastPage() {
   const [isFormValid, setIsFormValid] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -71,8 +72,8 @@ export default function HeartToHeartPrayerBreakfastPage() {
   };
 
   return (
-    <div className="min-h-screen bg-white">
-      {/* Hero Section */}
+    <div className="bg-white pt-24">
+      {/* Event Details Section */}
       <section className="relative py-20 px-4 sm:px-6 lg:px-8 overflow-hidden">
         {/* Subtle background patterns - large decorative elements */}
         <div className="absolute inset-0 overflow-hidden pointer-events-none">
@@ -160,7 +161,7 @@ export default function HeartToHeartPrayerBreakfastPage() {
               </div>
               <div className="flex items-center gap-2 mt-2">
                 <Shirt className="h-5 w-5 text-amber-600" />
-                <span className="font-semibold text-amber-700">{dressCode}</span>
+                <span className="font-semibold text-amber-700">Formal Attire - Red & Pink</span>
               </div>
             </div>
           </div>

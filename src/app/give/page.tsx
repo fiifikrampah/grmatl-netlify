@@ -1,9 +1,12 @@
 "use client"
 
 import { useState } from 'react'
+import Image from 'next/image'
 import { Card, CardContent } from '@/components/ui/card'
 import { Button } from '@/components/ui/button'
 import { Heart, CreditCard, Building, DollarSign, Copy, Check } from 'lucide-react'
+import PageHeader from '@/components/PageHeader'
+import Reveal from '@/components/Reveal'
 
 export default function Give() {
   const [copied, setCopied] = useState(false)
@@ -12,7 +15,6 @@ export default function Give() {
     try {
       await navigator.clipboard.writeText(text)
       setCopied(true)
-      // Reset after 2 seconds
       setTimeout(() => setCopied(false), 2000)
     } catch (err) {
       console.error('Failed to copy: ', err)
@@ -20,106 +22,117 @@ export default function Give() {
   }
 
   return (
-    <div className="py-20 bg-gradient-to-br from-grm-blue-50 to-grm-blue-100">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center mb-16">
-            <h1 className="text-4xl md:text-5xl font-bold text-gray-900 mb-6">
-              Support Our Ministry
-            </h1>
-            <p className="text-[18px] text-gray-600 max-w-3xl mx-auto">
-              Your generous giving helps us continue our mission to spread God&apos;s word and serve our community.
-              Every contribution makes a difference in touching lives and building His kingdom.
-            </p>
-          </div>
+    <div className="bg-white">
+      <PageHeader
+        title="Giving"
+        subtitle="Your generosity helps us continue our mission to spread God's word and serve our community."
+        imageSrc="/images/site-photos/give/2.jpg"
+      />
 
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-12 max-w-5xl mx-auto">
-            {/* Tithely */}
-            <Card className="h-full hover:shadow-lg transition-shadow group">
-              <CardContent className="p-6 text-center">
-                <CreditCard className="h-12 w-12 mx-auto mb-4 text-grm-primary group-hover:scale-110 transition-transform duration-200" />
-                <h3 className="text-xl font-semibold text-gray-900 mb-3">Tithely</h3>
-                <p className="text-gray-600 mb-4">Give securely online through our Tithely portal</p>
-                <a href="https://tithe.ly/give_new/www/#/tithely/give-one-time/307704" target="_blank" rel="noopener noreferrer">
-                  <Button className="w-full cursor-pointer hover:scale-105 transition-all duration-200 bg-green-600 hover:bg-green-700">
-                    Give via Tithely
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-24">
+        <div className="text-center mb-16">
+          <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-6">Ways To Give</h2>
+          <p className="text-lg text-gray-600 max-w-2xl mx-auto">
+            Choose the method that works best for you. All transactions are secure.
+          </p>
+        </div>
+
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-24 max-w-6xl mx-auto">
+          {/* Tithely */}
+          <Reveal delay={50}>
+            <Card className="h-full hover:shadow-2xl transition-all duration-300 group border-gray-100 relative overflow-hidden">
+              <div className="absolute top-0 left-0 w-full h-2 bg-green-500"></div>
+              <CardContent className="p-8 text-center flex flex-col h-full">
+                <div className="w-16 h-16 bg-green-50 rounded-full flex items-center justify-center mx-auto mb-6 group-hover:scale-110 transition-transform duration-300">
+                  <CreditCard className="h-8 w-8 text-green-600" />
+                </div>
+                <h3 className="text-2xl font-bold text-gray-900 mb-3">Tithely</h3>
+                <p className="text-gray-600 mb-8 flex-grow">Secure online giving platform for one-time or recurring gifts.</p>
+                <a href="https://tithe.ly/give_new/www/#/tithely/give-one-time/307704" target="_blank" rel="noopener noreferrer" className="mt-auto w-full">
+                  <Button className="w-full bg-gray-900 text-white hover:bg-green-600 py-6 text-lg rounded-xl shadow-md transition-colors">
+                    Give Online
                   </Button>
                 </a>
               </CardContent>
             </Card>
+          </Reveal>
 
-            {/* Zelle */}
-            <Card className="h-full hover:shadow-lg transition-shadow group">
-              <CardContent className="p-6 text-center">
-                <Building className="h-12 w-12 mx-auto mb-4 text-grm-primary group-hover:scale-110 transition-transform duration-200" />
-                <h3 className="text-xl font-semibold text-gray-900 mb-3">Zelle</h3>
-                <p className="text-gray-600 mb-4">Direct bank transfer using your banking app</p>
-                <div className="bg-grm-blue-50 rounded-lg p-4 mb-4 border border-grm-blue-200">
-                  <p className="text-2xl font-bold text-grm-primary mb-3 font-mono">404-940-8162</p>
+          {/* Zelle */}
+          <Reveal delay={100}>
+            <Card className="h-full hover:shadow-2xl transition-all duration-300 group border-gray-100 relative overflow-hidden">
+              <div className="absolute top-0 left-0 w-full h-2 bg-purple-500"></div>
+              <CardContent className="p-8 text-center flex flex-col h-full">
+                <div className="w-16 h-16 bg-purple-50 rounded-full flex items-center justify-center mx-auto mb-6 group-hover:scale-110 transition-transform duration-300">
+                  <Building className="h-8 w-8 text-purple-600" />
+                </div>
+                <h3 className="text-2xl font-bold text-gray-900 mb-3">Zelle</h3>
+                <p className="text-gray-600 mb-8 flex-grow">Direct bank transfer with no fees.</p>
+                <div className="mt-auto w-full space-y-4">
+                  <div className="bg-gray-50 rounded-xl p-4 border border-gray-100">
+                    <p className="text-2xl font-mono font-bold text-gray-900 tracking-wider">404-940-8162</p>
+                  </div>
                   <Button
                     onClick={() => !copied && copyToClipboard('404-940-8162')}
-                    size="sm"
-                    className={`w-full transition-all duration-200 hover:scale-105 ${
+                    className={`w-full py-6 text-lg rounded-xl shadow-md transition-all duration-200 ${
                       copied
-                        ? 'bg-green-600 hover:bg-green-700 shadow-lg font-semibold cursor-default'
-                        : 'bg-grm-primary hover:bg-grm-secondary cursor-pointer'
-                    } text-white`}
+                        ? 'bg-green-600 hover:bg-green-700 text-white cursor-default'
+                        : 'bg-gray-900 hover:bg-purple-600 text-white'
+                    }`}
                   >
                     {copied ? (
-                      <>
-                        <Check className="h-4 w-4 mr-2" />
-                        Copied!
-                      </>
+                      <span className="flex items-center gap-2"><Check className="h-5 w-5" /> Copied!</span>
                     ) : (
-                      <>
-                        <Copy className="h-4 w-4 mr-2" />
-                        Copy Number
-                      </>
+                      <span className="flex items-center gap-2"><Copy className="h-5 w-5" /> Copy Number</span>
                     )}
                   </Button>
                 </div>
               </CardContent>
             </Card>
+          </Reveal>
 
-            {/* Cash App */}
-            <Card className="h-full hover:shadow-lg transition-shadow group">
-              <CardContent className="p-6 text-center">
-                <DollarSign className="h-12 w-12 mx-auto mb-4 text-grm-primary group-hover:scale-110 transition-transform duration-200" />
-                <h3 className="text-xl font-semibold text-gray-900 mb-3">Cash App</h3>
-                <p className="text-gray-600 mb-4">Send donations quickly and securely via Cash App</p>
-                <a href="https://cash.app/$grmatl" target="_blank" rel="noopener noreferrer">
-                  <Button className="w-full cursor-pointer hover:scale-105 transition-all duration-200 bg-green-600 hover:bg-green-700">
-                    Open Cash App
+          {/* Cash App */}
+          <Reveal delay={150}>
+            <Card className="h-full hover:shadow-2xl transition-all duration-300 group border-gray-100 relative overflow-hidden">
+              <div className="absolute top-0 left-0 w-full h-2 bg-green-400"></div>
+              <CardContent className="p-8 text-center flex flex-col h-full">
+                <div className="w-16 h-16 bg-green-50 rounded-full flex items-center justify-center mx-auto mb-6 group-hover:scale-110 transition-transform duration-300">
+                  <DollarSign className="h-8 w-8 text-green-500" />
+                </div>
+                <h3 className="text-2xl font-bold text-gray-900 mb-3">Cash App</h3>
+                <p className="text-gray-600 mb-8 flex-grow">Quick and easy mobile giving.</p>
+                <a href="https://cash.app/$grmatl" target="_blank" rel="noopener noreferrer" className="mt-auto w-full">
+                  <Button className="w-full bg-gray-900 text-white hover:bg-green-500 py-6 text-lg rounded-xl shadow-md transition-colors">
+                    $grmatl
                   </Button>
                 </a>
               </CardContent>
             </Card>
-          </div>
-
-          {/* Featured Giving Section */}
-          <div className="bg-white rounded-lg shadow-xl p-8 text-center relative overflow-hidden">
-            {/* Decorative background pattern */}
-            <div className="absolute inset-0 opacity-5">
-              <div className="absolute top-4 left-4 text-6xl text-grm-primary">&ldquo;</div>
-              <div className="absolute bottom-4 right-4 text-6xl text-grm-primary rotate-180">&rdquo;</div>
-            </div>
-
-            <Heart className="h-16 w-16 mx-auto mb-8 text-red-500 relative z-10" />
-
-            <div className="relative z-10">
-              <blockquote className="text-[24px] font-serif italic text-gray-800 mb-6 leading-relaxed px-4">
-                &ldquo;Each of you should give what you have decided in your heart to give, not reluctantly or under compulsion, for God loves a cheerful giver.&rdquo;
-              </blockquote>
-
-              <div className="border-t border-grm-blue-200 pt-6">
-                <cite className="text-lg font-semibold text-grm-primary not-italic">
-                  2 Corinthians 9:7 (NIV)
-                </cite>
-              </div>
-            </div>
-          </div>
+          </Reveal>
         </div>
 
-
+        {/* Featured Giving Quote */}
+        <Reveal className="relative bg-grm-primary rounded-3xl p-12 md:p-20 text-center text-white overflow-hidden shadow-2xl">
+          <div className="absolute inset-0 z-0">
+            <Image
+              src="/images/site-photos/give/1.jpg"
+              alt=""
+              fill
+              className="object-cover opacity-[0.05]"
+              aria-hidden
+            />
+          </div>
+          <div className="absolute inset-0 bg-[url('/images/pattern.png')] opacity-10 z-[1]" aria-hidden />
+          <div className="relative z-10 max-w-4xl mx-auto">
+            <Heart className="h-12 w-12 md:h-14 md:w-14 mx-auto mb-6 text-blue-200 fill-current relative z-10" aria-hidden />
+            <blockquote className="text-xl md:text-3xl font-serif italic mb-6 leading-relaxed text-white/95">
+              Each of you should give what you have decided in your heart to give, not reluctantly or under compulsion, for God loves a cheerful giver.
+            </blockquote>
+            <cite className="text-base md:text-lg not-italic text-blue-200/90 font-medium">
+              2 Corinthians 9:7 (NIV)
+            </cite>
+          </div>
+        </Reveal>
+      </div>
     </div>
   )
 }
