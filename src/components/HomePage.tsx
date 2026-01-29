@@ -139,13 +139,13 @@ export default function HomePage() {
             <div className="bg-white rounded-lg shadow-md p-8 max-w-2xl mx-auto">
               <div className="space-y-3">
                 <div className="text-xl font-semibold text-gray-900">
-                  <span className="text-grm-primary font-bold">Sunday:</span> 9:30 AM - 12:00 PM
+                  <span className="text-grm-primary font-bold">Sunday Service:</span> 10:00 AM - 12:45 PM
                 </div>
                 <div className="text-xl font-semibold text-gray-900">
-                  <span className="text-grm-primary font-bold">Wednesday:</span> 7:30 PM - 9:00 PM
+                  <span className="text-grm-primary font-bold">Wednesday Virtual Bible Study:</span> 7:30 PM - 8:30 PM
                 </div>
                 <div className="text-xl font-semibold text-gray-900">
-                  <span className="text-grm-primary font-bold">Friday:</span> 7:30 PM - 9:00 PM
+                  <span className="text-grm-primary font-bold">Friday In-Person Prayer:</span> 7:30 PM - 9:00 PM
                 </div>
               </div>
             </div>

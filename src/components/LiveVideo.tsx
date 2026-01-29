@@ -19,7 +19,7 @@ export default function LiveVideo() {
   const features = [
     {
       icon: Clock,
-      text: "Every Sunday at 9:30 AM",
+      text: "Every Sunday at 10:00 AM",
     },
     {
       icon: Users,

@@ -21,9 +21,9 @@ export default function Contact() {
   ]
 
   const serviceTimes = [
-    { day: "Sunday", time: "9:30 AM" },
-    { day: "Wednesday", time: "7:30 PM" },
-    { day: "Friday", time: "7:30 PM" },
+    { day: "Sunday Service", time: "10:00 AM - 12:45 PM" },
+    { day: "Wednesday Virtual Bible Study", time: "7:30 PM - 8:30 PM" },
+    { day: "Friday In-Person Prayer", time: "7:30 PM - 9:00 PM" },
   ]
 
   return (
