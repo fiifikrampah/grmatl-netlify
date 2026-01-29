@@ -19,7 +19,6 @@ export default function HeartToHeartPrayerBreakfastPage() {
   const date = "Saturday, February 14th, 2026";
   const time = "10am - 1pm";
   const location = "24 Geneva St. Hapeville GA 30354";
-  const dressCode = "Formal Attire - Red & Pink";
   const eventSlug = `heart-to-heart-prayer-breakfast-2026`;
 
   // Check if form is valid

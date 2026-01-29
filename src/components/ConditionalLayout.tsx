@@ -7,7 +7,6 @@ import Footer from './Footer'
 export default function ConditionalLayout({ children }: { children: React.ReactNode }) {
   const pathname = usePathname()
   const isAdminRoute = pathname?.startsWith('/admin')
-  const isHomePage = pathname === '/'
 
   if (isAdminRoute) {
     // Admin routes have their own layout - no public header/footer

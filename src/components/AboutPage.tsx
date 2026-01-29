@@ -153,7 +153,7 @@ export default function AboutPage() {
               <div className="space-y-6 text-lg text-gray-600 leading-relaxed">
                 <p>
                   Established in 2006, Great Redemption Ministries was born from a divine calling
-                  inspired by John 8:36: <span className="text-grm-primary font-semibold">"Therefore if The Son makes you free, you shall be free indeed."</span>
+                  inspired by John 8:36: <span className="text-grm-primary font-semibold">&quot;Therefore if The Son makes you free, you shall be free indeed.&quot;</span>
                 </p>
                 <p>
                   We affirm the Holy Bible as the inspired Word of God and the basis for our belief.

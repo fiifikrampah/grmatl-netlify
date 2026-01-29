@@ -14,7 +14,7 @@ export default function NotFound() {
         </div>
 
         <p className="text-gray-600 text-lg leading-relaxed">
-          We couldn't find the page you were looking for. It might have been removed, renamed, or doesn't exist.
+          We couldn&apos;t find the page you were looking for. It might have been removed, renamed, or doesn&apos;t exist.
         </p>
 
         <div className="flex flex-col sm:flex-row gap-4 justify-center">

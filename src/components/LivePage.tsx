@@ -57,8 +57,8 @@ export default function LivePage() {
               Sermon Archive
             </h2>
             <p className="text-lg text-gray-600 max-w-3xl mx-auto leading-relaxed">
-              Did you miss last week's message? Catch up on past sermons and teachings on our social channels.
-              We'd love to see you in person, but if you're unable to make it, our online campus is always open.
+              Did you miss last week&apos;s message? Catch up on past sermons and teachings on our social channels.
+              We&apos;d love to see you in person, but if you&apos;re unable to make it, our online campus is always open.
             </p>
           </div>
 
