@@ -36,11 +36,12 @@ export default function AboutPage() {
         {/* Background Image with Gradient Fade */}
         <div className="absolute inset-0 z-0">
           <Image
-            src="/images/about/hero.jpg"
+            src="/images/about/hero.webp"
             alt="About Us"
             fill
             className="object-cover object-[center_40%]"
             priority
+            quality={92}
           />
           {/* Gradient Overlay to fade into white content area */}
           <div className="absolute inset-0 bg-gradient-to-b from-white/10 via-white/5 to-white" />
@@ -83,11 +84,12 @@ export default function AboutPage() {
             <Reveal className="relative">
               <div className="absolute -top-6 -left-6 w-full h-full bg-grm-blue-50 rounded-2xl -z-10"></div>
               <Image
-                src="/images/branding/founder.jpg"
+                src="/images/branding/founder.webp"
                 alt="Pastor Andrews Frimpong"
                 width={1400}
                 height={1050}
                 className="relative z-10 rounded-2xl shadow-2xl"
+                quality={92}
               />
             </Reveal>
 
@@ -128,9 +130,10 @@ export default function AboutPage() {
       <section className="py-24 bg-grm-primary text-white relative overflow-hidden">
         <div className="absolute inset-0 z-0">
           <Image
-            src="/images/about/believes-bg.jpg"
+            src="/images/about/believes-bg.webp"
             alt="Church community"
             fill
+            quality={92}
             className="object-cover opacity-[0.05]"
           />
         </div>
@@ -204,11 +207,12 @@ export default function AboutPage() {
              <div className="relative order-1 lg:order-2">
               <div className="absolute -bottom-6 -right-6 w-full h-full bg-gray-100 rounded-2xl -z-10"></div>
               <Image
-                src="/images/about/content-section.jpg"
+                src="/images/about/content-section.webp"
                 alt="Church history"
                 width={600}
                 height={400}
                 className="rounded-2xl shadow-xl w-full"
+                quality={92}
               />
             </div>
           </div>

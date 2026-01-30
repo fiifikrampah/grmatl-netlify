@@ -134,12 +134,13 @@ export default function HeartToHeartPrayerBreakfastPage() {
             <div className="mb-12 max-w-2xl mx-auto">
               <div className="relative rounded-2xl overflow-hidden shadow-2xl border-4 border-amber-200">
                 <Image
-                  src="/images/events/flyers/heart-to-heart-2026.JPG"
+                  src="/images/events/flyers/heart-to-heart-2026.webp"
                   alt="Heart to Heart Prayer Breakfast Flyer"
                   width={800}
                   height={1200}
                   className="w-full h-auto object-contain"
                   priority
+                  quality={92}
                 />
               </div>
             </div>

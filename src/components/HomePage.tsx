@@ -6,9 +6,9 @@ import { Button } from '@/components/ui/button'
 import { ArrowRight, Calendar, ChevronLeft, ChevronRight, Clock, MapPin, Play, Heart } from 'lucide-react'
 import { useRef, useEffect, useState } from 'react'
 import Reveal from '@/components/Reveal'
-// Carousel images: public/images/home/worship-carousel/carousel-1.jpg … carousel-13.jpg
+// Carousel images: public/images/home/worship-carousel/carousel-1.webp … carousel-13.webp
 const WORSHIP_IMAGES = Array.from({ length: 13 }, (_, i) => ({
-  src: `/images/home/worship-carousel/carousel-${i + 1}.jpg`,
+  src: `/images/home/worship-carousel/carousel-${i + 1}.webp`,
   alt: 'Worship at GRM',
 }))
 
@@ -44,13 +44,14 @@ export default function HomePage() {
         <div ref={heroBgRef} className="absolute inset-0 z-0 will-change-transform h-[120%] -top-[10%]">
           <div className="absolute inset-0 animate-ken-burns will-change-transform">
             <Image
-              src="/images/home/hero.jpg"
+              src="/images/home/hero.webp"
               alt="Worship at Great Redemption Ministries"
               fill
               sizes="100vw"
               className="object-cover"
               priority
               fetchPriority="high"
+              quality={92}
             />
           </div>
           {/* Subtle Dark Overlay for Premium Feel & Contrast - Center Burnt Orange Glow & Blue */}
@@ -133,10 +134,11 @@ export default function HomePage() {
               <Reveal className="w-full">
                 <div className="aspect-[4/5] relative rounded-2xl overflow-hidden shadow-2xl w-full">
                   <Image
-                    src="/images/home/welcome-section.jpg"
+                    src="/images/home/welcome-section.webp"
                     alt="Welcome to GRM"
                     fill
                     className="object-cover"
+                    quality={92}
                   />
                   <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent flex items-end p-8">
                     <p className="text-white font-medium italic text-lg">
@@ -221,10 +223,11 @@ export default function HomePage() {
       <section className="relative py-32 bg-grm-primary overflow-hidden">
         <div className="absolute inset-0 z-0">
           <Image
-            src="/images/home/verse-section.jpg"
+            src="/images/home/verse-section.webp"
             alt="Background"
             fill
             className="object-cover object-[center_30%] opacity-20 mix-blend-overlay"
+            quality={92}
           />
         </div>
         <div className="container mx-auto px-4 relative z-10 text-center text-white">
@@ -341,7 +344,7 @@ export default function HomePage() {
                           className="object-cover"
                           priority={offset === 0}
                           loading={offset === 0 ? undefined : 'lazy'}
-                          quality={90}
+                          quality={92}
                        />
                        {offset === 0 && (
                           <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent opacity-0 hover:opacity-100 transition-opacity duration-300 flex items-end justify-center pb-8" />

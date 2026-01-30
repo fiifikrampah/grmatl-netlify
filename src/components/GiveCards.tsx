@@ -87,12 +87,13 @@ export default function GiveCards({ copied, onCopy }: GiveCardsProps) {
       <Reveal className="relative bg-grm-primary rounded-3xl p-12 md:p-20 text-center text-white overflow-hidden shadow-2xl">
         <div className="absolute inset-0 z-0">
           <Image
-            src="/images/give/quote-section-bg.jpg"
+            src="/images/give/quote-section-bg.webp"
             alt=""
             fill
             sizes="(max-width: 1280px) 100vw, 1280px"
             className="object-cover opacity-[0.05]"
             aria-hidden
+            quality={92}
           />
         </div>
         <div className="absolute inset-0 bg-[url('/images/pattern.png')] opacity-10 z-[1]" aria-hidden />

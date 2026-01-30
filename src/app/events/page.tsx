@@ -83,13 +83,14 @@ export default function EventsPage() {
         {/* Background Image with Gradient Fade */}
         <div className="absolute inset-0 z-0">
           <Image
-            src="/images/events/listing-hero.jpg"
+            src="/images/events/listing-hero.webp"
             alt="Events Hero"
             fill
             sizes="100vw"
             className="object-cover object-[center_30%]"
             priority
             fetchPriority="high"
+            quality={92}
           />
           {/* Gradient Overlay to fade into white content area */}
           <div className="absolute inset-0 bg-gradient-to-b from-transparent via-white/5 to-white" />
@@ -153,6 +154,7 @@ export default function EventsPage() {
                           fill
                           sizes="(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 33vw"
                           className="object-cover transition-transform duration-700 group-hover:scale-105"
+                          quality={92}
                         />
                       ) : (
                         <div className="w-full h-full bg-gradient-to-br from-gray-50 to-gray-100 flex items-center justify-center">

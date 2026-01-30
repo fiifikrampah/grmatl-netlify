@@ -146,12 +146,13 @@ export default function BaptismPage() {
             <div className="mb-12 max-w-2xl mx-auto">
               <div className="relative rounded-2xl overflow-hidden shadow-2xl border-4 border-[#2070B4]/30">
                 <Image
-                  src="/images/events/flyers/baptism.jpg"
+                  src="/images/events/flyers/baptism.webp"
                   alt="Baptism Service Flyer"
                   width={800}
                   height={1200}
                   className="w-full h-auto object-contain"
                   priority
+                  quality={92}
                 />
               </div>
             </div>

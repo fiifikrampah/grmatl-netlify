@@ -53,13 +53,14 @@ export default function Give() {
       <section className="relative pt-32 pb-20 md:pt-40 md:pb-32 overflow-hidden">
         <div className="absolute inset-0 z-0">
           <Image
-            src="/images/give/hero.jpg"
+            src="/images/give/hero.webp"
             alt="Giving"
             fill
             sizes="100vw"
             className="object-cover object-[center_35%]"
             priority
             fetchPriority="high"
+            quality={92}
           />
           <div className="absolute inset-0 bg-gradient-to-b from-white/10 via-white/5 to-white" />
           <div className="absolute bottom-0 left-0 right-0 h-32 bg-gradient-to-t from-white via-white/80 to-transparent" />

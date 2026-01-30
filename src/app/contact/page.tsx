@@ -43,11 +43,12 @@ export default function Contact() {
         {/* Background Image with Gradient Fade */}
         <div className="absolute inset-0 z-0">
           <Image
-            src="/images/contact/hero.jpg"
+            src="/images/contact/hero.webp"
             alt="Contact Us"
             fill
             className="object-cover object-[center_40%]"
             priority
+            quality={92}
           />
           {/* Gradient Overlay to fade into white content area */}
           <div className="absolute inset-0 bg-gradient-to-b from-white/10 via-white/5 to-white" />
@@ -116,10 +117,11 @@ export default function Contact() {
             <div className="bg-grm-primary rounded-3xl p-8 md:p-12 text-white shadow-2xl overflow-hidden relative">
               <div className="absolute inset-0 z-0">
                 <Image
-                  src="/images/about/believes-bg.jpg"
+                  src="/images/about/believes-bg.webp"
                   alt="Service times background"
                   fill
                   className="object-cover opacity-[0.05]"
+                  quality={92}
                 />
               </div>
               <div className="absolute top-0 right-0 -mr-16 -mt-16 w-64 h-64 bg-white/10 rounded-full blur-3xl"></div>

@@ -32,11 +32,12 @@ export default function LivePage() {
         {/* Background Image with Gradient Fade */}
         <div className="absolute inset-0 z-0">
           <Image
-            src="/images/watch/hero.jpg"
+            src="/images/watch/hero.webp"
             alt="Church Online"
             fill
             className="object-cover object-[center_30%]"
             priority
+            quality={92}
           />
           {/* Gradient Overlay to fade into white content area */}
           <div className="absolute inset-0 bg-gradient-to-b from-white/30 via-white/60 to-white" />

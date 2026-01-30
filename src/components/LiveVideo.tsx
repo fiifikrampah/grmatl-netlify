@@ -27,10 +27,11 @@ export default function LiveVideo() {
             }}
           >
             <Image
-              src="/images/watch/thumbnail.jpg"
+              src="/images/watch/thumbnail.webp"
               alt="Great Redemption Ministries Live Stream"
               fill
               className="object-cover transition-transform duration-700 group-hover:scale-105"
+              quality={92}
             />
             {/* Overlay */}
             <div className="absolute inset-0 bg-grm-primary/20 group-hover:bg-grm-primary/10 transition-colors duration-300 mix-blend-multiply" />

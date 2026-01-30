@@ -8,7 +8,7 @@ const withBundleAnalyzer = require("@next/bundle-analyzer")({
 
 const nextConfig: NextConfig = {
   images: {
-    // Let Next.js/Netlify optimize images (WebP, responsive sizes) for faster loads
+    // Images are pre-converted to WebP (scripts/convert-to-webp.mjs); no runtime conversion
     unoptimized: false,
   },
   experimental: {

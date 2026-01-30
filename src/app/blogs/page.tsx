@@ -83,11 +83,12 @@ export default async function BlogsPage() {
         {/* Background Image with Gradient Fade */}
         <div className="absolute inset-0 z-0">
           <Image
-            src="/images/blog/hero.jpg"
+            src="/images/blog/hero.webp"
             alt="GRM Blogs"
             fill
             className="object-cover object-[center_35%]"
             priority
+            quality={92}
           />
           {/* Gradient Overlay to fade into white content area */}
           <div className="absolute inset-0 bg-gradient-to-b from-white/10 via-white/5 to-white" />
@@ -153,6 +154,7 @@ export default async function BlogsPage() {
                             alt={post.title}
                             fill
                             className="object-cover transition-transform duration-700 group-hover:scale-105"
+                            quality={92}
                           />
                         ) : (
                           <div className="w-full h-full flex items-center justify-center bg-blue-50">
