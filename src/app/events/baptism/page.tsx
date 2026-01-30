@@ -1,7 +1,6 @@
 "use client";
 
 import { useState } from "react";
-import Link from "next/link";
 import Image from "next/image";
 import { Calendar, MapPin, Droplet, Users } from "lucide-react";
 import { getEventBySlug } from "@/lib/events.config";
