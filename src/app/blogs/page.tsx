@@ -93,21 +93,21 @@ export default async function BlogsPage() {
           <div className="absolute inset-0 bg-gradient-to-b from-white/10 via-white/5 to-white" />
           {/* Stronger bottom fade to ensure seamless blending */}
           <div className="absolute bottom-0 left-0 right-0 h-32 bg-gradient-to-t from-white via-white/80 to-transparent" />
-          {/* Subtle blur to keep text readable and modern */}
-          <div className="absolute inset-0 bg-white/10 backdrop-blur-[1px]" />
+          {/* Subtle blur on desktop only — avoid GPU load and crashes on mobile */}
+          <div className="absolute inset-0 bg-white/10 md:backdrop-blur-[1px]" />
           {/* Menu Visibility Gradient */}
           <div className="absolute top-0 left-0 right-0 h-32 bg-gradient-to-b from-black/80 to-transparent" />
         </div>
 
-        {/* Ambient Background */}
-        <div className="absolute inset-0 pointer-events-none z-0">
+        {/* Ambient Background — hidden on mobile to prevent GPU memory pressure */}
+        <div className="absolute inset-0 pointer-events-none z-0 hidden md:block">
           <div className="absolute top-0 right-0 w-[800px] h-[800px] bg-blue-50/20 rounded-full blur-[120px] -translate-y-1/4 translate-x-1/4" />
           <div className="absolute bottom-0 left-0 w-[600px] h-[600px] bg-indigo-50/20 rounded-full blur-[100px] translate-y-1/4 -translate-x-1/4" />
         </div>
 
         <div className="container mx-auto px-4 relative z-10">
-          {/* Text Visibility Spotlight */}
-          <div className="absolute top-0 left-1/2 -translate-x-1/2 w-full max-w-[900px] h-[500px] bg-white/20 blur-[100px] -z-10 rounded-full pointer-events-none" />
+          {/* Text Visibility Spotlight — desktop only */}
+          <div className="absolute top-0 left-1/2 -translate-x-1/2 w-full max-w-[900px] h-[500px] bg-white/20 blur-[100px] -z-10 rounded-full pointer-events-none hidden md:block" />
 
           <div className="max-w-4xl mx-auto text-center">
             <Reveal>

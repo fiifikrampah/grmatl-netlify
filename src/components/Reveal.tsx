@@ -15,6 +15,11 @@ export default function Reveal({ children, className = '', delay = 0 }: RevealPr
   useEffect(() => {
     const el = ref.current
     if (!el) return
+    const isMobile = window.matchMedia('(max-width: 767px)').matches
+    if (isMobile) {
+      setInView(true)
+      return
+    }
     let timeoutId: ReturnType<typeof setTimeout> | null = null
     const observer = new IntersectionObserver(
       ([entry]) => {
