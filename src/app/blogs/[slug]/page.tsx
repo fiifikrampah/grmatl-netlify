@@ -27,7 +27,8 @@ function getSlugFromUrl(url: string): string {
 }
 
 // Helper to extract the first image from the content
-function extractImage(content: string): string | null {
+function extractImage(content: string | undefined): string | null {
+  if (!content) return null
   const match = content.match(/<img[^>]+src="([^">]+)"/)
   return match ? match[1] : null
 }
