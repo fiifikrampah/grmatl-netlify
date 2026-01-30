@@ -47,8 +47,10 @@ export default function HomePage() {
               src="/images/home/hero.jpg"
               alt="Worship at Great Redemption Ministries"
               fill
+              sizes="100vw"
               className="object-cover"
               priority
+              fetchPriority="high"
             />
           </div>
           {/* Subtle Dark Overlay for Premium Feel & Contrast - Center Burnt Orange Glow & Blue */}
@@ -74,6 +76,8 @@ export default function HomePage() {
                 width={1000}
                 height={750}
                 className="w-full max-w-[450px] sm:max-w-[500px] md:max-w-4xl h-auto drop-shadow-2xl"
+                priority
+                fetchPriority="high"
               />
             </div>
           </div>

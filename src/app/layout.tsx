@@ -6,6 +6,7 @@ import ConditionalLayout from "@/components/ConditionalLayout";
 const manrope = Manrope({
   subsets: ["latin"],
   variable: "--font-manrope",
+  display: "swap", // Show text immediately with fallback, then swap when font loads
 });
 
 export const metadata: Metadata = {
@@ -59,6 +60,9 @@ export default function RootLayout({
   return (
     <html lang="en">
       <head>
+        <link rel="preconnect" href="https://medium.com" />
+        <link rel="dns-prefetch" href="https://www.youtube.com" />
+        <link rel="dns-prefetch" href="https://www.google.com" />
         <link rel="icon" href="/images/favicon/favicon.ico" />
         <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon/favicon-32x32.png" />
         <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon/favicon-16x16.png" />
