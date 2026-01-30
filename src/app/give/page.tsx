@@ -5,7 +5,6 @@ import Image from 'next/image'
 import { Card, CardContent } from '@/components/ui/card'
 import { Button } from '@/components/ui/button'
 import { Heart, CreditCard, Building, DollarSign, Copy, Check } from 'lucide-react'
-import PageHeader from '@/components/PageHeader'
 import Reveal from '@/components/Reveal'
 
 export default function Give() {
@@ -22,12 +21,50 @@ export default function Give() {
   }
 
   return (
-    <div className="bg-white">
-      <PageHeader
-        title="Giving"
-        subtitle="Your generosity helps us continue our mission to spread God's word and serve our community."
-        imageSrc="/images/site-photos/give/2.jpg"
-      />
+    <div className="bg-white min-h-screen">
+      {/* Modern Hero Section */}
+      <section className="relative pt-32 pb-20 md:pt-40 md:pb-32 overflow-hidden">
+        {/* Background Image with Gradient Fade */}
+        <div className="absolute inset-0 z-0">
+          <Image
+            src="/images/give/hero.jpg"
+            alt="Giving"
+            fill
+            className="object-cover object-[center_35%]"
+            priority
+          />
+          {/* Gradient Overlay to fade into white content area */}
+          <div className="absolute inset-0 bg-gradient-to-b from-white/10 via-white/5 to-white" />
+          {/* Stronger bottom fade to ensure seamless blending */}
+          <div className="absolute bottom-0 left-0 right-0 h-32 bg-gradient-to-t from-white via-white/80 to-transparent" />
+          {/* Subtle blur to keep text readable and modern */}
+          <div className="absolute inset-0 bg-white/10 backdrop-blur-[1px]" />
+          {/* Menu Visibility Gradient */}
+          <div className="absolute top-0 left-0 right-0 h-32 bg-gradient-to-b from-black/80 to-transparent" />
+        </div>
+
+        {/* Ambient Background */}
+        <div className="absolute inset-0 pointer-events-none z-0">
+          <div className="absolute top-0 right-0 w-[800px] h-[800px] bg-blue-50/20 rounded-full blur-[120px] -translate-y-1/4 translate-x-1/4" />
+          <div className="absolute bottom-0 left-0 w-[600px] h-[600px] bg-indigo-50/20 rounded-full blur-[100px] translate-y-1/4 -translate-x-1/4" />
+        </div>
+
+        <div className="container mx-auto px-4 relative z-10">
+          {/* Text Visibility Spotlight */}
+          <div className="absolute top-0 left-1/2 -translate-x-1/2 w-full max-w-[900px] h-[500px] bg-white/20 blur-[100px] -z-10 rounded-full pointer-events-none" />
+
+          <div className="max-w-4xl mx-auto text-center">
+            <Reveal>
+              <h1 className="text-5xl md:text-7xl font-bold tracking-tight mb-6 leading-tight">
+                <span className="text-gray-900">Generous</span> <span className="text-grm-primary">Giving</span>
+              </h1>
+              <p className="text-xl text-gray-900 max-w-2xl mx-auto leading-relaxed drop-shadow-sm">
+                Your generosity helps us continue our mission to spread God&apos;s word and serve our community.
+              </p>
+            </Reveal>
+          </div>
+        </div>
+      </section>
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-24">
         <div className="text-center mb-16">
@@ -114,7 +151,7 @@ export default function Give() {
         <Reveal className="relative bg-grm-primary rounded-3xl p-12 md:p-20 text-center text-white overflow-hidden shadow-2xl">
           <div className="absolute inset-0 z-0">
             <Image
-              src="/images/site-photos/give/1.jpg"
+              src="/images/give/quote-section-bg.jpg"
               alt=""
               fill
               className="object-cover opacity-[0.05]"

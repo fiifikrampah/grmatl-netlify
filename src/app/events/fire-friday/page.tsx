@@ -124,7 +124,7 @@ export default function FireFridayPage() {
           <div className="mb-12 max-w-2xl mx-auto">
             <div className="relative rounded-2xl overflow-hidden shadow-2xl border-4 border-orange-500/50">
               <Image
-                src="/images/events/fire-friday.jpg"
+                src="/images/events/flyers/fire-friday.jpg"
                 alt="Fire Friday Watch Night Service Flyer"
                 width={800}
                 height={1200}

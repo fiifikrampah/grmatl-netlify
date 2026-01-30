@@ -2,7 +2,7 @@
 
 import { useState } from 'react'
 import Image from 'next/image'
-import { Clock, Users, Heart, Play } from 'lucide-react'
+import { Play } from 'lucide-react'
 
 export default function LiveVideo() {
   // This URL will be updated by the GitHub Actions workflow
@@ -15,25 +15,8 @@ export default function LiveVideo() {
     ? `${baseVideoUrl}&autoplay=1&mute=0&rel=0&modestbranding=1&showinfo=0`
     : baseVideoUrl
 
-  const features = [
-    {
-      icon: Clock,
-      text: "Every Sunday at 10:00 AM",
-    },
-    {
-      icon: Users,
-      text: "Join our online community",
-    },
-    {
-      icon: Heart,
-      text: "Prayer requests welcome",
-    },
-  ]
-
   return (
-    <div className="w-full">
-      {/* Video Section */}
-      <div className="aspect-video w-full relative bg-black">
+    <div className="w-full aspect-video relative bg-gray-100 rounded-2xl overflow-hidden">
         {!showVideo ? (
           // Cover Image with Play Button
           <div
@@ -44,27 +27,30 @@ export default function LiveVideo() {
             }}
           >
             <Image
-              src="/images/thumbnail.jpg"
+              src="/images/watch/thumbnail.jpg"
               alt="Great Redemption Ministries Live Stream"
               fill
               className="object-cover transition-transform duration-700 group-hover:scale-105"
             />
             {/* Overlay */}
-            <div className="absolute inset-0 bg-grm-primary/20 group-hover:bg-grm-primary/10 transition-colors duration-300" />
+            <div className="absolute inset-0 bg-grm-primary/20 group-hover:bg-grm-primary/10 transition-colors duration-300 mix-blend-multiply" />
 
             {/* Play button */}
             <div className="absolute inset-0 flex items-center justify-center">
-              <div className="bg-white/90 hover:bg-white rounded-full p-6 transition-all duration-300 group-hover:scale-110 shadow-lg group-hover:shadow-2xl">
-                <Play className="h-12 w-12 text-grm-primary ml-1" fill="currentColor" />
+              <div className="relative">
+                <div className="absolute inset-0 bg-white/30 rounded-full animate-ping" />
+                <div className="bg-white/90 hover:bg-white rounded-full p-4 md:p-6 transition-all duration-300 group-hover:scale-110 shadow-lg backdrop-blur-md relative z-10">
+                  <Play className="h-8 w-8 md:h-12 md:w-12 text-grm-primary ml-1" fill="currentColor" />
+                </div>
               </div>
             </div>
 
-            {/* Text overlay */}
-            <div className="absolute bottom-0 left-0 right-0 p-8 bg-gradient-to-t from-black/80 to-transparent">
-              <h3 className="text-white text-2xl md:text-3xl font-bold mb-2">
+            {/* Text overlay - Updated to Blue gradient instead of black */}
+            <div className="absolute bottom-0 left-0 right-0 p-4 md:p-8 bg-gradient-to-t from-grm-primary/90 to-transparent">
+              <h3 className="text-white text-lg md:text-3xl font-bold mb-1 md:mb-2 max-w-[70%] md:max-w-full">
                 Join Our Live Service
               </h3>
-              <p className="text-white/90 text-lg font-medium">
+              <p className="text-blue-100 text-sm md:text-lg font-medium max-w-[70%] md:max-w-full">
                 Click to start watching
               </p>
             </div>
@@ -81,24 +67,6 @@ export default function LiveVideo() {
             allowFullScreen
           />
         )}
-      </div>
-
-      {/* Stream Info Bar */}
-      <div className="bg-white p-6 md:p-8">
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 md:gap-0 md:divide-x divide-gray-100">
-          {features.map((feature, index) => {
-            const Icon = feature.icon
-            return (
-              <div key={index} className="flex flex-col items-center text-center px-4">
-                <div className="w-12 h-12 bg-blue-50 rounded-full flex items-center justify-center mb-3 text-grm-primary">
-                  <Icon className="h-6 w-6" />
-                </div>
-                <p className="font-medium text-gray-900">{feature.text}</p>
-              </div>
-            )
-          })}
-        </div>
-      </div>
     </div>
   )
 }

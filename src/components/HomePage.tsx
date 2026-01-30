@@ -3,133 +3,121 @@
 import Link from 'next/link'
 import Image from 'next/image'
 import { Button } from '@/components/ui/button'
-import { ArrowRight, Calendar, Clock, MapPin, Play, Heart } from 'lucide-react'
+import { ArrowRight, Calendar, ChevronLeft, ChevronRight, Clock, MapPin, Play, Heart } from 'lucide-react'
 import { useRef, useEffect, useState } from 'react'
 import Reveal from '@/components/Reveal'
-import { ChevronLeft, ChevronRight } from 'lucide-react'
-
-const WORSHIP_IMAGES = [
-  { src: '/images/site-photos/home/4.jpg', alt: 'Worship at GRM' },
-  { src: '/images/site-photos/home/5.jpg', alt: 'Community at GRM' },
-  { src: '/images/site-photos/home/6.jpg', alt: 'Fellowship at GRM' },
-  { src: '/images/site-photos/home/8.jpg', alt: 'Worship at GRM' },
-  { src: '/images/site-photos/home/9.jpg', alt: 'Community at GRM' },
-  { src: '/images/site-photos/home/10.jpg', alt: 'Fellowship at GRM' },
-]
-const IMAGES_PER_PAGE = 3
+const WORSHIP_IMAGES = Array.from({ length: 28 }, (_, i) => ({
+  src: `/images/home/worship-carousel/carousel-${i + 1}.jpg`,
+  alt: 'Worship at GRM',
+}))
 
 export default function HomePage() {
   const containerRef = useRef<HTMLDivElement>(null)
   const heroBgRef = useRef<HTMLDivElement>(null)
   const [worshipPage, setWorshipPage] = useState(0)
-  const [worshipTransitioning, setWorshipTransitioning] = useState(false)
-  const worshipPages = Math.ceil(WORSHIP_IMAGES.length / IMAGES_PER_PAGE)
+
+  const [showBottomGradient, setShowBottomGradient] = useState(false)
 
   useEffect(() => {
-    const container = containerRef.current
-    const heroBg = heroBgRef.current
-    if (!container || !heroBg) return
-    let rafId: number | null = null
-    const onScroll = () => {
-      if (rafId) return
-      rafId = requestAnimationFrame(() => {
-        const rect = container.getBoundingClientRect()
-        const height = rect.height
-        if (rect.top > 0) {
-          heroBg.style.transform = 'translateY(0px)'
-        } else {
-          const progress = Math.min(1, -rect.top / (height * 0.4))
-          const y = progress * 150
-          heroBg.style.transform = `translateY(${y}px) scale(${1 + progress * 0.05})`
-        }
-        rafId = null
-      })
-    }
-    window.addEventListener('scroll', onScroll, { passive: true })
-    onScroll()
-    return () => {
-      window.removeEventListener('scroll', onScroll)
-      if (rafId) cancelAnimationFrame(rafId)
-    }
+    // Auto-cycle worship images
+    const interval = setInterval(() => {
+      setWorshipPage((prev) => (prev === WORSHIP_IMAGES.length - 1 ? 0 : prev + 1))
+    }, 5000)
+
+    return () => clearInterval(interval)
   }, [])
 
   useEffect(() => {
-    if (worshipPages <= 1) return
-    const id = setInterval(() => {
-      setWorshipTransitioning(true)
-      setTimeout(() => {
-        setWorshipPage((p) => (p + 1) % worshipPages)
-        setWorshipTransitioning(false)
-      }, 400)
-    }, 8000)
-    return () => clearInterval(id)
-  }, [worshipPages])
+    const handleScroll = () => {
+      setShowBottomGradient(window.scrollY > 20)
+    }
+    window.addEventListener('scroll', handleScroll)
+    return () => window.removeEventListener('scroll', handleScroll)
+  }, [])
 
   return (
     <div ref={containerRef} className="bg-white overflow-hidden">
       {/* Hero Section */}
       <div className="relative h-screen min-h-[600px] w-full flex items-center justify-center overflow-hidden">
-        <div ref={heroBgRef} className="absolute inset-0 z-0 will-change-transform">
-          <Image
-            src="/images/site-photos/home/1.jpg"
-            alt="Worship at Great Redemption Ministries"
-            fill
-            className="object-cover"
-            priority
-          />
-          {/* Premium gradient overlays */}
-          <div className="absolute inset-0 bg-gradient-to-b from-black/70 via-black/40 to-black/80 z-10" />
-          <div
-            className="absolute inset-0 z-10"
-            style={{
-              background: 'radial-gradient(circle at 50% 40%, transparent 0%, rgba(0,0,0,0.4) 70%, rgba(0,0,0,0.6) 100%)'
-            }}
-          />
-          <div className="absolute inset-0 backdrop-blur-[2px] z-10 opacity-60" />
-          <div className="absolute inset-0 bg-gradient-to-t from-black/50 via-transparent to-transparent z-10" />
+        {/* Parallax Background */}
+        <div ref={heroBgRef} className="absolute inset-0 z-0 will-change-transform h-[120%] -top-[10%]">
+          <div className="absolute inset-0 animate-ken-burns will-change-transform">
+            <Image
+              src="/images/home/hero.jpg"
+              alt="Worship at Great Redemption Ministries"
+              fill
+              className="object-cover"
+              priority
+            />
+          </div>
+          {/* Subtle Dark Overlay for Premium Feel & Contrast - Center Burnt Orange Glow & Blue */}
+          <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,_rgba(234,88,12,0.25)_0%,_rgba(15,58,112,0.5)_60%,_rgba(15,58,112,0.9)_100%)] z-10" />
         </div>
 
+        {/* Static Top Gradient for Menu Visibility */}
+        <div className="absolute inset-x-0 top-0 z-10 h-32 bg-gradient-to-b from-black/80 to-transparent pointer-events-none" />
+
+        {/* Static Bottom Gradient Overlay - Outside Parallax Container - Shows only on scroll */}
+        <div
+          className={`absolute inset-x-0 bottom-0 z-10 h-64 bg-gradient-to-t from-white via-white/90 to-transparent pointer-events-none transition-opacity duration-700 ease-in-out ${
+            showBottomGradient ? 'opacity-100' : 'opacity-0'
+          }`}
+        />
+
         <div className="relative z-20 container mx-auto px-4 sm:px-6 text-center">
-          <div className="mb-6 md:mb-8 flex justify-center animate-fade-in-up">
+          <div className="mb-8 md:mb-10 flex justify-center animate-fade-in-up">
+            <div className="animate-float">
              <Image
-                src="/images/grm2.png"
+                src="/images/branding/church-name.png"
                 alt="GRM Logo"
                 width={1000}
                 height={750}
                 className="w-full max-w-[450px] sm:max-w-[500px] md:max-w-4xl h-auto drop-shadow-2xl"
               />
+            </div>
           </div>
 
           <h1
-            className="text-white text-base sm:text-lg md:text-2xl font-light tracking-wide mb-10 md:mb-16 max-w-3xl mx-auto drop-shadow-md px-2 animate-fade-in-up-delay"
-            style={{ animationDelay: '0.3s' }}
+            className="text-white text-lg sm:text-xl md:text-2xl font-serif italic tracking-wide mb-8 md:mb-12 max-w-3xl mx-auto px-2 animate-fade-in-up-delay"
+            style={{
+              animationDelay: '0.3s',
+              textShadow: '0 4px 12px rgba(0,0,0,0.4)'
+            }}
           >
             &ldquo;So if the son sets you free, you shall be free indeed&rdquo;
           </h1>
 
           <div
-            className="flex flex-col sm:flex-row gap-3 sm:gap-4 justify-center items-center px-4 animate-fade-in-up"
+            className="flex flex-col sm:flex-row gap-4 sm:gap-6 justify-center items-center px-4 animate-fade-in-up"
             style={{ animationDelay: '0.5s', opacity: 0, animationFillMode: 'forwards' }}
           >
             <Link href="/live" className="w-full sm:w-auto">
-              <Button size="lg" className="w-full sm:w-auto bg-white text-grm-primary hover:bg-grm-blue-50 text-base sm:text-lg px-6 sm:px-8 py-5 sm:py-6 rounded-full transition-all duration-300 transform hover:scale-105 cursor-pointer">
-                <Play className="mr-2 h-4 w-4 sm:h-5 sm:w-5 fill-current" />
+              <Button size="lg" className="w-full sm:w-auto bg-white text-grm-primary hover:bg-gray-50 text-base sm:text-lg px-8 py-6 rounded-full transition-all duration-300 transform hover:scale-105 cursor-pointer shadow-[0_0_20px_rgba(255,255,255,0.3)] border-none">
+                <Play className="mr-2 h-5 w-5 fill-current" />
                 Watch Live
               </Button>
             </Link>
             <Link href="/contact" className="w-full sm:w-auto">
-              <Button size="lg" className="w-full sm:w-auto bg-transparent border-2 border-white text-white hover:bg-white hover:text-[#1B5299] text-base sm:text-lg px-6 sm:px-8 py-5 sm:py-6 rounded-full backdrop-blur-sm transition-all duration-300 cursor-pointer">
+              <Button size="lg" className="w-full sm:w-auto bg-white/10 hover:bg-white/20 border border-white/50 text-white backdrop-blur-md text-base sm:text-lg px-8 py-6 rounded-full transition-all duration-300 cursor-pointer shadow-[0_0_20px_rgba(0,0,0,0.1)] hover:shadow-[0_0_30px_rgba(0,0,0,0.2)]">
                 Plan Your Visit
               </Button>
             </Link>
           </div>
         </div>
 
-        <div className="hidden sm:block absolute bottom-6 sm:bottom-10 left-1/2 -translate-x-1/2 z-20 animate-fade-in" style={{ animationDelay: '1s', opacity: 0, animationFillMode: 'forwards' }}>
-          <div className="w-5 h-8 sm:w-6 sm:h-10 border-2 border-white/50 rounded-full flex justify-center p-1.5 sm:p-2 animate-bounce-soft">
-            <div className="w-1 h-1.5 sm:h-2 bg-white rounded-full" />
+        {/* Scroll Indicator - Premium Mouse Style */}
+        <div
+          className={`absolute bottom-10 left-1/2 -translate-x-1/2 z-20 flex-col items-center gap-2 transition-all duration-700 ease-out hidden md:flex ${
+            showBottomGradient ? 'opacity-0 translate-y-4 pointer-events-none' : 'opacity-100 translate-y-0'
+          }`}
+        >
+          {/* Mouse Body */}
+          <div className="w-[26px] h-[42px] rounded-full border border-white/60 flex justify-center p-1 shadow-[0_0_15px_rgba(0,0,0,0.15)] backdrop-blur-[2px]">
+            {/* Scroll Wheel */}
+            <div className="w-1 h-2 bg-white rounded-full animate-scroll-wheel mt-1.5" />
           </div>
         </div>
+
       </div>
 
       {/* Welcome Section */}
@@ -140,7 +128,7 @@ export default function HomePage() {
               <Reveal className="w-full">
                 <div className="aspect-[4/5] relative rounded-2xl overflow-hidden shadow-2xl w-full">
                   <Image
-                    src="/images/site-photos/home/2.jpg"
+                    src="/images/home/welcome-section.jpg"
                     alt="Welcome to GRM"
                     fill
                     className="object-cover"
@@ -228,7 +216,7 @@ export default function HomePage() {
       <section className="relative py-32 bg-grm-primary overflow-hidden">
         <div className="absolute inset-0 z-0">
           <Image
-            src="/images/site-photos/home/3.jpg"
+            src="/images/home/verse-section.jpg"
             alt="Background"
             fill
             className="object-cover object-[center_30%] opacity-20 mix-blend-overlay"
@@ -249,75 +237,125 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* Worship at GRM - Gallery with pagination */}
-      <section className="py-24 md:py-32 bg-white overflow-hidden">
-        <div className="container mx-auto px-4">
-          <Reveal className="text-center mb-12 md:mb-16">
-            <p className="text-grm-primary font-semibold uppercase tracking-[0.2em] text-sm mb-3">Community</p>
-            <h2 className="text-3xl md:text-5xl font-bold text-gray-900 tracking-tight">Worship at GRM</h2>
+      {/* Worship at GRM - Creative Center-Focused Carousel */}
+      <section className="py-24 bg-white relative overflow-hidden">
+        {/* Background gradient - White and GRM Blue */}
+        <div className="absolute inset-0 pointer-events-none">
+          <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,_var(--tw-gradient-stops))] from-white via-blue-50/50 to-blue-100/30" />
+        </div>
+
+        <div className="container mx-auto px-4 relative z-10">
+          <Reveal className="text-center mb-16">
+            <p className="text-grm-primary font-semibold uppercase tracking-[0.3em] text-xs mb-3">Experience The Lord&apos;s Presence</p>
+            <h2 className="text-4xl md:text-6xl font-bold text-gray-900 tracking-tight mb-6">
+              Worship at GRM
+            </h2>
+            <p className="text-gray-600 max-w-2xl mx-auto text-lg font-light leading-relaxed">
+              We were created to worship. Join us as we pursue God&apos;s heart through passionate praise and intimate worship.
+            </p>
           </Reveal>
 
-          <div className="max-w-6xl mx-auto">
-            <div
-              className="grid grid-cols-1 sm:grid-cols-3 gap-4 md:gap-6 transition-opacity duration-500 ease-in-out"
-              style={{ opacity: worshipTransitioning ? 0 : 1 }}
+          <div className="relative max-w-[1400px] mx-auto h-[550px] md:h-[800px] flex items-center justify-center perspective-1000">
+            {/* Carousel Controls */}
+            <button
+              onClick={() => {
+                setWorshipPage((prev) => (prev === 0 ? WORSHIP_IMAGES.length - 1 : prev - 1))
+              }}
+              className="absolute left-4 md:left-12 z-40 p-3 md:p-4 rounded-full bg-white text-gray-900 shadow-xl border border-gray-100 hover:scale-110 transition-all duration-300 group hidden md:block"
+              aria-label="Previous image"
             >
-              {WORSHIP_IMAGES.slice(
-                worshipPage * IMAGES_PER_PAGE,
-                worshipPage * IMAGES_PER_PAGE + IMAGES_PER_PAGE
-              ).map((img, idx) => (
-                <div
-                  key={`${worshipPage}-${idx}`}
-                  className="relative w-full aspect-[3/4] min-h-[260px] md:min-h-0 rounded-2xl overflow-hidden group shadow-lg md:shadow-xl"
-                >
-                  <Image
-                    src={img.src}
-                    alt={img.alt}
-                    fill
-                    sizes="(max-width: 640px) 100vw, (max-width: 1024px) 33vw, 400px"
-                    className="object-cover object-center transition-transform duration-700 group-hover:scale-105"
-                  />
-                  <div className="absolute inset-0 bg-gradient-to-t from-black/30 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
-                </div>
-              ))}
-            </div>
+              <ChevronLeft className="h-6 w-6 text-gray-900 group-hover:-translate-x-0.5 transition-transform" />
+            </button>
 
-            {worshipPages > 1 && (
-              <div className="flex items-center justify-center gap-4 mt-10">
-                <button
-                  type="button"
-                  onClick={() => setWorshipPage((p) => (p === 0 ? worshipPages - 1 : p - 1))}
-                  className="p-2 rounded-full text-gray-400 hover:text-grm-primary hover:bg-gray-100 transition-colors cursor-pointer"
-                  aria-label="Previous"
-                >
-                  <ChevronLeft className="h-6 w-6" />
-                </button>
-                <div className="flex items-center gap-2">
-                  {Array.from({ length: worshipPages }).map((_, i) => (
-                    <button
-                      key={i}
-                      type="button"
-                      onClick={() => setWorshipPage(i)}
-                      className={`h-2 rounded-full transition-all duration-200 cursor-pointer ${
-                        i === worshipPage
-                          ? 'w-8 bg-grm-primary'
-                          : 'w-2 bg-gray-300 hover:bg-gray-400'
-                      }`}
-                      aria-label={`Page ${i + 1}`}
-                      aria-current={i === worshipPage ? 'true' : undefined}
-                    />
-                  ))}
-                </div>
-                <button
-                  type="button"
-                  onClick={() => setWorshipPage((p) => (p === worshipPages - 1 ? 0 : p + 1))}
-                  className="p-2 rounded-full text-gray-400 hover:text-grm-primary hover:bg-gray-100 transition-colors cursor-pointer"
-                  aria-label="Next"
-                >
-                  <ChevronRight className="h-6 w-6" />
-                </button>
-              </div>
-            )}
+            <button
+              onClick={() => {
+                setWorshipPage((prev) => (prev === WORSHIP_IMAGES.length - 1 ? 0 : prev + 1))
+              }}
+              className="absolute right-4 md:right-12 z-40 p-3 md:p-4 rounded-full bg-white text-gray-900 shadow-xl border border-gray-100 hover:scale-110 transition-all duration-300 group hidden md:block"
+              aria-label="Next image"
+            >
+              <ChevronRight className="h-6 w-6 text-gray-900 group-hover:translate-x-0.5 transition-transform" />
+            </button>
+
+            {/* Mobile Controls (Closer to edge) */}
+            <button
+              onClick={() => {
+                setWorshipPage((prev) => (prev === 0 ? WORSHIP_IMAGES.length - 1 : prev - 1))
+              }}
+              className="absolute left-2 z-40 p-2 rounded-full bg-white/90 text-gray-900 shadow-lg border border-gray-100 md:hidden"
+              aria-label="Previous image"
+            >
+              <ChevronLeft className="h-5 w-5" />
+            </button>
+            <button
+              onClick={() => {
+                setWorshipPage((prev) => (prev === WORSHIP_IMAGES.length - 1 ? 0 : prev + 1))
+              }}
+              className="absolute right-2 z-40 p-2 rounded-full bg-white/90 text-gray-900 shadow-lg border border-gray-100 md:hidden"
+              aria-label="Next image"
+            >
+              <ChevronRight className="h-5 w-5" />
+            </button>
+
+            {/* Carousel Items */}
+            <div className="relative w-full md:w-full h-full flex items-center justify-center overflow-visible md:overflow-hidden">
+               {[-2, -1, 0, 1, 2].map((offset) => {
+                  // Calculate index with wrapping
+                  let idx = worshipPage + offset;
+                  if (idx < 0) idx = WORSHIP_IMAGES.length + idx;
+                  if (idx >= WORSHIP_IMAGES.length) idx = idx - WORSHIP_IMAGES.length;
+
+                  const img = WORSHIP_IMAGES[idx];
+
+                  // Styles with precise centering using left-1/2 -translate-x-1/2
+                  let transform = "-translate-x-1/2 scale-100 opacity-100 z-30"; // Center
+                  let extraClasses = "grayscale-0"; // No border, no shadow
+
+                  if (offset === -1) {
+                     transform = "-translate-x-[115%] scale-[0.85] opacity-100 z-20"; // Left
+                     extraClasses = "grayscale-0 brightness-110";
+                  } else if (offset === 1) {
+                     transform = "translate-x-[15%] scale-[0.85] opacity-100 z-20"; // Right
+                     extraClasses = "grayscale-0 brightness-110";
+                  } else if (offset === -2) {
+                     transform = "-translate-x-[180%] scale-[0.7] opacity-0 z-10"; // Far left
+                  } else if (offset === 2) {
+                     transform = "translate-x-[80%] scale-[0.7] opacity-0 z-10"; // Far right
+                  }
+
+                  return (
+                    <div
+                      key={`${idx}-${offset}`}
+                      className={`absolute top-1/2 left-1/2 -translate-y-1/2 w-[300px] sm:w-[400px] lg:w-[500px] aspect-[3/4] transition-all duration-1000 ease-[cubic-bezier(0.2,0.8,0.2,1)] will-change-transform rounded-3xl overflow-hidden bg-gray-100 ${transform} ${extraClasses}`}
+                    >
+                       <Image
+                          src={img.src}
+                          alt={img.alt}
+                          fill
+                          sizes="(max-width: 768px) 100vw, 50vw"
+                          className="object-cover"
+                          priority={offset === 0}
+                       />
+                       {offset === 0 && (
+                          <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent opacity-0 hover:opacity-100 transition-opacity duration-300 flex items-end justify-center pb-8" />
+                       )}
+                    </div>
+                  );
+               })}
+            </div>
+          </div>
+
+          <div className="flex justify-center mt-8 gap-2">
+            {WORSHIP_IMAGES.map((_, i) => (
+              <button
+                key={i}
+                onClick={() => setWorshipPage(i)}
+                className={`h-1.5 rounded-full transition-all duration-300 cursor-pointer ${
+                  i === worshipPage ? 'w-8 bg-grm-primary' : 'w-2 bg-gray-300 hover:bg-gray-400'
+                }`}
+                aria-label={`Go to slide ${i + 1}`}
+              />
+            ))}
           </div>
         </div>
       </section>

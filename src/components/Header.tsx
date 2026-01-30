@@ -8,11 +8,17 @@ import { Button } from '@/components/ui/button'
 import { Sheet, SheetContent, SheetTrigger, SheetTitle } from '@/components/ui/sheet'
 import { Menu, LogOut, Shield } from 'lucide-react'
 
-const navigation = [
+type NavItem = {
+  name: string
+  href: string
+  external?: boolean
+}
+
+const navigation: NavItem[] = [
   { name: 'Home', href: '/' },
   { name: 'About', href: '/about' },
   { name: 'Events', href: '/events' },
-  { name: 'Blogs', href: 'https://medium.com/grmblogs', external: true },
+  { name: 'Blogs', href: '/blogs' },
   { name: 'Contact', href: '/contact' },
   { name: 'Watch', href: '/live' },
   { name: 'Give', href: '/give' },
@@ -31,7 +37,7 @@ export default function Header() {
     pathname === '/privacy' ||
     pathname === '/terms' ||
     (isEventDetailPage && !isFireFriday) ||
-    (pathname && !['/', '/about', '/events', '/contact', '/live', '/give'].includes(pathname) && !pathname.startsWith('/admin'))
+    (pathname && !['/', '/about', '/contact', '/give', '/live', '/events', '/blogs'].includes(pathname) && !pathname.startsWith('/admin'))
   const [scrolled, setScrolled] = useState(!!isWhiteBackgroundPage)
 
   useEffect(() => {
@@ -42,7 +48,7 @@ export default function Header() {
         pathname === '/privacy' ||
         pathname === '/terms' ||
         (isEventDetailPage && !isFireFriday) ||
-        (pathname && !['/', '/about', '/events', '/contact', '/live', '/give'].includes(pathname) && !pathname.startsWith('/admin'))
+        (pathname && !['/', '/about', '/contact', '/give', '/live', '/events', '/blogs'].includes(pathname) && !pathname.startsWith('/admin'))
       if (isWhitePage) {
         setScrolled(true)
       } else {
@@ -64,7 +70,7 @@ export default function Header() {
       pathname === '/privacy' ||
       pathname === '/terms' ||
       (isEventDetailPage && !isFireFriday) ||
-      (pathname && !['/', '/about', '/events', '/contact', '/live', '/give'].includes(pathname) && !pathname.startsWith('/admin'))
+      (pathname && !['/', '/about', '/contact', '/give', '/live', '/events', '/blogs'].includes(pathname) && !pathname.startsWith('/admin'))
     setScrolled(isWhitePage || window.scrollY > 20)
   }, [pathname])
 
@@ -109,7 +115,7 @@ export default function Header() {
           {/* Logo */}
           <Link href="/" className="flex-shrink-0 relative z-50">
             <Image
-              src="/images/logo.png"
+              src="/images/branding/logo.png"
               alt="Great Redemption Ministries"
               width={75}
               height={75}

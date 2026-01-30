@@ -19,7 +19,7 @@ export const events: EventConfig[] = [
     path: '/events/summer-camp',
     isRegistrationOpen: false,
     display: false,
-    imageUrl: '/images/events/summer-camp-2025.jpg',
+    imageUrl: '/images/events/flyers/summer-camp-2025.jpg',
   },
   {
     slug: 'heart-to-heart-prayer-breakfast',
@@ -28,7 +28,7 @@ export const events: EventConfig[] = [
     path: '/events/heart-to-heart-prayer-breakfast',
     isRegistrationOpen: true,
     display: true,
-    imageUrl: '/images/events/heart-to-heart-2026.jpg',
+    imageUrl: '/images/events/flyers/heart-to-heart-2026.JPG',
   },
   {
     slug: 'fire-friday',
@@ -37,7 +37,7 @@ export const events: EventConfig[] = [
     path: '/events/fire-friday',
     isRegistrationOpen: false, // No registration required
     display: true,
-    imageUrl: '/images/events/fire-friday.jpg',
+    imageUrl: '/images/events/flyers/fire-friday.jpg',
   },
   {
     slug: 'baptism',
@@ -46,7 +46,7 @@ export const events: EventConfig[] = [
     path: '/events/baptism',
     isRegistrationOpen: true, // Registration required
     display: true,
-    imageUrl: '/images/events/temp-baptism.jpg',
+    imageUrl: '/images/events/flyers/baptism.jpg',
   },
   // Add more events here as you create them
   // Example:

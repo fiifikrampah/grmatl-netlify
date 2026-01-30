@@ -1,5 +1,6 @@
 @import "tailwindcss";
 @import "tw-animate-css";
+@plugin "@tailwindcss/typography";
 
 @custom-variant dark (&:is(.dark *));
 
@@ -144,6 +145,25 @@
   .border-grm-primary { border-color: var(--grm-primary-blue); }
 }
 
+/* Premium slow zoom effect */
+@keyframes ken-burns {
+  0% { transform: scale(1); }
+  100% { transform: scale(1.1); }
+}
+
+.animate-ken-burns {
+  animation: ken-burns 25s ease-out infinite alternate;
+}
+
+@keyframes breathe {
+  0% { transform: scale(1.1); }
+  100% { transform: scale(1.15); }
+}
+
+.animate-breathe {
+  animation: breathe 10s ease-in-out infinite alternate;
+}
+
 /* Lightweight CSS animations (no Framer Motion) for snappy feel */
 @keyframes fade-in-up {
   from {
@@ -201,3 +221,20 @@
   animation: bounce-soft 1.5s ease-in-out infinite;
 }
 
+@keyframes scroll-wheel {
+  0% { opacity: 1; transform: translateY(0); }
+  100% { opacity: 0; transform: translateY(12px); }
+}
+
+.animate-scroll-wheel {
+  animation: scroll-wheel 1.5s ease-out infinite;
+}
+
+@keyframes float {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-10px); }
+}
+
+.animate-float {
+  animation: float 6s ease-in-out infinite;
+}

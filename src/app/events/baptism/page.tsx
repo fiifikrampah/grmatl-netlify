@@ -146,7 +146,7 @@ export default function BaptismPage() {
             <div className="mb-12 max-w-2xl mx-auto">
               <div className="relative rounded-2xl overflow-hidden shadow-2xl border-4 border-[#2070B4]/30">
                 <Image
-                  src="/images/events/temp-baptism.jpg"
+                  src="/images/events/flyers/baptism.jpg"
                   alt="Baptism Service Flyer"
                   width={800}
                   height={1200}

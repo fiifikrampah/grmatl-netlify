@@ -134,7 +134,7 @@ export default function HeartToHeartPrayerBreakfastPage() {
             <div className="mb-12 max-w-2xl mx-auto">
               <div className="relative rounded-2xl overflow-hidden shadow-2xl border-4 border-amber-200">
                 <Image
-                  src="/images/events/heart-to-heart-2026.JPG"
+                  src="/images/events/flyers/heart-to-heart-2026.JPG"
                   alt="Heart to Heart Prayer Breakfast Flyer"
                   width={800}
                   height={1200}

@@ -44,7 +44,7 @@ export default function Footer() {
           <div className="space-y-4 md:space-y-6 text-center sm:text-left">
             <Link href="/" className="inline-block sm:block">
               <Image
-                src="/images/logo.png"
+                src="/images/branding/logo.png"
                 alt="Great Redemption Ministries"
                 width={80}
                 height={80}

@@ -8,7 +8,7 @@ import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
-import { Loader2, Shield } from 'lucide-react'
+import { Loader2, Lock } from 'lucide-react'
 
 export default function AdminLoginPage() {
   const router = useRouter()
@@ -50,40 +50,45 @@ export default function AdminLoginPage() {
   }
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-grm-blue-50 via-white to-grm-blue-50 px-4">
-      <div className="w-full max-w-md">
+    <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-white via-white to-grm-blue-100 relative overflow-hidden">
+      {/* Decorative ambient blobs */}
+      <div className="absolute top-[-10%] right-[-5%] w-[500px] h-[500px] bg-grm-primary/5 rounded-full blur-3xl pointer-events-none" />
+      <div className="absolute bottom-[-10%] left-[-5%] w-[500px] h-[500px] bg-grm-secondary/5 rounded-full blur-3xl pointer-events-none" />
+
+      <div className="w-full max-w-md relative z-10 px-4 animate-fade-in-up">
         {/* Logo/Branding */}
         <div className="text-center mb-8">
-          <Link href="/" className="inline-block mb-6">
+          <Link href="/" className="inline-block hover:opacity-90 transition-opacity">
             <Image
-              src="/images/logo.png"
+              src="/images/branding/logo.png"
               alt="Great Redemption Ministries"
-              width={80}
-              height={80}
-              className="h-20 w-auto mx-auto filter brightness-0 saturate-100"
+              width={100}
+              height={100}
+              className="h-24 w-auto mx-auto drop-shadow-sm filter brightness-0 saturate-100"
             />
           </Link>
+          <h1 className="mt-6 text-3xl font-bold text-gray-900 tracking-tight">Welcome Back</h1>
+          <p className="mt-2 text-gray-500">Sign in to manage your account</p>
         </div>
 
-        <Card className="shadow-xl border-2 border-grm-blue-100">
-          <CardHeader className="text-center pb-4">
-            <div className="flex items-center justify-center gap-3 mb-2">
-              <div className="w-10 h-10 bg-grm-primary rounded-lg flex items-center justify-center">
-                <Shield className="h-5 w-5 text-white" />
-              </div>
-              <CardTitle className="text-2xl text-grm-primary">Admin Login</CardTitle>
+        <Card className="shadow-2xl border-0 bg-white/80 backdrop-blur-md overflow-hidden rounded-2xl ring-1 ring-gray-100">
+          <CardHeader className="text-center pb-2 pt-8">
+            <div className="mx-auto w-12 h-12 bg-grm-blue-50 rounded-full flex items-center justify-center mb-4">
+              <Lock className="h-6 w-6 text-grm-primary" />
             </div>
+            <CardTitle className="text-2xl font-bold text-gray-900">Partner Login</CardTitle>
           </CardHeader>
-          <CardContent>
+          <CardContent className="px-8 pb-8 pt-4">
             <form onSubmit={handleSubmit} className="space-y-5">
               {error && (
-                <div className="bg-red-50 border border-red-200 rounded-lg p-3 text-red-800 text-sm">
+                <div className="bg-red-50 border border-red-100 rounded-xl p-4 text-red-600 text-sm font-medium flex items-center gap-2 animate-pulse">
+                  <span className="w-1.5 h-1.5 rounded-full bg-red-600" />
                   {error}
                 </div>
               )}
 
               <div className="space-y-2">
-                <Label htmlFor="email" className="text-sm font-semibold text-grm-primary">
+                <Label htmlFor="email" className="text-sm font-semibold text-gray-700 ml-1">
                   Email Address
                 </Label>
                 <Input
@@ -93,15 +98,17 @@ export default function AdminLoginPage() {
                   onChange={(e) => setFormData({ ...formData, email: e.target.value })}
                   required
                   autoComplete="email"
-                  className="h-11"
-                  placeholder="your@email.com"
+                  className="h-12 rounded-xl border-gray-200 focus:border-grm-primary focus:ring-grm-primary/20 bg-white"
+                  placeholder="name@example.com"
                 />
               </div>
 
               <div className="space-y-2">
-                <Label htmlFor="password" className="text-sm font-semibold text-grm-primary">
-                  Password
-                </Label>
+                <div className="flex justify-between items-center">
+                  <Label htmlFor="password" className="text-sm font-semibold text-gray-700 ml-1">
+                    Password
+                  </Label>
+                </div>
                 <Input
                   id="password"
                   type="password"
@@ -109,14 +116,14 @@ export default function AdminLoginPage() {
                   onChange={(e) => setFormData({ ...formData, password: e.target.value })}
                   required
                   autoComplete="current-password"
-                  className="h-11"
-                  placeholder="Enter your password"
+                  className="h-12 rounded-xl border-gray-200 focus:border-grm-primary focus:ring-grm-primary/20 bg-white"
+                  placeholder="••••••••"
                 />
               </div>
 
               <Button
                 type="submit"
-                className="w-full bg-grm-primary hover:bg-grm-secondary h-11 text-base font-semibold"
+                className="w-full bg-grm-primary hover:bg-grm-secondary h-12 rounded-xl text-base font-bold shadow-lg shadow-blue-900/10 hover:shadow-xl transition-all duration-300 transform hover:-translate-y-0.5 mt-2 text-white"
                 disabled={loading}
               >
                 {loading ? (
@@ -130,16 +137,20 @@ export default function AdminLoginPage() {
               </Button>
             </form>
 
-            <div className="mt-6 text-center">
+            <div className="mt-8 pt-6 border-t border-gray-100 text-center">
               <Link
                 href="/"
-                className="text-sm text-gray-600 hover:text-grm-primary transition-colors"
+                className="text-sm text-gray-500 hover:text-grm-primary transition-colors font-medium flex items-center justify-center gap-1 group"
               >
-                ← Back to website
+                <span className="group-hover:-translate-x-1 transition-transform">←</span> Back to website
               </Link>
             </div>
           </CardContent>
         </Card>
+        
+        <p className="text-center text-gray-400 text-xs mt-8 font-medium tracking-wide uppercase">
+          Protected by Great Redemption Ministries
+        </p>
       </div>
     </div>
   )

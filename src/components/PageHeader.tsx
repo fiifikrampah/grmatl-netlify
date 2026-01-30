@@ -7,13 +7,16 @@ interface PageHeaderProps {
   subtitle?: string
   imageSrc: string
   overlayColor?: string
+  /** Optional image className (e.g. for responsive object-position) */
+  imageClassName?: string
 }
 
 export default function PageHeader({
   title,
   subtitle,
   imageSrc,
-  overlayColor = "bg-black/50"
+  overlayColor = "bg-black/50",
+  imageClassName
 }: PageHeaderProps) {
   return (
     <div className="relative h-[40vh] min-h-[400px] flex items-center justify-center overflow-hidden">
@@ -22,7 +25,7 @@ export default function PageHeader({
           src={imageSrc}
           alt={title}
           fill
-          className="object-cover object-[center_15%]"
+          className={`object-cover object-[center_15%] ${imageClassName ?? ""}`}
           priority
         />
         <div className={`absolute inset-0 ${overlayColor}`} />
