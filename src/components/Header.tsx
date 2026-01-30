@@ -41,6 +41,7 @@ export default function Header() {
   const [scrolled, setScrolled] = useState(!!isWhiteBackgroundPage)
 
   useEffect(() => {
+    if (typeof window === 'undefined') return
     const handleScroll = () => {
       const isEventDetailPage = pathname?.startsWith('/events/') && pathname !== '/events'
       const isFireFriday = pathname === '/events/fire-friday'
@@ -55,6 +56,7 @@ export default function Header() {
         setScrolled(window.scrollY > 20)
       }
     }
+    handleScroll()
     window.addEventListener('scroll', handleScroll)
     return () => window.removeEventListener('scroll', handleScroll)
   }, [pathname])
@@ -64,6 +66,7 @@ export default function Header() {
   }, [pathname])
 
   useEffect(() => {
+    if (typeof window === 'undefined') return
     const isEventDetailPage = pathname?.startsWith('/events/') && pathname !== '/events'
     const isFireFriday = pathname === '/events/fire-friday'
     const isWhitePage =

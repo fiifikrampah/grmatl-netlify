@@ -1,14 +1,10 @@
 "use client"
 
 import Link from 'next/link'
-import dynamic from 'next/dynamic'
 import Image from 'next/image'
-import { useRouter } from 'next/navigation'
-import { useEffect } from 'react'
 import { Calendar, ArrowRight, Clock, MapPin, Shirt } from 'lucide-react'
 import { getDisplayedEvents } from '@/lib/events.config'
-
-const Reveal = dynamic(() => import('@/components/Reveal'), { ssr: true })
+import Reveal from '@/components/Reveal'
 
 // Helper function to get the last Friday of the current month
 function getLastFridayOfMonth(): Date {
@@ -58,21 +54,8 @@ function getEventColor(slug: string) {
 }
 
 export default function EventsPage() {
-  const router = useRouter()
   const events = getDisplayedEvents()
   const lastFriday = getLastFridayOfMonth()
-
-  // Prefetch event detail pages after initial load so they don't delay TTFB/LCP
-  useEffect(() => {
-    const id = window.requestIdleCallback
-      ? window.requestIdleCallback(() => {
-          getDisplayedEvents().forEach((event) => router.prefetch(event.path))
-        }, { timeout: 2000 })
-      : setTimeout(() => {
-          getDisplayedEvents().forEach((event) => router.prefetch(event.path))
-        }, 500)
-    return () => (typeof id === 'number' ? window.cancelIdleCallback(id) : clearTimeout(id))
-  }, [router])
 
   // Format the date for Fire Friday
   const fireFridayDate = lastFriday.toLocaleDateString('en-US', {

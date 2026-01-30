@@ -5,16 +5,26 @@ import dynamic from 'next/dynamic'
 import Image from 'next/image'
 import Reveal from '@/components/Reveal'
 
-const GiveCards = dynamic(() => import('@/components/GiveCards'), {
-  ssr: true,
-  loading: () => (
-    <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-24 max-w-6xl mx-auto">
-      {[1, 2, 3].map((i) => (
-        <div key={i} className="h-64 bg-gray-50 rounded-2xl animate-pulse" aria-hidden />
-      ))}
-    </div>
-  ),
-})
+const GiveCards = dynamic(
+  () =>
+    import('@/components/GiveCards').catch(() => ({
+      default: () => (
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-24 max-w-6xl mx-auto text-center text-gray-500 py-12">
+          <p>Unable to load giving options. Please refresh the page or try again later.</p>
+        </div>
+      ),
+    })),
+  {
+    ssr: true,
+    loading: () => (
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-24 max-w-6xl mx-auto">
+        {[1, 2, 3].map((i) => (
+          <div key={i} className="h-64 bg-gray-50 rounded-2xl animate-pulse" aria-hidden />
+        ))}
+      </div>
+    ),
+  }
+)
 
 export default function Give() {
   const [copied, setCopied] = useState(false)

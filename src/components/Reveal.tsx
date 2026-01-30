@@ -15,8 +15,14 @@ export default function Reveal({ children, className = '', delay = 0 }: RevealPr
   useEffect(() => {
     const el = ref.current
     if (!el) return
-    const isMobile = window.matchMedia('(max-width: 767px)').matches
-    if (isMobile) {
+    try {
+      if (typeof window === 'undefined') return
+      const mq = window.matchMedia('(max-width: 767px)')
+      if (mq.matches) {
+        setInView(true)
+        return
+      }
+    } catch {
       setInView(true)
       return
     }
@@ -32,7 +38,11 @@ export default function Reveal({ children, className = '', delay = 0 }: RevealPr
     )
     observer.observe(el)
     return () => {
-      observer.disconnect()
+      try {
+        observer.disconnect()
+      } catch {
+        // ignore if already disconnected or observer invalid (e.g. during fast navigation)
+      }
       if (timeoutId) clearTimeout(timeoutId)
     }
   }, [delay])
