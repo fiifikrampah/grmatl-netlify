@@ -60,11 +60,16 @@ export default function EventsPage() {
   const events = getDisplayedEvents()
   const lastFriday = getLastFridayOfMonth()
 
-  // Prefetch event detail pages
+  // Prefetch event detail pages after initial load so they don't delay TTFB/LCP
   useEffect(() => {
-    getDisplayedEvents().forEach((event) => {
-      router.prefetch(event.path)
-    })
+    const id = window.requestIdleCallback
+      ? window.requestIdleCallback(() => {
+          getDisplayedEvents().forEach((event) => router.prefetch(event.path))
+        }, { timeout: 2000 })
+      : setTimeout(() => {
+          getDisplayedEvents().forEach((event) => router.prefetch(event.path))
+        }, 500)
+    return () => (typeof id === 'number' ? window.cancelIdleCallback(id) : clearTimeout(id))
   }, [router])
 
   // Format the date for Fire Friday
@@ -96,8 +101,10 @@ export default function EventsPage() {
             src="/images/events/listing-hero.jpg"
             alt="Events Hero"
             fill
+            sizes="100vw"
             className="object-cover object-[center_30%]"
             priority
+            fetchPriority="high"
           />
           {/* Gradient Overlay to fade into white content area */}
           <div className="absolute inset-0 bg-gradient-to-b from-transparent via-white/5 to-white" />

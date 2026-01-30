@@ -1,9 +1,25 @@
 import { createServerClient } from '@supabase/ssr'
 import { NextResponse, type NextRequest } from 'next/server'
 
+// Public routes that don't need auth — skip Supabase to keep TTFB low
+const SKIP_AUTH_PATHS = [
+  '/',
+  '/give',
+  '/events',
+  '/about',
+  '/contact',
+  '/live',
+  '/privacy',
+  '/terms',
+]
+const SKIP_AUTH_PREFIXES = ['/events/'] // event detail pages
+
 export async function middleware(request: NextRequest) {
-  // Skip auth on home page to reduce document request latency (TTFB)
-  if (request.nextUrl.pathname === '/') {
+  const path = request.nextUrl.pathname
+  const skipAuth =
+    SKIP_AUTH_PATHS.includes(path) ||
+    SKIP_AUTH_PREFIXES.some((prefix) => path.startsWith(prefix))
+  if (skipAuth) {
     return NextResponse.next({ request: { headers: request.headers } })
   }
 

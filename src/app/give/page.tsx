@@ -30,8 +30,10 @@ export default function Give() {
             src="/images/give/hero.jpg"
             alt="Giving"
             fill
+            sizes="100vw"
             className="object-cover object-[center_35%]"
             priority
+            fetchPriority="high"
           />
           {/* Gradient Overlay to fade into white content area */}
           <div className="absolute inset-0 bg-gradient-to-b from-white/10 via-white/5 to-white" />
