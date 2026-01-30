@@ -69,9 +69,9 @@ export default function SummerCampPage() {
   };
 
   return (
-    <div className="bg-white pt-24">
-      {/* Hero Section Content (Camp Highlights) */}
-      <section className="relative py-20 px-4 sm:px-6 lg:px-8 overflow-hidden">
+    <div className="bg-white min-h-screen">
+      {/* Hero Section - pt-40 so content clears header; background extends behind header */}
+      <section className="relative pt-40 pb-20 px-4 sm:px-6 lg:px-8 overflow-hidden">
         {/* Subtle background patterns - large decorative elements */}
         <div className="absolute inset-0 overflow-hidden pointer-events-none">
           {/* Large tent icon */}
@@ -100,16 +100,18 @@ export default function SummerCampPage() {
           <div className="absolute -bottom-32 -left-32 w-96 h-96 bg-yellow-100/15 rounded-full blur-3xl"></div>
         </div>
 
-        <div className="max-w-7xl mx-auto text-center relative z-10">
-          <div className="mb-12">
-            {/* Badge */}
-            <div className={`inline-flex items-center px-6 py-3 text-white rounded-full text-sm font-semibold mb-8 shadow-lg ${
+        <div className="max-w-7xl mx-auto relative z-10">
+          {/* Registration/status pill - always centered, not too wide on mobile */}
+          <div className="flex justify-center mb-10">
+            <div className={`inline-flex items-center px-4 py-2.5 sm:px-6 sm:py-3 text-white rounded-full text-sm font-semibold shadow-lg w-fit max-w-full sm:max-w-none justify-center text-center ${
               isRegistrationOpen ? 'bg-yellow-500' : 'bg-red-600'
             }`}>
-              <Calendar className="h-4 w-4 mr-2" />
-              {isRegistrationOpen ? 'Registration Now Open' : 'Registration Closed'}
+              <Calendar className="h-4 w-4 mr-2 shrink-0" />
+              <span>{isRegistrationOpen ? 'Registration Now Open' : 'Registration Closed'}</span>
             </div>
+          </div>
 
+          <div className="text-center mb-12">
             <h1 className="text-4xl md:text-6xl font-bold text-blue-900 mb-8 leading-tight">
               Youth &amp; Children&apos;s{" "}
               <span className="text-yellow-600">

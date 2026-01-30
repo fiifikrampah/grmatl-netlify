@@ -30,26 +30,21 @@ export default function Header() {
   const router = useRouter()
   const pathname = usePathname()
 
-  // Pages that have white background from the top (no hero or light content): show dark header text immediately
-  const isEventDetailPage = pathname?.startsWith('/events/') && pathname !== '/events'
-  const isFireFriday = pathname === '/events/fire-friday'
+  // Pages that have white background from the top (no hero): show dark header text immediately.
+  // Event pages (parent + detail) all have heroes, so they get transparent header until scroll.
   const isWhiteBackgroundPage =
     pathname === '/privacy' ||
     pathname === '/terms' ||
-    (isEventDetailPage && !isFireFriday) ||
-    (pathname && !['/', '/about', '/contact', '/give', '/live', '/events', '/blogs'].includes(pathname) && !pathname.startsWith('/admin'))
+    (pathname && !['/', '/about', '/contact', '/give', '/live', '/events', '/blogs'].includes(pathname) && !pathname.startsWith('/admin') && !pathname.startsWith('/events/'))
   const [scrolled, setScrolled] = useState(!!isWhiteBackgroundPage)
 
   useEffect(() => {
     if (typeof window === 'undefined') return
     const handleScroll = () => {
-      const isEventDetailPage = pathname?.startsWith('/events/') && pathname !== '/events'
-      const isFireFriday = pathname === '/events/fire-friday'
       const isWhitePage =
         pathname === '/privacy' ||
         pathname === '/terms' ||
-        (isEventDetailPage && !isFireFriday) ||
-        (pathname && !['/', '/about', '/contact', '/give', '/live', '/events', '/blogs'].includes(pathname) && !pathname.startsWith('/admin'))
+        (pathname && !['/', '/about', '/contact', '/give', '/live', '/events', '/blogs'].includes(pathname) && !pathname.startsWith('/admin') && !pathname.startsWith('/events/'))
       if (isWhitePage) {
         setScrolled(true)
       } else {
@@ -67,13 +62,10 @@ export default function Header() {
 
   useEffect(() => {
     if (typeof window === 'undefined') return
-    const isEventDetailPage = pathname?.startsWith('/events/') && pathname !== '/events'
-    const isFireFriday = pathname === '/events/fire-friday'
     const isWhitePage =
       pathname === '/privacy' ||
       pathname === '/terms' ||
-      (isEventDetailPage && !isFireFriday) ||
-      (pathname && !['/', '/about', '/contact', '/give', '/live', '/events', '/blogs'].includes(pathname) && !pathname.startsWith('/admin'))
+      (pathname && !['/', '/about', '/contact', '/give', '/live', '/events', '/blogs'].includes(pathname) && !pathname.startsWith('/admin') && !pathname.startsWith('/events/'))
     setScrolled(isWhitePage || window.scrollY > 20)
   }, [pathname])
 
@@ -101,16 +93,22 @@ export default function Header() {
     }
   }
 
-  // Check if we're on a page that starts with white background (event detail pages)
-  // Fire Friday has a dark background, so it should keep white text
-  const shouldShowDarkText = scrolled
+  // Header background: solid only after scroll. No border/shadow when transparent.
+  const isLightEventPage =
+    pathname?.startsWith('/events/baptism') ||
+    pathname?.startsWith('/events/heart-to-heart-prayer-breakfast') ||
+    pathname?.startsWith('/events/summer-camp')
+  const isTransparent = !scrolled
+  const isSolidHeader = scrolled
+  // Text/logo: dark when solid bar, or when transparent on light event pages (readable on page bg).
+  const useDarkText = isSolidHeader || (isTransparent && isLightEventPage)
 
   return (
     <header
       className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 animate-slide-down ${
-        shouldShowDarkText
+        isSolidHeader
           ? 'bg-white/95 backdrop-blur-md shadow-sm border-b border-gray-100 py-2'
-          : 'bg-transparent py-4'
+          : 'bg-transparent py-4 border-0 shadow-none'
       }`}
     >
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -123,7 +121,7 @@ export default function Header() {
               width={75}
               height={75}
               className={`transition-all duration-300 ${
-                !shouldShowDarkText ? 'filter brightness-0 invert' : 'filter brightness-0 saturate-100'
+                !useDarkText ? 'filter brightness-0 invert' : 'filter brightness-0 saturate-100'
               } hover:opacity-80`}
             />
           </Link>
@@ -138,9 +136,9 @@ export default function Header() {
                   target="_blank"
                   rel="noopener noreferrer"
                   className={`px-4 py-2 text-sm font-medium tracking-wide transition-all duration-200 rounded-full hover:bg-white/10 ${
-                    !shouldShowDarkText
+                    !useDarkText
                       ? 'text-white hover:text-white'
-                      : 'text-gray-700 hover:text-grm-primary hover:bg-grm-blue-50'
+                      : 'text-gray-900 hover:text-grm-primary hover:bg-grm-blue-50'
                   }`}
                 >
                   {item.name}
@@ -149,11 +147,9 @@ export default function Header() {
                 <Link
                   key={item.name}
                   href={item.href}
-                  className={`px-4 py-2 text-sm font-medium tracking-wide transition-all duration-200 rounded-full hover:bg-white/10 ${
-                    !scrolled
-                      ? 'text-white hover:text-white'
-                      : 'text-gray-700 hover:text-grm-primary hover:bg-grm-blue-50'
-                  } ${pathname === item.href ? (!shouldShowDarkText ? 'bg-white/20' : 'bg-grm-blue-50 text-grm-primary') : ''}`}
+                  className={`px-4 py-2 text-sm font-medium tracking-wide transition-all duration-200 rounded-full ${
+                    !useDarkText ? 'text-white hover:text-white hover:bg-white/10' : 'text-gray-900 hover:text-grm-primary hover:bg-grm-blue-50'
+                  } ${pathname === item.href ? (!useDarkText ? 'bg-white/20' : 'bg-grm-blue-50 text-grm-primary') : ''}`}
                 >
                   {item.name}
                 </Link>
@@ -164,7 +160,7 @@ export default function Header() {
                 <Link
                   href="/admin"
                   className={`flex items-center gap-1 text-sm font-medium ${
-                    !shouldShowDarkText ? 'text-white' : 'text-gray-700'
+                    !useDarkText ? 'text-white' : 'text-gray-900'
                   }`}
                 >
                   <Shield className="h-4 w-4" />
@@ -173,7 +169,7 @@ export default function Header() {
                   variant="ghost"
                   size="sm"
                   onClick={handleLogout}
-                  className={`${!shouldShowDarkText ? 'text-white hover:bg-white/10' : 'text-gray-700 hover:bg-gray-100'}`}
+                  className={`${!useDarkText ? 'text-white hover:bg-white/10' : 'text-gray-900 hover:bg-gray-100'}`}
                 >
                   <LogOut className="h-4 w-4" />
                 </Button>
@@ -182,7 +178,7 @@ export default function Header() {
               <Link
                 href="/admin/login"
                 className={`ml-4 px-6 py-2 text-sm font-medium rounded-full transition-all duration-200 ${
-                  !shouldShowDarkText
+                  !useDarkText
                     ? 'bg-white text-black hover:bg-gray-100'
                     : 'bg-grm-primary text-white hover:bg-grm-secondary shadow-sm hover:shadow-md'
                 }`}
@@ -198,7 +194,7 @@ export default function Header() {
               <Button
                 variant="ghost"
                 size="icon"
-                className={!shouldShowDarkText ? 'text-white hover:bg-white/10' : 'text-gray-900 hover:bg-gray-100'}
+                className={!useDarkText ? 'text-white hover:bg-white/10' : 'text-gray-900 hover:bg-gray-100'}
               >
                 <Menu className="h-6 w-6" />
                 <span className="sr-only">Open menu</span>

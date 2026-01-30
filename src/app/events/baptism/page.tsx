@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import Link from "next/link";
 import Image from "next/image";
 import { Calendar, MapPin, Droplet, Users } from "lucide-react";
 import { getEventBySlug } from "@/lib/events.config";
@@ -66,9 +67,9 @@ export default function BaptismPage() {
   };
 
   return (
-    <div className="bg-white pt-24">
-      {/* Hero Section Content */}
-      <section className="relative py-20 px-4 sm:px-6 lg:px-8 overflow-hidden">
+    <div className="bg-white min-h-screen">
+      {/* Hero Section - pt-40 so content clears header; background extends behind header */}
+      <section className="relative pt-40 pb-20 px-4 sm:px-6 lg:px-8 overflow-hidden">
         {/* Creative water/baptism themed background patterns */}
         <div className="absolute inset-0 overflow-hidden pointer-events-none">
           {/* Wave patterns - multiple layers */}
@@ -122,16 +123,18 @@ export default function BaptismPage() {
           <div className="absolute bottom-1/3 left-1/4 w-80 h-80 bg-[#2070B4]/5 rounded-full blur-3xl"></div>
         </div>
 
-        <div className="max-w-7xl mx-auto text-center relative z-10">
-          <div className="mb-12">
-            {/* Badge */}
-            <div className={`inline-flex items-center px-6 py-3 text-white rounded-full text-sm font-semibold mb-8 shadow-lg ${
+        <div className="max-w-7xl mx-auto relative z-10">
+          {/* Registration/status pill - always centered, not too wide on mobile */}
+          <div className="flex justify-center mb-10">
+            <div className={`inline-flex items-center px-4 py-2.5 sm:px-6 sm:py-3 text-white rounded-full text-sm font-semibold shadow-lg w-fit max-w-full sm:max-w-none justify-center text-center ${
               isRegistrationOpen ? 'bg-[#2070B4]' : 'bg-gray-500'
             }`}>
-              <Calendar className="h-4 w-4 mr-2" />
-              {isRegistrationOpen ? 'Registration Now Open' : 'Details Coming Soon'}
+              <Calendar className="h-4 w-4 mr-2 shrink-0" />
+              <span>{isRegistrationOpen ? 'Registration Now Open' : 'Details Coming Soon'}</span>
             </div>
+          </div>
 
+          <div className="text-center mb-12">
             <h1 className="text-4xl md:text-6xl font-bold text-[#080A0C] mb-8 leading-tight">
               Baptism{" "}
               <span className="text-[#2070B4]">
@@ -141,8 +144,9 @@ export default function BaptismPage() {
             <p className="text-xl md:text-2xl text-[#0D2B45] max-w-4xl mx-auto leading-relaxed mb-8">
               A sacred moment of commitment and new beginning in your faith journey
             </p>
+          </div>
 
-            {/* Event Flyer */}
+          {/* Event Flyer */}
             <div className="mb-12 max-w-2xl mx-auto">
               <div className="relative rounded-2xl overflow-hidden shadow-2xl border-4 border-[#2070B4]/30">
                 <Image
@@ -157,16 +161,15 @@ export default function BaptismPage() {
               </div>
             </div>
 
-            {/* Event Details */}
-            <div className="flex flex-col items-center justify-center gap-4 text-lg text-[#0D2B45] mb-6">
-              <div className="flex items-center gap-2">
-                <Calendar className="h-5 w-5 text-[#2070B4]" />
-                <span className="font-semibold">Date: To Be Announced</span>
-              </div>
-              <div className="flex items-center gap-2">
-                <MapPin className="h-5 w-5 text-[#2070B4]" />
-                <span>{location}</span>
-              </div>
+          {/* Event Details */}
+          <div className="flex flex-col items-center justify-center gap-4 text-lg text-[#0D2B45] mb-6 text-center">
+            <div className="flex items-center gap-2">
+              <Calendar className="h-5 w-5 text-[#2070B4]" />
+              <span className="font-semibold">Date: To Be Announced</span>
+            </div>
+            <div className="flex items-center gap-2">
+              <MapPin className="h-5 w-5 text-[#2070B4]" />
+              <span>{location}</span>
             </div>
           </div>
 

@@ -80,8 +80,8 @@ export default function EventsPage() {
     <div className="bg-white min-h-screen">
       {/* Modern Hero Section */}
       <section className="relative pt-32 pb-20 md:pt-40 md:pb-32 overflow-hidden">
-        {/* Background Image with Gradient Fade */}
-        <div className="absolute inset-0 z-0">
+        {/* Background Image with Gradient Fade - using mask for seamless blend */}
+        <div className="absolute inset-0 z-0 [mask-image:linear-gradient(to_bottom,black_30%,transparent_100%)]">
           <Image
             src="/images/events/listing-hero.webp"
             alt="Events Hero"
@@ -92,32 +92,20 @@ export default function EventsPage() {
             fetchPriority="high"
             quality={92}
           />
-          {/* Gradient Overlay to fade into white content area */}
-          <div className="absolute inset-0 bg-gradient-to-b from-transparent via-white/5 to-white" />
-          {/* Stronger bottom fade to ensure seamless blending */}
-          <div className="absolute bottom-0 left-0 right-0 h-32 bg-gradient-to-t from-white via-white/80 to-transparent" />
-          {/* Subtle blur on desktop only — avoid GPU load and crashes on mobile */}
-          <div className="absolute inset-0 bg-white/10 md:backdrop-blur-[1px]" />
-          {/* Menu Visibility Gradient */}
+          {/* Menu visibility only */}
           <div className="absolute top-0 left-0 right-0 h-32 bg-gradient-to-b from-black/80 to-transparent" />
-        </div>
-
-        {/* Ambient Background — hidden on mobile to prevent GPU memory pressure */}
-        <div className="absolute inset-0 pointer-events-none z-0 hidden md:block">
-          <div className="absolute top-0 right-0 w-[800px] h-[800px] bg-blue-50/20 rounded-full blur-[120px] -translate-y-1/4 translate-x-1/4" />
-          <div className="absolute bottom-0 left-0 w-[600px] h-[600px] bg-indigo-50/20 rounded-full blur-[100px] translate-y-1/4 -translate-x-1/4" />
+          {/* Subtle Dark Overlay for Premium Feel & Contrast - Darker center for readability */}
+          <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,_rgba(0,0,0,0.5)_0%,_rgba(15,58,112,0.6)_60%,_rgba(15,58,112,0.9)_100%)] z-10" />
         </div>
 
         <div className="container mx-auto px-4 relative z-10">
-          {/* Text Visibility Spotlight — desktop only */}
-          <div className="absolute top-0 left-1/2 -translate-x-1/2 w-full max-w-[900px] h-[500px] bg-white/20 blur-[100px] -z-10 rounded-full pointer-events-none hidden md:block" />
 
-          <div className="max-w-4xl mx-auto text-center">
+          <div className="max-w-4xl mx-auto text-center drop-shadow-lg">
             <Reveal>
               <h1 className="text-5xl md:text-7xl font-bold tracking-tight mb-6 leading-tight">
-                <span className="text-gray-900">Upcoming</span> <span className="text-grm-primary">Gatherings</span>
+                <span className="text-white">Upcoming</span> <span className="text-white">Gatherings</span>
               </h1>
-              <p className="text-xl text-gray-900 max-w-2xl mx-auto leading-relaxed drop-shadow-sm">
+              <p className="text-xl text-white font-medium max-w-2xl mx-auto leading-relaxed">
                 Join us for worship, fellowship, and community events. There&apos;s always something happening at GRM.
               </p>
             </Reveal>

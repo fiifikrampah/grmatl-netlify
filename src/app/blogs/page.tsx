@@ -35,19 +35,19 @@ function extractImage(content: string | undefined): string | null {
 // Helper to strip HTML tags for snippet
 function stripHtml(html: string): string {
   if (!html) return ''
-  
+
   // Remove figcaption elements and their content entirely
   const cleaned = html.replace(/<figcaption[\s\S]*?<\/figcaption>/gi, '');
-  
+
   // Replace <br>, <p>, <div>, <blockquote> tags with spaces to prevent words joining
   const spaced = cleaned.replace(/<(br|p|div|blockquote|li|\/p|\/div|\/blockquote|\/li)>/gi, ' ');
-  
+
   // Strip remaining tags
   let text = spaced.replace(/<[^>]*>?/gm, '');
-  
+
   // Remove residual "Photo by ... on Unsplash" if it somehow survived (including trailing text)
   text = text.replace(/Photo by .+? on Unsplash/gi, '');
-  
+
   // Clean up whitespace
   return text.replace(/\s+/g, ' ').trim();
 }
@@ -65,11 +65,11 @@ function getSlugFromUrl(url: string): string {
 export default async function BlogsPage() {
   const parser = new Parser()
   let posts: BlogPost[] = []
-  
+
   try {
     const feed = await parser.parseURL('https://medium.com/feed/grmblogs')
     posts = feed.items as BlogPost[]
-    
+
     // Limit to 9 posts
     posts = posts.slice(0, 9);
   } catch (error) {
@@ -80,8 +80,8 @@ export default async function BlogsPage() {
     <div className="bg-white min-h-screen">
       {/* Hero Section */}
       <section className="relative pt-32 pb-20 md:pt-40 md:pb-32 overflow-hidden">
-        {/* Background Image with Gradient Fade */}
-        <div className="absolute inset-0 z-0">
+        {/* Background Image with Gradient Fade - using mask for seamless blend */}
+        <div className="absolute inset-0 z-0 [mask-image:linear-gradient(to_bottom,black_30%,transparent_100%)]">
           <Image
             src="/images/blog/hero.webp"
             alt="GRM Blogs"
@@ -90,32 +90,20 @@ export default async function BlogsPage() {
             priority
             quality={92}
           />
-          {/* Gradient Overlay to fade into white content area */}
-          <div className="absolute inset-0 bg-gradient-to-b from-white/10 via-white/5 to-white" />
-          {/* Stronger bottom fade to ensure seamless blending */}
-          <div className="absolute bottom-0 left-0 right-0 h-32 bg-gradient-to-t from-white via-white/80 to-transparent" />
-          {/* Subtle blur on desktop only — avoid GPU load and crashes on mobile */}
-          <div className="absolute inset-0 bg-white/10 md:backdrop-blur-[1px]" />
-          {/* Menu Visibility Gradient */}
+          {/* Menu visibility only */}
           <div className="absolute top-0 left-0 right-0 h-32 bg-gradient-to-b from-black/80 to-transparent" />
-        </div>
-
-        {/* Ambient Background — hidden on mobile to prevent GPU memory pressure */}
-        <div className="absolute inset-0 pointer-events-none z-0 hidden md:block">
-          <div className="absolute top-0 right-0 w-[800px] h-[800px] bg-blue-50/20 rounded-full blur-[120px] -translate-y-1/4 translate-x-1/4" />
-          <div className="absolute bottom-0 left-0 w-[600px] h-[600px] bg-indigo-50/20 rounded-full blur-[100px] translate-y-1/4 -translate-x-1/4" />
+          {/* Subtle Dark Overlay for Premium Feel & Contrast - Darker center for readability */}
+          <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,_rgba(0,0,0,0.5)_0%,_rgba(15,58,112,0.6)_60%,_rgba(15,58,112,0.9)_100%)] z-10" />
         </div>
 
         <div className="container mx-auto px-4 relative z-10">
-          {/* Text Visibility Spotlight — desktop only */}
-          <div className="absolute top-0 left-1/2 -translate-x-1/2 w-full max-w-[900px] h-[500px] bg-white/20 blur-[100px] -z-10 rounded-full pointer-events-none hidden md:block" />
 
-          <div className="max-w-4xl mx-auto text-center">
+          <div className="max-w-4xl mx-auto text-center drop-shadow-lg">
             <Reveal>
               <h1 className="text-5xl md:text-7xl font-bold tracking-tight mb-6 leading-tight">
-                <span className="text-gray-900">Our</span> <span className="text-grm-primary">Blogs</span>
+                <span className="text-white">Our</span> <span className="text-white">Blogs</span>
               </h1>
-              <p className="text-xl text-gray-900 max-w-2xl mx-auto leading-relaxed drop-shadow-sm">
+              <p className="text-xl text-white font-medium max-w-2xl mx-auto leading-relaxed">
                 Spiritual insights, church news, and words of encouragement from our ministry team.
               </p>
             </Reveal>
@@ -131,16 +119,16 @@ export default async function BlogsPage() {
               // Create a snippet, limit to ~150 chars
               // Prefer contentSnippet if available and not empty/useless, otherwise strip content
               // Medium RSS contentSnippet is often just empty or not what we want, so let's try stripping content first if snippet is poor
-              let snippet = post.contentSnippet 
-              
+              let snippet = post.contentSnippet
+
               if (!snippet || snippet.length < 10 || snippet === '...') {
                  snippet = stripHtml(post['content:encoded'] || post.content || '')
               } else {
                  snippet = stripHtml(snippet) // Ensure snippet is clean
               }
-              
+
               snippet = snippet.length > 150 ? snippet.substring(0, 150) + '...' : snippet
-              
+
               const slug = getSlugFromUrl(post.link)
 
               return (
@@ -163,7 +151,7 @@ export default async function BlogsPage() {
                         )}
                         {/* Badge removed */}
                       </div>
-                      
+
                       <CardContent className="p-6 flex flex-col flex-grow">
                         <div className="flex items-center gap-4 text-xs text-gray-500 mb-4">
                           <span className="flex items-center gap-1">
@@ -181,15 +169,15 @@ export default async function BlogsPage() {
                             </span>
                           )}
                         </div>
-                        
+
                         <h3 className="text-xl font-bold text-gray-900 mb-3 group-hover:text-grm-primary transition-colors line-clamp-2">
                           {post.title}
                         </h3>
-                        
+
                         <p className="text-gray-600 text-sm leading-relaxed mb-6 line-clamp-3 flex-grow">
                           {snippet}
                         </p>
-                        
+
                         <div className="mt-auto pt-4 border-t border-gray-50 flex items-center text-grm-primary font-semibold text-sm group-hover:gap-2 transition-all">
                           Read Full Blog <ArrowRight className="ml-1 h-4 w-4" />
                         </div>
