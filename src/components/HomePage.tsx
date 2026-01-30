@@ -6,7 +6,8 @@ import { Button } from '@/components/ui/button'
 import { ArrowRight, Calendar, ChevronLeft, ChevronRight, Clock, MapPin, Play, Heart } from 'lucide-react'
 import { useRef, useEffect, useState } from 'react'
 import Reveal from '@/components/Reveal'
-const WORSHIP_IMAGES = Array.from({ length: 28 }, (_, i) => ({
+// Carousel images: public/images/home/worship-carousel/carousel-1.jpg … carousel-13.jpg
+const WORSHIP_IMAGES = Array.from({ length: 13 }, (_, i) => ({
   src: `/images/home/worship-carousel/carousel-${i + 1}.jpg`,
   alt: 'Worship at GRM',
 }))
@@ -332,9 +333,11 @@ export default function HomePage() {
                           src={img.src}
                           alt={img.alt}
                           fill
-                          sizes="(max-width: 768px) 100vw, 50vw"
+                          sizes="(max-width: 768px) 600px, (max-width: 1024px) 800px, 1000px"
                           className="object-cover"
                           priority={offset === 0}
+                          loading={offset === 0 ? undefined : 'lazy'}
+                          quality={90}
                        />
                        {offset === 0 && (
                           <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent opacity-0 hover:opacity-100 transition-opacity duration-300 flex items-end justify-center pb-8" />
