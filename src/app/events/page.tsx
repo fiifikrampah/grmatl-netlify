@@ -1,12 +1,14 @@
 "use client"
 
 import Link from 'next/link'
+import dynamic from 'next/dynamic'
 import Image from 'next/image'
 import { useRouter } from 'next/navigation'
 import { useEffect } from 'react'
 import { Calendar, ArrowRight, Clock, MapPin, Shirt } from 'lucide-react'
 import { getDisplayedEvents } from '@/lib/events.config'
-import Reveal from '@/components/Reveal'
+
+const Reveal = dynamic(() => import('@/components/Reveal'), { ssr: true })
 
 // Helper function to get the last Friday of the current month
 function getLastFridayOfMonth(): Date {
@@ -166,6 +168,7 @@ export default function EventsPage() {
                           src={event.imageUrl}
                           alt={event.title}
                           fill
+                          sizes="(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 33vw"
                           className="object-cover transition-transform duration-700 group-hover:scale-105"
                         />
                       ) : (

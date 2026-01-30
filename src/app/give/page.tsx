@@ -1,11 +1,13 @@
 "use client"
 
 import { useState } from 'react'
+import dynamic from 'next/dynamic'
 import Image from 'next/image'
 import { Card, CardContent } from '@/components/ui/card'
 import { Button } from '@/components/ui/button'
 import { Heart, CreditCard, Building, DollarSign, Copy, Check } from 'lucide-react'
-import Reveal from '@/components/Reveal'
+
+const Reveal = dynamic(() => import('@/components/Reveal'), { ssr: true })
 
 export default function Give() {
   const [copied, setCopied] = useState(false)
@@ -156,6 +158,7 @@ export default function Give() {
               src="/images/give/quote-section-bg.jpg"
               alt=""
               fill
+              sizes="(max-width: 1280px) 100vw, 1280px"
               className="object-cover opacity-[0.05]"
               aria-hidden
             />
