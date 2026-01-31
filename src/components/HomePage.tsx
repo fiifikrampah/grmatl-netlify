@@ -77,15 +77,14 @@ export default function HomePage() {
 
         {/* Static Bottom Gradient Overlay - Outside Parallax Container - Shows only on scroll */}
         <div
-          className={`absolute inset-x-0 bottom-0 z-10 h-64 bg-gradient-to-t from-white via-white/90 to-transparent pointer-events-none transition-opacity duration-700 ease-in-out ${
-            showBottomGradient ? 'opacity-100' : 'opacity-0'
-          }`}
+          className={`absolute inset-x-0 bottom-0 z-10 h-64 bg-gradient-to-t from-white via-white/90 to-transparent pointer-events-none transition-opacity duration-700 ease-in-out ${showBottomGradient ? 'opacity-100' : 'opacity-0'
+            }`}
         />
 
         <div className="relative z-20 container mx-auto px-4 sm:px-6 text-center">
           <div className="mb-8 md:mb-10 flex justify-center animate-fade-in-up">
             <div className="animate-float">
-             <Image
+              <Image
                 src="/images/branding/church-name.png"
                 alt="GRM Logo"
                 width={1000}
@@ -127,9 +126,8 @@ export default function HomePage() {
 
         {/* Scroll Indicator - Premium Mouse Style */}
         <div
-          className={`absolute bottom-10 left-1/2 -translate-x-1/2 z-20 flex-col items-center gap-2 transition-all duration-700 ease-out hidden md:flex ${
-            showBottomGradient ? 'opacity-0 translate-y-4 pointer-events-none' : 'opacity-100 translate-y-0'
-          }`}
+          className={`absolute bottom-10 left-1/2 -translate-x-1/2 z-20 flex-col items-center gap-2 transition-all duration-700 ease-out hidden md:flex ${showBottomGradient ? 'opacity-0 translate-y-4 pointer-events-none' : 'opacity-100 translate-y-0'
+            }`}
         >
           {/* Mouse Body */}
           <div className="w-[26px] h-[42px] rounded-full border border-white/60 flex justify-center p-1 shadow-[0_0_15px_rgba(0,0,0,0.15)] backdrop-blur-[2px]">
@@ -210,25 +208,26 @@ export default function HomePage() {
             ].map((service, idx) => {
               const Icon = service.icon
               return (
-              <Reveal key={idx} delay={idx * 50}>
-                <div className="bg-white p-8 rounded-2xl shadow-sm border border-gray-100 hover:shadow-xl transition-all duration-300 hover:-translate-y-1 h-full min-h-[220px] flex flex-col">
-                  <div className={`w-12 h-12 rounded-xl ${service.color} flex items-center justify-center mb-6 shrink-0`}>
-                    <Icon className="h-6 w-6" />
+                <Reveal key={idx} delay={idx * 50}>
+                  <div className="bg-white p-8 rounded-2xl shadow-sm border border-gray-100 hover:shadow-xl transition-all duration-300 hover:-translate-y-1 h-full min-h-[220px] flex flex-col">
+                    <div className={`w-12 h-12 rounded-xl ${service.color} flex items-center justify-center mb-6 shrink-0`}>
+                      <Icon className="h-6 w-6" />
+                    </div>
+                    <h3 className="text-xl font-bold text-gray-900 mb-2">{service.title}</h3>
+                    <p className="text-gray-600 font-medium text-lg">{service.time}</p>
+                    <div className="mt-auto min-h-[34px] flex items-end">
+                      {service.sub ? (
+                        <span className="inline-block px-3 py-1 bg-gray-100 text-gray-600 text-xs font-semibold rounded-full uppercase tracking-wide">
+                          {service.sub}
+                        </span>
+                      ) : (
+                        <span className="inline-block" aria-hidden />
+                      )}
+                    </div>
                   </div>
-                  <h3 className="text-xl font-bold text-gray-900 mb-2">{service.title}</h3>
-                  <p className="text-gray-600 font-medium text-lg">{service.time}</p>
-                  <div className="mt-auto min-h-[34px] flex items-end">
-                    {service.sub ? (
-                      <span className="inline-block px-3 py-1 bg-gray-100 text-gray-600 text-xs font-semibold rounded-full uppercase tracking-wide">
-                        {service.sub}
-                      </span>
-                    ) : (
-                      <span className="inline-block" aria-hidden />
-                    )}
-                  </div>
-                </div>
-              </Reveal>
-            )})}
+                </Reveal>
+              )
+            })}
           </div>
         </div>
       </section>
@@ -325,51 +324,51 @@ export default function HomePage() {
 
             {/* Carousel Items */}
             <div className="relative w-full md:w-full h-full flex items-center justify-center overflow-visible md:overflow-hidden">
-               {[-2, -1, 0, 1, 2].map((offset) => {
-                  // Calculate index with wrapping
-                  let idx = worshipPage + offset;
-                  if (idx < 0) idx = WORSHIP_IMAGES.length + idx;
-                  if (idx >= WORSHIP_IMAGES.length) idx = idx - WORSHIP_IMAGES.length;
+              {[-2, -1, 0, 1, 2].map((offset) => {
+                // Calculate index with wrapping
+                let idx = worshipPage + offset;
+                if (idx < 0) idx = WORSHIP_IMAGES.length + idx;
+                if (idx >= WORSHIP_IMAGES.length) idx = idx - WORSHIP_IMAGES.length;
 
-                  const img = WORSHIP_IMAGES[idx];
+                const img = WORSHIP_IMAGES[idx];
 
-                  // Styles with precise centering using left-1/2 -translate-x-1/2
-                  let transform = "-translate-x-1/2 scale-100 opacity-100 z-30"; // Center
-                  let extraClasses = "grayscale-0"; // No border, no shadow
+                // Styles with precise centering using left-1/2 -translate-x-1/2
+                let transform = "-translate-x-1/2 scale-100 opacity-100 z-30"; // Center
+                let extraClasses = "grayscale-0"; // No border, no shadow
 
-                  if (offset === -1) {
-                     transform = "-translate-x-[115%] scale-[0.85] opacity-100 z-20"; // Left
-                     extraClasses = "grayscale-0 brightness-110";
-                  } else if (offset === 1) {
-                     transform = "translate-x-[15%] scale-[0.85] opacity-100 z-20"; // Right
-                     extraClasses = "grayscale-0 brightness-110";
-                  } else if (offset === -2) {
-                     transform = "-translate-x-[180%] scale-[0.7] opacity-0 z-10"; // Far left
-                  } else if (offset === 2) {
-                     transform = "translate-x-[80%] scale-[0.7] opacity-0 z-10"; // Far right
-                  }
+                if (offset === -1) {
+                  transform = "-translate-x-[115%] scale-[0.85] opacity-100 z-20"; // Left
+                  extraClasses = "grayscale-0 brightness-110";
+                } else if (offset === 1) {
+                  transform = "translate-x-[15%] scale-[0.85] opacity-100 z-20"; // Right
+                  extraClasses = "grayscale-0 brightness-110";
+                } else if (offset === -2) {
+                  transform = "-translate-x-[180%] scale-[0.7] opacity-0 z-10"; // Far left
+                } else if (offset === 2) {
+                  transform = "translate-x-[80%] scale-[0.7] opacity-0 z-10"; // Far right
+                }
 
-                  return (
-                    <div
-                      key={`${idx}-${offset}`}
-                      className={`absolute top-1/2 left-1/2 -translate-y-1/2 w-[300px] sm:w-[400px] lg:w-[500px] aspect-[3/4] transition-all duration-1000 ease-[cubic-bezier(0.2,0.8,0.2,1)] will-change-transform rounded-3xl overflow-hidden bg-gray-100 ${transform} ${extraClasses}`}
-                    >
-                       <Image
-                          src={img.src}
-                          alt={img.alt}
-                          fill
-                          sizes="(max-width: 768px) 600px, (max-width: 1024px) 800px, 1000px"
-                          className="object-cover"
-                          priority={offset === 0}
-                          loading={offset === 0 ? undefined : 'lazy'}
-                          quality={92}
-                       />
-                       {offset === 0 && (
-                          <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent opacity-0 hover:opacity-100 transition-opacity duration-300 flex items-end justify-center pb-8" />
-                       )}
-                    </div>
-                  );
-               })}
+                return (
+                  <div
+                    key={`${idx}-${offset}`}
+                    className={`absolute top-1/2 left-1/2 -translate-y-1/2 w-[300px] sm:w-[400px] lg:w-[500px] aspect-[3/4] transition-all duration-1000 ease-[cubic-bezier(0.2,0.8,0.2,1)] will-change-transform rounded-3xl overflow-hidden bg-gray-100 ${transform} ${extraClasses}`}
+                  >
+                    <Image
+                      src={img.src}
+                      alt={img.alt}
+                      fill
+                      sizes="(max-width: 768px) 600px, (max-width: 1024px) 800px, 1000px"
+                      className="object-cover"
+                      priority={offset === 0}
+                      loading={offset === 0 ? undefined : 'lazy'}
+                      quality={92}
+                    />
+                    {offset === 0 && (
+                      <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent opacity-0 hover:opacity-100 transition-opacity duration-300 flex items-end justify-center pb-8" />
+                    )}
+                  </div>
+                );
+              })}
             </div>
           </div>
 
@@ -381,9 +380,8 @@ export default function HomePage() {
                   pauseAutoCycle()
                   setWorshipPage(i)
                 }}
-                className={`h-1.5 rounded-full transition-all duration-300 cursor-pointer ${
-                  i === worshipPage ? 'w-8 bg-grm-primary' : 'w-2 bg-gray-300 hover:bg-gray-400'
-                }`}
+                className={`h-1.5 rounded-full transition-all duration-300 cursor-pointer ${i === worshipPage ? 'w-8 bg-grm-primary' : 'w-2 bg-gray-300 hover:bg-gray-400'
+                  }`}
                 aria-label={`Go to slide ${i + 1}`}
               />
             ))}
