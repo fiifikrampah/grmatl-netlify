@@ -5,8 +5,6 @@ import dynamic from 'next/dynamic'
 import Image from 'next/image'
 import Reveal from '@/components/Reveal'
 
-// throw new Error('Test error for error boundary')
-
 const GiveCards = dynamic(
   () =>
     import('@/components/GiveCards').catch(() => ({
@@ -92,12 +90,6 @@ export default function Give() {
       </section>
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-24 bg-white">
-        <div className="text-center mb-14">
-          <h2 className="text-3xl md:text-4xl font-bold tracking-tight text-gray-900 mb-4">Ways To Give</h2>
-          <p className="text-lg text-gray-600/90 max-w-2xl mx-auto leading-relaxed">
-            Choose the method that works best for you. All transactions are secure.
-          </p>
-        </div>
 
         <GiveCards copied={copied} onCopy={copyToClipboard} />
 

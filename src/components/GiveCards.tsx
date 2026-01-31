@@ -1,11 +1,10 @@
 "use client"
 
-import { useState } from 'react'
+import Link from 'next/link'
 import Image from 'next/image'
 import { Card, CardContent } from '@/components/ui/card'
 import { Button } from '@/components/ui/button'
-import { Dialog, DialogContent, DialogTitle } from '@/components/ui/dialog'
-import { Heart, Building, DollarSign, Copy, Check, CreditCard, Shield, RefreshCw, Smartphone } from 'lucide-react'
+import { Heart, Building, DollarSign, Copy, Check, CreditCard, RefreshCw, Shield, Smartphone } from 'lucide-react'
 import Reveal from '@/components/Reveal'
 
 interface GiveCardsProps {
@@ -14,139 +13,150 @@ interface GiveCardsProps {
 }
 
 export default function GiveCards({ copied, onCopy }: GiveCardsProps) {
-  const [modalOpen, setModalOpen] = useState(false)
-  const [iframeLoaded, setIframeLoaded] = useState(false)
+  
+  const TithelyCard = () => (
+    <Card className="h-full rounded-2xl border-gray-100/80 shadow-sm hover:shadow-xl hover:-translate-y-0.5 transition-all duration-300 ease-out group relative overflow-hidden">
+      <div className="absolute top-0 left-0 w-full h-2 bg-green-500 rounded-t-2xl" />
+      <CardContent className="p-6 md:p-8 text-center flex flex-col h-full">
+        <div className="w-14 h-14 md:w-16 md:h-16 bg-green-50 rounded-full flex items-center justify-center mx-auto mb-4 md:mb-6 group-hover:scale-110 transition-transform duration-300">
+          <CreditCard className="h-7 w-7 md:h-8 md:w-8 text-green-600" />
+        </div>
+        <h3 className="text-2xl font-bold text-gray-900 mb-2 md:mb-3">Give via Tithe.ly</h3>
+        <p className="text-gray-600 mb-3 md:mb-4 text-sm md:text-base md:hidden">Secure online giving via Tithe.ly.</p>
+        <p className="text-gray-600 mb-3 md:mb-4 text-sm md:text-base hidden md:block">Scan to give via Tithe.ly app.</p>
+        <div className="w-full flex-grow flex flex-col justify-end min-h-[100px] md:min-h-[140px]">
+          <div className="space-y-4">
+            <div className="md:hidden flex flex-col justify-center">
+              <ul className="flex flex-wrap justify-center gap-2 md:gap-3 list-none p-0 m-0 mb-4" role="list">
+                <li className="inline-flex items-center gap-2 rounded-lg bg-green-50/90 px-3 py-2 text-sm font-medium text-gray-700 ring-1 ring-green-100/80">
+                  <RefreshCw className="h-4 w-4 text-green-600 shrink-0" aria-hidden />
+                  One-time or recurring
+                </li>
+                <li className="inline-flex items-center gap-2 rounded-lg bg-green-50/90 px-3 py-2 text-sm font-medium text-gray-700 ring-1 ring-green-100/80">
+                  <Shield className="h-4 w-4 text-green-600 shrink-0" aria-hidden />
+                  Secure
+                </li>
+                <li className="inline-flex items-center gap-2 rounded-lg bg-green-50/90 px-3 py-2 text-sm font-medium text-gray-700 ring-1 ring-green-100/80">
+                  <Smartphone className="h-4 w-4 text-green-600 shrink-0" aria-hidden />
+                  No app required
+                </li>
+              </ul>
+            </div>
+            <div className="hidden md:flex justify-center">
+              <Image
+                src="/images/give/tithely-qr.jpg"
+                alt="Scan to give with Tithe.ly"
+                width={160}
+                height={160}
+                className="rounded-xl border border-gray-200 bg-white p-2"
+              />
+            </div>
+            <p className="text-sm text-gray-500 hidden md:block">Scan with your phone camera or Tithe.ly app</p>
+            <Link href="/give/online" className="block w-full">
+              <Button
+                className="w-full bg-gray-900 text-white hover:bg-green-600 py-6 text-lg rounded-xl shadow-sm hover:shadow-md active:scale-[0.99] transition-all duration-200"
+              >
+                Give via Tithe.ly
+              </Button>
+            </Link>
+          </div>
+        </div>
+      </CardContent>
+    </Card>
+  )
+
+  const ZelleCard = () => (
+    <Card className="h-full rounded-2xl border-gray-100/80 shadow-sm hover:shadow-xl hover:-translate-y-0.5 transition-all duration-300 ease-out group relative overflow-hidden">
+        <div className="absolute top-0 left-0 w-full h-2 bg-purple-500 rounded-t-2xl" />
+        <CardContent className="p-6 md:p-8 text-center flex flex-col h-full">
+        <div className="w-14 h-14 md:w-16 md:h-16 bg-purple-50 rounded-full flex items-center justify-center mx-auto mb-4 md:mb-6 group-hover:scale-110 transition-transform duration-300">
+            <Building className="h-7 w-7 md:h-8 md:w-8 text-purple-600" />
+        </div>
+        <h3 className="text-2xl font-bold text-gray-900 mb-2 md:mb-3">Zelle</h3>
+        <p className="text-gray-600 mb-2 md:mb-3 text-sm md:text-base">Direct bank transfer with no fees.</p>
+        <div className="w-full flex-grow flex flex-col justify-end min-h-[100px] md:min-h-[140px]">
+            <div className="space-y-3">
+            <p className={`text-sm font-medium px-3 py-2 rounded-lg border-l-2 transition-colors -mt-1 ${copied ? 'text-green-600 bg-green-50/80 border-green-300' : 'text-gray-500 bg-gray-50/80 border-gray-200'}`}>
+                {copied ? 'Open your Zelle or bank app and send to this number.' : 'Copy the number, then send in your bank or Zelle app.'}
+            </p>
+            <div className="bg-gray-50 rounded-xl p-4 border border-gray-100">
+                <p className="text-2xl font-mono font-bold text-gray-900 tracking-wider">404-940-8162</p>
+            </div>
+            <Button
+                onClick={() => !copied && onCopy('404-940-8162')}
+                className={`w-full py-6 text-lg rounded-xl shadow-sm hover:shadow-md active:scale-[0.99] transition-all duration-200 ${copied
+                ? 'bg-green-600 hover:bg-green-700 text-white cursor-default'
+                : 'bg-gray-900 hover:bg-purple-600 text-white'
+                }`}
+            >
+                {copied ? (
+                <span className="flex items-center gap-2"><Check className="h-5 w-5" /> Copied!</span>
+                ) : (
+                <span className="flex items-center gap-2"><Copy className="h-5 w-5" /> Copy Number</span>
+                )}
+            </Button>
+            </div>
+        </div>
+        </CardContent>
+    </Card>
+  )
+
+  const CashAppCard = () => (
+    <Card className="h-full rounded-2xl border-gray-100/80 shadow-sm hover:shadow-xl hover:-translate-y-0.5 transition-all duration-300 ease-out group relative overflow-hidden">
+        <div className="absolute top-0 left-0 w-full h-2 bg-green-400 rounded-t-2xl" />
+        <CardContent className="p-6 md:p-8 text-center flex flex-col h-full">
+        <div className="w-14 h-14 md:w-16 md:h-16 bg-green-50 rounded-full flex items-center justify-center mx-auto mb-4 md:mb-6 group-hover:scale-110 transition-transform duration-300">
+            <DollarSign className="h-7 w-7 md:h-8 md:w-8 text-green-500" />
+        </div>
+        <h3 className="text-2xl font-bold text-gray-900 mb-2 md:mb-3">Cash App</h3>
+        <p className="text-gray-600 mb-3 md:mb-4 text-sm md:text-base md:hidden">Tap below to open Cash App and give.</p>
+        <p className="text-gray-600 mb-3 md:mb-4 text-sm md:text-base hidden md:block">Peer-to-peer giving to $grmatl.</p>
+        <div className="w-full flex-grow flex flex-col justify-end min-h-[100px] md:min-h-[140px]">
+            <div className="space-y-4">
+            <div className="md:hidden flex justify-center">
+                <div className="bg-gray-50 rounded-xl px-6 py-4 border border-gray-100 w-full max-w-[200px]">
+                <p className="text-2xl font-bold text-gray-900 tracking-tight">$grmatl</p>
+                </div>
+            </div>
+            <div className="hidden md:flex justify-center">
+                <Image
+                src={`https://api.qrserver.com/v1/create-qr-code/?size=160x160&data=${encodeURIComponent('https://cash.app/$grmatl')}`}
+                alt="Scan to pay with Cash App"
+                width={160}
+                height={160}
+                className="rounded-xl border border-gray-200 bg-white p-2"
+                unoptimized
+                />
+            </div>
+            <p className="text-sm text-gray-500 hidden md:block">Scan with your phone camera or Cash App</p>
+            <a href="https://cash.app/$grmatl" target="_blank" rel="noopener noreferrer" className="block w-full">
+                <Button className="w-full bg-gray-900 text-white hover:bg-green-500 py-6 text-lg rounded-xl shadow-md transition-colors">
+                Open Cash App
+                </Button>
+            </a>
+            </div>
+        </div>
+        </CardContent>
+    </Card>
+  )
 
   return (
-    <>
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-6 md:gap-8 mb-24 max-w-6xl mx-auto">
-        <Reveal delay={50}>
-          <Card className="h-full rounded-2xl border-gray-100/80 shadow-sm hover:shadow-xl hover:-translate-y-0.5 transition-all duration-300 ease-out group relative overflow-hidden">
-            <div className="absolute top-0 left-0 w-full h-2 bg-green-500 rounded-t-2xl" />
-            <CardContent className="p-6 md:p-8 text-center flex flex-col h-full">
-              <div className="w-14 h-14 md:w-16 md:h-16 bg-green-50 rounded-full flex items-center justify-center mx-auto mb-4 md:mb-6 group-hover:scale-110 transition-transform duration-300">
-                <CreditCard className="h-7 w-7 md:h-8 md:w-8 text-green-600" />
-              </div>
-              <h3 className="text-2xl font-bold text-gray-900 mb-2 md:mb-3">Give via Tithe.ly</h3>
-              <p className="text-gray-600 mb-3 md:mb-4 text-sm md:text-base md:hidden">Secure online giving via Tithe.ly.</p>
-              <p className="text-gray-600 mb-3 md:mb-4 text-sm md:text-base hidden md:block">Scan to give via Tithe.ly app.</p>
-              <div className="w-full flex-grow flex flex-col justify-end min-h-[100px] md:min-h-[140px]">
-                <div className="space-y-4">
-                  <div className="md:hidden flex flex-col justify-center">
-                    <ul className="flex flex-wrap justify-center gap-2 md:gap-3 list-none p-0 m-0 mb-4" role="list">
-                      <li className="inline-flex items-center gap-2 rounded-lg bg-green-50/90 px-3 py-2 text-sm font-medium text-gray-700 ring-1 ring-green-100/80">
-                        <RefreshCw className="h-4 w-4 text-green-600 shrink-0" aria-hidden />
-                        One-time or recurring
-                      </li>
-                      <li className="inline-flex items-center gap-2 rounded-lg bg-green-50/90 px-3 py-2 text-sm font-medium text-gray-700 ring-1 ring-green-100/80">
-                        <Shield className="h-4 w-4 text-green-600 shrink-0" aria-hidden />
-                        Secure
-                      </li>
-                      <li className="inline-flex items-center gap-2 rounded-lg bg-green-50/90 px-3 py-2 text-sm font-medium text-gray-700 ring-1 ring-green-100/80">
-                        <Smartphone className="h-4 w-4 text-green-600 shrink-0" aria-hidden />
-                        No app required
-                      </li>
-                    </ul>
-                  </div>
-                  <div className="hidden md:flex justify-center">
-                    <Image
-                      src="/images/give/tithely-qr.jpg"
-                      alt="Scan to give with Tithe.ly"
-                      width={160}
-                      height={160}
-                      className="rounded-xl border border-gray-200 bg-white p-2"
-                    />
-                  </div>
-                  <p className="text-sm text-gray-500 hidden md:block">Scan with your phone camera or Tithe.ly app</p>
-                  <Button
-                    onClick={() => setModalOpen(true)}
-                    className="w-full bg-gray-900 text-white hover:bg-green-600 py-6 text-lg rounded-xl shadow-sm hover:shadow-md active:scale-[0.99] transition-all duration-200"
-                  >
-                    Give via Tithe.ly
-                  </Button>
-                </div>
-              </div>
-            </CardContent>
-          </Card>
-        </Reveal>
+    <div className="space-y-12">
+        <div className="text-center mb-14">
+            <Reveal>
+                <h2 className="text-3xl md:text-4xl font-bold tracking-tight text-gray-900 mb-4">Ways To Give</h2>
+                <p className="text-lg text-gray-600/90 max-w-2xl mx-auto leading-relaxed">
+                    Choose the method that works best for you. All transactions are secure.
+                </p>
+            </Reveal>
+        </div>
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 md:gap-8 max-w-6xl mx-auto">
+            <Reveal delay={50}><TithelyCard /></Reveal>
+            <Reveal delay={100}><ZelleCard /></Reveal>
+            <Reveal delay={150}><CashAppCard /></Reveal>
+        </div>
 
-        <Reveal delay={100}>
-          <Card className="h-full rounded-2xl border-gray-100/80 shadow-sm hover:shadow-xl hover:-translate-y-0.5 transition-all duration-300 ease-out group relative overflow-hidden">
-            <div className="absolute top-0 left-0 w-full h-2 bg-purple-500 rounded-t-2xl" />
-            <CardContent className="p-6 md:p-8 text-center flex flex-col h-full">
-              <div className="w-14 h-14 md:w-16 md:h-16 bg-purple-50 rounded-full flex items-center justify-center mx-auto mb-4 md:mb-6 group-hover:scale-110 transition-transform duration-300">
-                <Building className="h-7 w-7 md:h-8 md:w-8 text-purple-600" />
-              </div>
-              <h3 className="text-2xl font-bold text-gray-900 mb-2 md:mb-3">Zelle</h3>
-              <p className="text-gray-600 mb-2 md:mb-3 text-sm md:text-base">Direct bank transfer with no fees.</p>
-              <div className="w-full flex-grow flex flex-col justify-end min-h-[100px] md:min-h-[140px]">
-                <div className="space-y-3">
-                  <p className={`text-sm font-medium px-3 py-2 rounded-lg border-l-2 transition-colors -mt-1 ${copied ? 'text-green-600 bg-green-50/80 border-green-300' : 'text-gray-500 bg-gray-50/80 border-gray-200'}`}>
-                    {copied ? 'Open your Zelle or bank app and send to this number.' : 'Copy the number, then send in your bank or Zelle app.'}
-                  </p>
-                  <div className="bg-gray-50 rounded-xl p-4 border border-gray-100">
-                    <p className="text-2xl font-mono font-bold text-gray-900 tracking-wider">404-940-8162</p>
-                  </div>
-                  <Button
-                    onClick={() => !copied && onCopy('404-940-8162')}
-                    className={`w-full py-6 text-lg rounded-xl shadow-sm hover:shadow-md active:scale-[0.99] transition-all duration-200 ${copied
-                      ? 'bg-green-600 hover:bg-green-700 text-white cursor-default'
-                      : 'bg-gray-900 hover:bg-purple-600 text-white'
-                      }`}
-                  >
-                    {copied ? (
-                      <span className="flex items-center gap-2"><Check className="h-5 w-5" /> Copied!</span>
-                    ) : (
-                      <span className="flex items-center gap-2"><Copy className="h-5 w-5" /> Copy Number</span>
-                    )}
-                  </Button>
-                </div>
-              </div>
-            </CardContent>
-          </Card>
-        </Reveal>
-
-        <Reveal delay={150}>
-          <Card className="h-full rounded-2xl border-gray-100/80 shadow-sm hover:shadow-xl hover:-translate-y-0.5 transition-all duration-300 ease-out group relative overflow-hidden">
-            <div className="absolute top-0 left-0 w-full h-2 bg-green-400 rounded-t-2xl" />
-            <CardContent className="p-6 md:p-8 text-center flex flex-col h-full">
-              <div className="w-14 h-14 md:w-16 md:h-16 bg-green-50 rounded-full flex items-center justify-center mx-auto mb-4 md:mb-6 group-hover:scale-110 transition-transform duration-300">
-                <DollarSign className="h-7 w-7 md:h-8 md:w-8 text-green-500" />
-              </div>
-              <h3 className="text-2xl font-bold text-gray-900 mb-2 md:mb-3">Cash App</h3>
-              <p className="text-gray-600 mb-3 md:mb-4 text-sm md:text-base md:hidden">Tap below to open Cash App and give.</p>
-              <p className="text-gray-600 mb-3 md:mb-4 text-sm md:text-base hidden md:block">Peer-to-peer giving to $grmatl.</p>
-              <div className="w-full flex-grow flex flex-col justify-end min-h-[100px] md:min-h-[140px]">
-                <div className="space-y-4">
-                  <div className="md:hidden flex justify-center">
-                    <div className="bg-gray-50 rounded-xl px-6 py-4 border border-gray-100 w-full max-w-[200px]">
-                      <p className="text-2xl font-bold text-gray-900 tracking-tight">$grmatl</p>
-                    </div>
-                  </div>
-                  <div className="hidden md:flex justify-center">
-                    <Image
-                      src={`https://api.qrserver.com/v1/create-qr-code/?size=160x160&data=${encodeURIComponent('https://cash.app/$grmatl')}`}
-                      alt="Scan to pay with Cash App"
-                      width={160}
-                      height={160}
-                      className="rounded-xl border border-gray-200 bg-white p-2"
-                      unoptimized
-                    />
-                  </div>
-                  <p className="text-sm text-gray-500 hidden md:block">Scan with your phone camera or Cash App</p>
-                  <a href="https://cash.app/$grmatl" target="_blank" rel="noopener noreferrer" className="block w-full">
-                    <Button className="w-full bg-gray-900 text-white hover:bg-green-500 py-6 text-lg rounded-xl shadow-md transition-colors">
-                      Open Cash App
-                    </Button>
-                  </a>
-                </div>
-              </div>
-            </CardContent>
-          </Card>
-        </Reveal>
-      </div>
-
-      <Reveal className="relative bg-grm-primary rounded-3xl p-12 md:p-20 text-center text-white overflow-hidden shadow-xl">
+      <Reveal className="relative bg-grm-primary rounded-3xl p-12 md:p-20 text-center text-white overflow-hidden shadow-xl mt-24">
         <div className="absolute inset-0 z-0">
           <Image
             src="/images/give/quote-section-bg.webp"
@@ -169,35 +179,6 @@ export default function GiveCards({ copied, onCopy }: GiveCardsProps) {
           </cite>
         </div>
       </Reveal>
-
-      {/* Tithe.ly Modal */}
-      <Dialog open={modalOpen} onOpenChange={setModalOpen}>
-        <DialogContent className="max-w-[1300px] w-full h-[98vh] p-0 overflow-hidden border-0 [&>button]:hidden touch-manipulation">
-          <DialogTitle className="sr-only">Give via Tithe.ly</DialogTitle>
-          {iframeLoaded && (
-            <div className="absolute top-2 right-2 md:top-3 md:right-3 z-[60]">
-              <button
-                onClick={() => setModalOpen(false)}
-                className="rounded-full bg-transparent p-1 transition-opacity hover:opacity-70 focus:outline-none cursor-pointer"
-                aria-label="Close"
-              >
-                <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" className="text-gray-600">
-                  <line x1="18" y1="6" x2="6" y2="18"></line>
-                  <line x1="6" y1="6" x2="18" y2="18"></line>
-                </svg>
-              </button>
-            </div>
-          )}
-          <div className="w-full h-full flex items-center justify-center p-3 overflow-auto">
-            <iframe
-              src="https://give.tithe.ly/?formId=1f6a8698-6865-11ee-90fc-1260ab546d11"
-              className="w-full max-w-[1200px] h-full border-0 touch-manipulation"
-              title="Give via Tithe.ly"
-              onLoad={() => setIframeLoaded(true)}
-            />
-          </div>
-        </DialogContent>
-      </Dialog>
-    </>
+    </div>
   )
 }
