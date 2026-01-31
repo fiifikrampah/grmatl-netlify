@@ -16,24 +16,38 @@ export default function HomePage() {
   const containerRef = useRef<HTMLDivElement>(null)
   const heroBgRef = useRef<HTMLDivElement>(null)
   const [worshipPage, setWorshipPage] = useState(0)
+  const [isAutoPaused, setIsAutoPaused] = useState(false)
+  const pauseTimeoutRef = useRef<NodeJS.Timeout | null>(null)
 
   const [showBottomGradient, setShowBottomGradient] = useState(false)
 
+  const pauseAutoCycle = () => {
+    setIsAutoPaused(true)
+    if (pauseTimeoutRef.current) {
+      clearTimeout(pauseTimeoutRef.current)
+    }
+    pauseTimeoutRef.current = setTimeout(() => {
+      setIsAutoPaused(false)
+    }, 10000) // Resume after 10 seconds
+  }
+
   useEffect(() => {
+    if (isAutoPaused) return;
+
     // Auto-cycle worship images
     const interval = setInterval(() => {
       setWorshipPage((prev) => (prev === WORSHIP_IMAGES.length - 1 ? 0 : prev + 1))
     }, 5000)
 
     return () => clearInterval(interval)
-  }, [])
+  }, [isAutoPaused])
 
   useEffect(() => {
-    const handleScroll = () => {
-      setShowBottomGradient(window.scrollY > 20)
+    return () => {
+      if (pauseTimeoutRef.current) {
+        clearTimeout(pauseTimeoutRef.current)
+      }
     }
-    window.addEventListener('scroll', handleScroll)
-    return () => window.removeEventListener('scroll', handleScroll)
   }, [])
 
   return (
@@ -267,6 +281,7 @@ export default function HomePage() {
             {/* Carousel Controls */}
             <button
               onClick={() => {
+                pauseAutoCycle()
                 setWorshipPage((prev) => (prev === 0 ? WORSHIP_IMAGES.length - 1 : prev - 1))
               }}
               className="absolute left-4 md:left-12 z-40 p-3 md:p-4 rounded-full bg-white text-gray-900 shadow-xl border border-gray-100 hover:scale-110 transition-all duration-300 group hidden md:block"
@@ -277,6 +292,7 @@ export default function HomePage() {
 
             <button
               onClick={() => {
+                pauseAutoCycle()
                 setWorshipPage((prev) => (prev === WORSHIP_IMAGES.length - 1 ? 0 : prev + 1))
               }}
               className="absolute right-4 md:right-12 z-40 p-3 md:p-4 rounded-full bg-white text-gray-900 shadow-xl border border-gray-100 hover:scale-110 transition-all duration-300 group hidden md:block"
@@ -288,6 +304,7 @@ export default function HomePage() {
             {/* Mobile Controls (Closer to edge) */}
             <button
               onClick={() => {
+                pauseAutoCycle()
                 setWorshipPage((prev) => (prev === 0 ? WORSHIP_IMAGES.length - 1 : prev - 1))
               }}
               className="absolute left-2 z-40 p-2 rounded-full bg-white/90 text-gray-900 shadow-lg border border-gray-100 md:hidden"
@@ -297,6 +314,7 @@ export default function HomePage() {
             </button>
             <button
               onClick={() => {
+                pauseAutoCycle()
                 setWorshipPage((prev) => (prev === WORSHIP_IMAGES.length - 1 ? 0 : prev + 1))
               }}
               className="absolute right-2 z-40 p-2 rounded-full bg-white/90 text-gray-900 shadow-lg border border-gray-100 md:hidden"
@@ -359,7 +377,10 @@ export default function HomePage() {
             {WORSHIP_IMAGES.map((_, i) => (
               <button
                 key={i}
-                onClick={() => setWorshipPage(i)}
+                onClick={() => {
+                  pauseAutoCycle()
+                  setWorshipPage(i)
+                }}
                 className={`h-1.5 rounded-full transition-all duration-300 cursor-pointer ${
                   i === worshipPage ? 'w-8 bg-grm-primary' : 'w-2 bg-gray-300 hover:bg-gray-400'
                 }`}
