@@ -18,7 +18,6 @@ export default function HomePage() {
   const [worshipPage, setWorshipPage] = useState(0)
   const [isAutoPaused, setIsAutoPaused] = useState(false)
   const pauseTimeoutRef = useRef<NodeJS.Timeout | null>(null)
-
   const [showBottomGradient, setShowBottomGradient] = useState(false)
 
   const pauseAutoCycle = () => {
@@ -50,6 +49,15 @@ export default function HomePage() {
     }
   }, [])
 
+  useEffect(() => {
+    const handleScroll = () => {
+      setShowBottomGradient(window.scrollY > 50)
+    }
+
+    window.addEventListener('scroll', handleScroll)
+    return () => window.removeEventListener('scroll', handleScroll)
+  }, [])
+
   return (
     <div ref={containerRef} className="bg-white overflow-hidden">
       {/* Hero Section */}
@@ -75,10 +83,9 @@ export default function HomePage() {
         {/* Static Top Gradient for Menu Visibility */}
         <div className="absolute inset-x-0 top-0 z-10 h-32 bg-gradient-to-b from-black/80 to-transparent pointer-events-none" />
 
-        {/* Static Bottom Gradient Overlay - Outside Parallax Container - Shows only on scroll */}
+        {/* Static Bottom Gradient Overlay - Outside Parallax Container */}
         <div
-          className={`absolute inset-x-0 bottom-0 z-10 h-64 bg-gradient-to-t from-white via-white/90 to-transparent pointer-events-none transition-opacity duration-700 ease-in-out ${showBottomGradient ? 'opacity-100' : 'opacity-0'
-            }`}
+          className={`absolute inset-x-0 bottom-0 z-10 h-64 bg-gradient-to-t from-white via-white/90 to-transparent pointer-events-none transition-opacity duration-700 ease-in-out ${showBottomGradient ? 'opacity-100' : 'opacity-0'}`}
         />
 
         <div className="relative z-20 container mx-auto px-4 sm:px-6 text-center">
@@ -126,8 +133,7 @@ export default function HomePage() {
 
         {/* Scroll Indicator - Premium Mouse Style */}
         <div
-          className={`absolute bottom-10 left-1/2 -translate-x-1/2 z-20 flex-col items-center gap-2 transition-all duration-700 ease-out hidden md:flex ${showBottomGradient ? 'opacity-0 translate-y-4 pointer-events-none' : 'opacity-100 translate-y-0'
-            }`}
+          className={`absolute bottom-10 left-1/2 -translate-x-1/2 z-20 flex-col items-center gap-2 transition-all duration-700 ease-out hidden md:flex ${showBottomGradient ? 'opacity-0 translate-y-4 pointer-events-none' : 'opacity-100 translate-y-0'}`}
         >
           {/* Mouse Body */}
           <div className="w-[26px] h-[42px] rounded-full border border-white/60 flex justify-center p-1 shadow-[0_0_15px_rgba(0,0,0,0.15)] backdrop-blur-[2px]">

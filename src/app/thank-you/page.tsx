@@ -2,8 +2,7 @@
 
 import Link from 'next/link'
 import Image from 'next/image'
-import { Button } from '@/components/ui/button'
-import { Heart, ArrowRight, ArrowLeft, Mail, Phone, MapPin } from 'lucide-react'
+import { Heart, ArrowLeft } from 'lucide-react'
 import Reveal from '@/components/Reveal'
 
 export default function ThankYou() {

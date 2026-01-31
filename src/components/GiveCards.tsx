@@ -5,7 +5,7 @@ import Image from 'next/image'
 import { Card, CardContent } from '@/components/ui/card'
 import { Button } from '@/components/ui/button'
 import { Dialog, DialogContent, DialogTitle } from '@/components/ui/dialog'
-import { Heart, Building, DollarSign, Copy, Check, CreditCard, Shield, RefreshCw, Smartphone, ArrowRight } from 'lucide-react'
+import { Heart, Building, DollarSign, Copy, Check, CreditCard, Shield, RefreshCw, Smartphone } from 'lucide-react'
 import Reveal from '@/components/Reveal'
 
 interface GiveCardsProps {
@@ -124,12 +124,13 @@ export default function GiveCards({ copied, onCopy }: GiveCardsProps) {
                     </div>
                   </div>
                   <div className="hidden md:flex justify-center">
-                    <img
+                    <Image
                       src={`https://api.qrserver.com/v1/create-qr-code/?size=160x160&data=${encodeURIComponent('https://cash.app/$grmatl')}`}
                       alt="Scan to pay with Cash App"
                       width={160}
                       height={160}
                       className="rounded-xl border border-gray-200 bg-white p-2"
+                      unoptimized
                     />
                   </div>
                   <p className="text-sm text-gray-500 hidden md:block">Scan with your phone camera or Cash App</p>

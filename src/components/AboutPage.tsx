@@ -30,7 +30,7 @@ export default function AboutPage() {
   ]
 
   return (
-    <div className="space-y-0">
+    <div className="space-y-0 overflow-x-hidden">
       {/* Modern Hero Section */}
       <section className="relative pt-32 pb-20 md:pt-40 md:pb-32 overflow-hidden bg-white">
         {/* Background Image with Gradient Fade - using mask for seamless blend */}
@@ -65,12 +65,12 @@ export default function AboutPage() {
       </section>
 
       {/* Founder Section */}
-      <section className="py-24 bg-white">
+      <section className="py-24 bg-white overflow-hidden">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
             {/* Image */}
             <Reveal className="relative">
-              <div className="absolute -top-6 -left-6 w-full h-full bg-grm-blue-50 rounded-2xl -z-10"></div>
+              <div className="absolute -top-6 -left-6 w-full h-full bg-grm-blue-50 rounded-2xl -z-10 hidden sm:block"></div>
               <Image
                 src="/images/branding/founder.webp"
                 alt="Pastor Andrews Frimpong"
@@ -170,7 +170,7 @@ export default function AboutPage() {
       </section>
 
       {/* History Section */}
-      <section className="py-24 bg-white">
+      <section className="py-24 bg-white overflow-hidden">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
             {/* Content */}
@@ -191,9 +191,9 @@ export default function AboutPage() {
               </div>
             </div>
 
-             {/* Image */}
-             <div className="relative order-1 lg:order-2">
-              <div className="absolute -bottom-6 -right-6 w-full h-full bg-gray-100 rounded-2xl -z-10"></div>
+            {/* Image */}
+            <div className="relative order-1 lg:order-2">
+              <div className="absolute -bottom-6 -right-6 w-full h-full bg-gray-100 rounded-2xl -z-10 hidden sm:block"></div>
               <Image
                 src="/images/about/content-section.webp"
                 alt="Church history"
