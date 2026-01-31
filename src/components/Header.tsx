@@ -35,8 +35,8 @@ export default function Header() {
   const isWhiteBackgroundPage =
     pathname === '/privacy' ||
     pathname === '/terms' ||
-    (pathname && !['/', '/about', '/contact', '/give', '/live', '/events', '/blogs'].includes(pathname) && !pathname.startsWith('/admin') && !pathname.startsWith('/events/'))
-  const [scrolled, setScrolled] = useState(!!isWhiteBackgroundPage)
+    (pathname && !['/', '/about', '/contact', '/give', '/live', '/events', '/blogs', '/thank-you'].includes(pathname) && !pathname.startsWith('/admin') && !pathname.startsWith('/events/'))
+  const [scrolled, setScrolled] = useState(pathname === '/thank-you' ? false : !!isWhiteBackgroundPage)
 
   useEffect(() => {
     if (typeof window === 'undefined') return
@@ -44,7 +44,7 @@ export default function Header() {
       const isWhitePage =
         pathname === '/privacy' ||
         pathname === '/terms' ||
-        (pathname && !['/', '/about', '/contact', '/give', '/live', '/events', '/blogs'].includes(pathname) && !pathname.startsWith('/admin') && !pathname.startsWith('/events/'))
+        (pathname && !['/', '/about', '/contact', '/give', '/live', '/events', '/blogs', '/thank-you'].includes(pathname) && !pathname.startsWith('/admin') && !pathname.startsWith('/events/'))
       if (isWhitePage) {
         setScrolled(true)
       } else {
@@ -105,11 +105,10 @@ export default function Header() {
 
   return (
     <header
-      className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 animate-slide-down ${
-        isSolidHeader
+      className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 animate-slide-down ${isSolidHeader
           ? 'bg-white/95 backdrop-blur-md shadow-sm border-b border-gray-100 py-2'
           : 'bg-transparent py-4 border-0 shadow-none'
-      }`}
+        }`}
     >
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between items-center">
@@ -120,9 +119,8 @@ export default function Header() {
               alt="Great Redemption Ministries"
               width={75}
               height={75}
-              className={`transition-all duration-300 ${
-                !useDarkText ? 'filter brightness-0 invert' : 'filter brightness-0 saturate-100'
-              } hover:opacity-80`}
+              className={`transition-all duration-300 ${!useDarkText ? 'filter brightness-0 invert' : 'filter brightness-0 saturate-100'
+                } hover:opacity-80`}
             />
           </Link>
 
@@ -135,11 +133,10 @@ export default function Header() {
                   href={item.href}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className={`px-4 py-2 text-sm font-medium tracking-wide transition-all duration-200 rounded-full hover:bg-white/10 ${
-                    !useDarkText
+                  className={`px-4 py-2 text-sm font-medium tracking-wide transition-all duration-200 rounded-full hover:bg-white/10 ${!useDarkText
                       ? 'text-white hover:text-white'
                       : 'text-gray-900 hover:text-grm-primary hover:bg-grm-blue-50'
-                  }`}
+                    }`}
                 >
                   {item.name}
                 </a>
@@ -147,9 +144,8 @@ export default function Header() {
                 <Link
                   key={item.name}
                   href={item.href}
-                  className={`px-4 py-2 text-sm font-medium tracking-wide transition-all duration-200 rounded-full ${
-                    !useDarkText ? 'text-white hover:text-white hover:bg-white/10' : 'text-gray-900 hover:text-grm-primary hover:bg-grm-blue-50'
-                  } ${pathname === item.href ? (!useDarkText ? 'bg-white/20' : 'bg-grm-blue-50 text-grm-primary') : ''}`}
+                  className={`px-4 py-2 text-sm font-medium tracking-wide transition-all duration-200 rounded-full ${!useDarkText ? 'text-white hover:text-white hover:bg-white/10' : 'text-gray-900 hover:text-grm-primary hover:bg-grm-blue-50'
+                    } ${pathname === item.href ? (!useDarkText ? 'bg-white/20' : 'bg-grm-blue-50 text-grm-primary') : ''}`}
                 >
                   {item.name}
                 </Link>
@@ -159,9 +155,8 @@ export default function Header() {
               <div className="flex items-center gap-2 ml-4 pl-4 border-l border-gray-200">
                 <Link
                   href="/admin"
-                  className={`flex items-center gap-1 text-sm font-medium ${
-                    !useDarkText ? 'text-white' : 'text-gray-900'
-                  }`}
+                  className={`flex items-center gap-1 text-sm font-medium ${!useDarkText ? 'text-white' : 'text-gray-900'
+                    }`}
                 >
                   <Shield className="h-4 w-4" />
                 </Link>
@@ -177,11 +172,10 @@ export default function Header() {
             ) : (
               <Link
                 href="/admin/login"
-                className={`ml-4 px-6 py-2 text-sm font-medium rounded-full transition-all duration-200 ${
-                  !useDarkText
+                className={`ml-4 px-6 py-2 text-sm font-medium rounded-full transition-all duration-200 ${!useDarkText
                     ? 'bg-white text-black hover:bg-gray-100'
                     : 'bg-grm-primary text-white hover:bg-grm-secondary shadow-sm hover:shadow-md'
-                }`}
+                  }`}
               >
                 Login
               </Link>
@@ -219,9 +213,8 @@ export default function Header() {
                       ) : (
                         <Link
                           href={item.href}
-                          className={`block text-2xl font-light py-3 border-b border-gray-50 hover:text-grm-primary transition-colors ${
-                            pathname === item.href ? 'text-grm-primary font-medium' : 'text-gray-900'
-                          }`}
+                          className={`block text-2xl font-light py-3 border-b border-gray-50 hover:text-grm-primary transition-colors ${pathname === item.href ? 'text-grm-primary font-medium' : 'text-gray-900'
+                            }`}
                           onClick={() => setIsOpen(false)}
                         >
                           {item.name}

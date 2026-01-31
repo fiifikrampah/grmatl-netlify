@@ -1,18 +1,22 @@
 "use client"
 
+import { useState } from 'react'
 import Image from 'next/image'
 import { Card, CardContent } from '@/components/ui/card'
 import { Button } from '@/components/ui/button'
-import { Heart, Building, DollarSign, Copy, Check, CreditCard, Shield, RefreshCw, Smartphone } from 'lucide-react'
+import { Dialog, DialogContent, DialogTitle } from '@/components/ui/dialog'
+import { Heart, Building, DollarSign, Copy, Check, CreditCard, Shield, RefreshCw, Smartphone, ArrowRight } from 'lucide-react'
 import Reveal from '@/components/Reveal'
 
 interface GiveCardsProps {
   copied: boolean
   onCopy: (text: string) => void
-  onGiveOnlineClick?: () => void
 }
 
-export default function GiveCards({ copied, onCopy, onGiveOnlineClick }: GiveCardsProps) {
+export default function GiveCards({ copied, onCopy }: GiveCardsProps) {
+  const [modalOpen, setModalOpen] = useState(false)
+  const [iframeLoaded, setIframeLoaded] = useState(false)
+
   return (
     <>
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6 md:gap-8 mb-24 max-w-6xl mx-auto">
@@ -23,30 +27,45 @@ export default function GiveCards({ copied, onCopy, onGiveOnlineClick }: GiveCar
               <div className="w-14 h-14 md:w-16 md:h-16 bg-green-50 rounded-full flex items-center justify-center mx-auto mb-4 md:mb-6 group-hover:scale-110 transition-transform duration-300">
                 <CreditCard className="h-7 w-7 md:h-8 md:w-8 text-green-600" />
               </div>
-              <h3 className="text-2xl font-bold text-gray-900 mb-2 md:mb-3">Give Online</h3>
-              <p className="text-gray-600 mb-4 text-sm md:text-base">Secure online giving via Tithe.ly.</p>
-              <div className="w-full flex-grow min-h-[100px] md:min-h-[140px] flex flex-col justify-center">
-                <ul className="flex flex-wrap justify-center gap-2 md:gap-3 list-none p-0 m-0" role="list">
-                  <li className="inline-flex items-center gap-2 rounded-lg bg-green-50/90 px-3 py-2 text-sm font-medium text-gray-700 ring-1 ring-green-100/80">
-                    <RefreshCw className="h-4 w-4 text-green-600 shrink-0" aria-hidden />
-                    One-time or recurring
-                  </li>
-                  <li className="inline-flex items-center gap-2 rounded-lg bg-green-50/90 px-3 py-2 text-sm font-medium text-gray-700 ring-1 ring-green-100/80">
-                    <Shield className="h-4 w-4 text-green-600 shrink-0" aria-hidden />
-                    Secure
-                  </li>
-                  <li className="inline-flex items-center gap-2 rounded-lg bg-green-50/90 px-3 py-2 text-sm font-medium text-gray-700 ring-1 ring-green-100/80">
-                    <Smartphone className="h-4 w-4 text-green-600 shrink-0" aria-hidden />
-                    No app required
-                  </li>
-                </ul>
+              <h3 className="text-2xl font-bold text-gray-900 mb-2 md:mb-3">Give via Tithe.ly</h3>
+              <p className="text-gray-600 mb-3 md:mb-4 text-sm md:text-base md:hidden">Secure online giving via Tithe.ly.</p>
+              <p className="text-gray-600 mb-3 md:mb-4 text-sm md:text-base hidden md:block">Scan to give via Tithe.ly app.</p>
+              <div className="w-full flex-grow flex flex-col justify-end min-h-[100px] md:min-h-[140px]">
+                <div className="space-y-4">
+                  <div className="md:hidden flex flex-col justify-center">
+                    <ul className="flex flex-wrap justify-center gap-2 md:gap-3 list-none p-0 m-0 mb-4" role="list">
+                      <li className="inline-flex items-center gap-2 rounded-lg bg-green-50/90 px-3 py-2 text-sm font-medium text-gray-700 ring-1 ring-green-100/80">
+                        <RefreshCw className="h-4 w-4 text-green-600 shrink-0" aria-hidden />
+                        One-time or recurring
+                      </li>
+                      <li className="inline-flex items-center gap-2 rounded-lg bg-green-50/90 px-3 py-2 text-sm font-medium text-gray-700 ring-1 ring-green-100/80">
+                        <Shield className="h-4 w-4 text-green-600 shrink-0" aria-hidden />
+                        Secure
+                      </li>
+                      <li className="inline-flex items-center gap-2 rounded-lg bg-green-50/90 px-3 py-2 text-sm font-medium text-gray-700 ring-1 ring-green-100/80">
+                        <Smartphone className="h-4 w-4 text-green-600 shrink-0" aria-hidden />
+                        No app required
+                      </li>
+                    </ul>
+                  </div>
+                  <div className="hidden md:flex justify-center">
+                    <Image
+                      src="/images/give/tithely-qr.jpg"
+                      alt="Scan to give with Tithe.ly"
+                      width={160}
+                      height={160}
+                      className="rounded-xl border border-gray-200 bg-white p-2"
+                    />
+                  </div>
+                  <p className="text-sm text-gray-500 hidden md:block">Scan with your phone camera or Tithe.ly app</p>
+                  <Button
+                    onClick={() => setModalOpen(true)}
+                    className="w-full bg-gray-900 text-white hover:bg-green-600 py-6 text-lg rounded-xl shadow-sm hover:shadow-md active:scale-[0.99] transition-all duration-200"
+                  >
+                    Give via Tithe.ly
+                  </Button>
+                </div>
               </div>
-              <Button
-                onClick={onGiveOnlineClick}
-                className="w-full bg-gray-900 text-white hover:bg-green-600 py-6 text-lg rounded-xl shadow-sm hover:shadow-md active:scale-[0.99] transition-all duration-200 mt-4"
-              >
-                Give Online
-              </Button>
             </CardContent>
           </Card>
         </Reveal>
@@ -70,11 +89,10 @@ export default function GiveCards({ copied, onCopy, onGiveOnlineClick }: GiveCar
                   </div>
                   <Button
                     onClick={() => !copied && onCopy('404-940-8162')}
-                    className={`w-full py-6 text-lg rounded-xl shadow-sm hover:shadow-md active:scale-[0.99] transition-all duration-200 ${
-                      copied
-                        ? 'bg-green-600 hover:bg-green-700 text-white cursor-default'
-                        : 'bg-gray-900 hover:bg-purple-600 text-white'
-                    }`}
+                    className={`w-full py-6 text-lg rounded-xl shadow-sm hover:shadow-md active:scale-[0.99] transition-all duration-200 ${copied
+                      ? 'bg-green-600 hover:bg-green-700 text-white cursor-default'
+                      : 'bg-gray-900 hover:bg-purple-600 text-white'
+                      }`}
                   >
                     {copied ? (
                       <span className="flex items-center gap-2"><Check className="h-5 w-5" /> Copied!</span>
@@ -150,6 +168,35 @@ export default function GiveCards({ copied, onCopy, onGiveOnlineClick }: GiveCar
           </cite>
         </div>
       </Reveal>
+
+      {/* Tithe.ly Modal */}
+      <Dialog open={modalOpen} onOpenChange={setModalOpen}>
+        <DialogContent className="max-w-[1300px] w-full h-[98vh] p-0 overflow-hidden border-0 [&>button]:hidden">
+          <DialogTitle className="sr-only">Give via Tithe.ly</DialogTitle>
+          {iframeLoaded && (
+            <div className="absolute top-2 right-2 md:top-3 md:right-3 z-[60]">
+              <button
+                onClick={() => setModalOpen(false)}
+                className="rounded-full bg-transparent p-1 transition-opacity hover:opacity-70 focus:outline-none"
+                aria-label="Close"
+              >
+                <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" className="text-gray-600">
+                  <line x1="18" y1="6" x2="6" y2="18"></line>
+                  <line x1="6" y1="6" x2="18" y2="18"></line>
+                </svg>
+              </button>
+            </div>
+          )}
+          <div className="w-full h-full flex items-center justify-center p-3">
+            <iframe
+              src="https://give.tithe.ly/?formId=1f6a8698-6865-11ee-90fc-1260ab546d11"
+              className="w-full max-w-[1200px] h-full border-0"
+              title="Give via Tithe.ly"
+              onLoad={() => setIframeLoaded(true)}
+            />
+          </div>
+        </DialogContent>
+      </Dialog>
     </>
   )
 }

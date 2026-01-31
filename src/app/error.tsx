@@ -17,7 +17,7 @@ export default function Error({
   }, [error])
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-white px-4">
+    <div className="fixed inset-0 z-[9999] min-h-screen flex items-center justify-center bg-white px-4">
       <div className="text-center space-y-8 max-w-lg">
         <div className="w-16 h-16 mx-auto rounded-full bg-red-50 flex items-center justify-center">
           <RefreshCw className="h-8 w-8 text-red-500" aria-hidden />
