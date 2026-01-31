@@ -172,13 +172,13 @@ export default function GiveCards({ copied, onCopy }: GiveCardsProps) {
 
       {/* Tithe.ly Modal */}
       <Dialog open={modalOpen} onOpenChange={setModalOpen}>
-        <DialogContent className="max-w-[1300px] w-full h-[98vh] p-0 overflow-hidden border-0 [&>button]:hidden">
+        <DialogContent className="max-w-[1300px] w-full h-[98vh] p-0 overflow-hidden border-0 [&>button]:hidden touch-manipulation">
           <DialogTitle className="sr-only">Give via Tithe.ly</DialogTitle>
           {iframeLoaded && (
             <div className="absolute top-2 right-2 md:top-3 md:right-3 z-[60]">
               <button
                 onClick={() => setModalOpen(false)}
-                className="rounded-full bg-transparent p-1 transition-opacity hover:opacity-70 focus:outline-none"
+                className="rounded-full bg-transparent p-1 transition-opacity hover:opacity-70 focus:outline-none cursor-pointer"
                 aria-label="Close"
               >
                 <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" className="text-gray-600">
@@ -188,10 +188,10 @@ export default function GiveCards({ copied, onCopy }: GiveCardsProps) {
               </button>
             </div>
           )}
-          <div className="w-full h-full flex items-center justify-center p-3">
+          <div className="w-full h-full flex items-center justify-center p-3 overflow-auto">
             <iframe
               src="https://give.tithe.ly/?formId=1f6a8698-6865-11ee-90fc-1260ab546d11"
-              className="w-full max-w-[1200px] h-full border-0"
+              className="w-full max-w-[1200px] h-full border-0 touch-manipulation"
               title="Give via Tithe.ly"
               onLoad={() => setIframeLoaded(true)}
             />
