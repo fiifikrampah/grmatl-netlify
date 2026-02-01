@@ -5,6 +5,7 @@ on:
     # These cron settings are placeholders and will be dynamically adjusted
     - cron: '05 15 * * 0'  # Initially set for 11:15 AM EDT (15:15 UTC)
     - cron: '25 15 * * 0'  # Initially set for 11:25 AM EDT (15:25 UTC)
+    - cron: '25 16 * * 0'  # Initially set for 12:25 PM EDT (16:25 UTC) — 1 hr after last run
 
   workflow_dispatch:
 
@@ -48,14 +49,16 @@ jobs:
       - name: Update Cron Schedules Based on DST Status
         run: |
           if [ "$DST_ACTIVE" == "True" ]; then
-            # DST is active, use EDT schedules
+            # DST is active, use EDT schedules (15 / 16 UTC)
+            sed -i '/12:25/s~cron: "25 17 \* \* 0"~cron: "25 16 \* \* 0" # 12:25 PM EDT (16:25 UTC)~g' .github/workflows/stream-embedder.yml
+            sed -i '/11:25/s~cron: "25 16 \* \* 0"~cron: "25 15 \* \* 0" # 11:25 AM EDT (15:25 UTC)~g' .github/workflows/stream-embedder.yml
             sed -i 's~cron: "05 16 \* \* 0"~cron: "05 15 \* \* 0" # 11:15 AM EDT (15:15 UTC)~g' .github/workflows/stream-embedder.yml
-            sed -i 's~cron: "15 16 \* \* 0"~cron: "15 15 \* \* 0" # 11:25 AM EDT (15:25 UTC)~g' .github/workflows/stream-embedder.yml
             echo "STREAM_EMBEDDER_YML_UPDATED=true" >> $GITHUB_ENV
           else
-            # DST is inactive, use EST schedules
+            # DST is inactive, use EST schedules (16 / 17 UTC); order matters for 25 16
+            sed -i '/12:25/s~cron: "25 16 \* \* 0"~cron: "25 17 \* \* 0" # 12:25 PM EST (17:25 UTC)~g' .github/workflows/stream-embedder.yml
+            sed -i 's~cron: "25 15 \* \* 0"~cron: "25 16 \* \* 0" # 11:25 AM EST (16:25 UTC)~g' .github/workflows/stream-embedder.yml
             sed -i 's~cron: "05 15 \* \* 0"~cron: "05 16 \* \* 0" # 11:15 AM EST (16:15 UTC)~g' .github/workflows/stream-embedder.yml
-            sed -i 's~cron: "15 15 \* \* 0"~cron: "15 16 \* \* 0" # 11:25 AM EST (16:25 UTC)~g' .github/workflows/stream-embedder.yml
             echo "STREAM_EMBEDDER_YML_UPDATED=true" >> $GITHUB_ENV
           fi
       - name: Commit and Push LiveVideo Component Changes

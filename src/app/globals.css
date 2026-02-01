@@ -211,7 +211,7 @@
 .reveal.in-view {
   animation: fade-in-up 0.5s ease-out forwards;
 }
-/* Mobile: show content immediately, no animation — reduces JS/GPU load and crash risk */
+/* Mobile: show content immediately, no animation; reduces JS/GPU load and crash risk */
 @media (max-width: 767px) {
   .reveal,
   .reveal.in-view {

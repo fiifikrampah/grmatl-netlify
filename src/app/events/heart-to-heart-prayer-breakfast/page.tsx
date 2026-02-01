@@ -3,7 +3,7 @@
 import { useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
-import { Calendar, MapPin, Users, Heart, Clock, Shirt } from "lucide-react";
+import { Calendar, MapPin, Users, Heart, Clock, Shirt, ArrowLeft } from "lucide-react";
 import { getEventBySlug } from "@/lib/events.config";
 
 
@@ -72,34 +72,36 @@ export default function HeartToHeartPrayerBreakfastPage() {
 
   return (
     <div className="bg-white min-h-screen">
-      {/* Event Details Section - pt-40 so content clears header; background extends behind header */}
-      <section className="relative pt-40 pb-20 px-4 sm:px-6 lg:px-8 overflow-hidden">
-        {/* Subtle background patterns - large decorative elements */}
+      {/* Event Details Section - pt-0 so background extends behind header; content has pt-40 to clear header */}
+      <section className="relative pt-0 pb-20 px-4 sm:px-6 lg:px-8 overflow-hidden bg-white">
+        {/* Subtle background patterns - responsive so icons don't clash on mobile */}
         <div className="absolute inset-0 overflow-hidden pointer-events-none">
-          {/* Large heart patterns - varied sizes and rotations */}
-          <div className="absolute top-20 right-10 w-72 h-72 opacity-[0.04] transform rotate-12">
+          {/* Heart: top-right corner only; smaller on mobile */}
+          <div className="absolute top-4 right-4 w-28 h-28 sm:top-16 sm:right-8 sm:w-48 sm:h-48 md:top-20 md:right-10 md:w-72 md:h-72 opacity-[0.04] transform rotate-12">
             <svg viewBox="0 0 200 200" className="w-full h-full">
               <path d="M100 50c-10-20-40-30-50-20s-10 30 0 50c10 20 50 70 50 70s40-50 50-70c10-20 10-40 0-50s-40 0-50 20z" fill="#dc2626"/>
             </svg>
           </div>
-          <div className="absolute bottom-40 left-20 w-96 h-96 opacity-[0.03] transform -rotate-6">
+          {/* Heart: bottom-left corner only; smaller on mobile */}
+          <div className="absolute bottom-8 left-4 w-32 h-32 sm:bottom-24 sm:left-8 sm:w-56 sm:h-56 md:bottom-40 md:left-20 md:w-96 md:h-96 opacity-[0.03] transform -rotate-6">
             <svg viewBox="0 0 200 200" className="w-full h-full">
               <path d="M100 50c-10-20-40-30-50-20s-10 30 0 50c10 20 50 70 50 70s40-50 50-70c10-20 10-40 0-50s-40 0-50 20z" fill="#dc2626"/>
             </svg>
           </div>
-          <div className="absolute top-1/2 right-1/4 w-56 h-56 opacity-[0.025] transform rotate-[-15deg]">
+          {/* Heart: hidden on mobile to avoid clash; visible from md in bottom-right */}
+          <div className="absolute bottom-24 right-8 w-40 h-40 opacity-[0.025] transform rotate-[-15deg] hidden sm:block md:bottom-32 md:right-1/4 md:w-56 md:h-56">
             <svg viewBox="0 0 200 200" className="w-full h-full">
               <path d="M100 50c-10-20-40-30-50-20s-10 30 0 50c10 20 50 70 50 70s40-50 50-70c10-20 10-40 0-50s-40 0-50 20z" fill="#dc2626"/>
             </svg>
           </div>
-          {/* Prayer hands icon */}
-          <div className="absolute top-32 left-1/4 w-80 h-80 opacity-[0.03] transform rotate-3">
+          {/* Prayer hands: top-left corner only; smaller on mobile */}
+          <div className="absolute top-4 left-4 w-24 h-24 sm:top-16 sm:left-8 sm:w-40 sm:h-40 md:top-32 md:left-1/4 md:w-80 md:h-80 opacity-[0.03] transform rotate-3">
             <svg viewBox="0 0 24 24" fill="none" stroke="#dc2626" strokeWidth="1.5" className="w-full h-full">
               <path d="M11 12h2M9 7V4a1 1 0 0 1 1-1h4a1 1 0 0 1 1 1v3M9 7H8a2 2 0 0 0-2 2v9a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2V9a2 2 0 0 0-2-2h-1M9 7v3m6-3v3" strokeLinecap="round" strokeLinejoin="round"/>
             </svg>
           </div>
-          {/* Cross icon */}
-          <div className="absolute bottom-32 right-1/3 w-64 h-64 opacity-[0.025] transform rotate-[-8deg]">
+          {/* Cross: bottom-right corner only; smaller on mobile */}
+          <div className="absolute bottom-8 right-4 w-28 h-28 sm:bottom-24 sm:right-8 sm:w-40 sm:h-40 md:bottom-32 md:right-1/3 md:w-64 md:h-64 opacity-[0.025] transform rotate-[-8deg]">
             <svg viewBox="0 0 24 24" fill="none" stroke="#dc2626" strokeWidth="2" className="w-full h-full">
               <path d="M12 2v20M2 12h20" strokeLinecap="round"/>
             </svg>
@@ -110,7 +112,16 @@ export default function HeartToHeartPrayerBreakfastPage() {
           <div className="absolute -bottom-32 -left-32 w-96 h-96 bg-amber-100/15 rounded-full blur-3xl"></div>
         </div>
 
-        <div className="max-w-7xl mx-auto relative z-10">
+        <div className="max-w-7xl mx-auto relative z-10 pt-40">
+          <div className="pb-4">
+            <Link
+              href="/events"
+              className="inline-flex items-center text-sm font-medium text-gray-500 hover:text-grm-primary transition-colors"
+            >
+              <ArrowLeft className="mr-2 h-4 w-4" />
+              Back to Events
+            </Link>
+          </div>
           {/* Registration/status pill - always centered, not too wide on mobile */}
           <div className="flex justify-center mb-10">
             <div className={`inline-flex items-center px-4 py-2.5 sm:px-6 sm:py-3 text-white rounded-full text-sm font-semibold shadow-lg w-fit max-w-full sm:max-w-none justify-center text-center ${

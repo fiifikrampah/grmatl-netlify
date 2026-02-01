@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import Link from "next/link";
-import { Calendar, MapPin, Users, DollarSign, BookOpen, Trophy, Tent, Mountain } from "lucide-react";
+import { Calendar, MapPin, Users, DollarSign, BookOpen, Trophy, Tent, Mountain, ArrowLeft } from "lucide-react";
 import { getEventBySlug } from "@/lib/events.config";
 
 
@@ -70,8 +70,17 @@ export default function SummerCampPage() {
 
   return (
     <div className="bg-white min-h-screen">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-24 pb-2">
+        <Link
+          href="/events"
+          className="inline-flex items-center text-sm font-medium text-gray-500 hover:text-grm-primary transition-colors"
+        >
+          <ArrowLeft className="mr-2 h-4 w-4" />
+          Back to Events
+        </Link>
+      </div>
       {/* Hero Section - pt-40 so content clears header; background extends behind header */}
-      <section className="relative pt-40 pb-20 px-4 sm:px-6 lg:px-8 overflow-hidden">
+      <section className="relative pt-8 pb-20 px-4 sm:px-6 lg:px-8 overflow-hidden">
         {/* Subtle background patterns - large decorative elements */}
         <div className="absolute inset-0 overflow-hidden pointer-events-none">
           {/* Large tent icon */}

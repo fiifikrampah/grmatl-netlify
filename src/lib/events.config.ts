@@ -1,6 +1,29 @@
 // Central configuration for all events
 // Event pages should import and use getEventBySlug() to get their registration status
 
+/** Returns the last Friday of a given month. */
+function getLastFridayOfMonth(year: number, month: number): Date {
+  const lastDay = new Date(year, month + 1, 0)
+  let lastFriday = lastDay
+  while (lastFriday.getDay() !== 5) {
+    lastFriday = new Date(lastFriday.getTime() - 24 * 60 * 60 * 1000)
+  }
+  return lastFriday
+}
+
+/** Returns the next occurrence of Fire Friday (last Friday of each month). */
+export function getNextFireFriday(): Date {
+  const now = new Date()
+  const startOfToday = new Date(now.getFullYear(), now.getMonth(), now.getDate())
+  let date = getLastFridayOfMonth(now.getFullYear(), now.getMonth())
+  if (date.getTime() < startOfToday.getTime()) {
+    const nextMonth = now.getMonth() === 11 ? 0 : now.getMonth() + 1
+    const nextYear = now.getMonth() === 11 ? now.getFullYear() + 1 : now.getFullYear()
+    date = getLastFridayOfMonth(nextYear, nextMonth)
+  }
+  return date
+}
+
 export interface EventConfig {
   slug: string
   title: string

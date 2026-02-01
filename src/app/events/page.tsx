@@ -3,31 +3,13 @@
 import Link from 'next/link'
 import Image from 'next/image'
 import { Calendar, ArrowRight, Clock, MapPin, Shirt } from 'lucide-react'
-import { getDisplayedEvents } from '@/lib/events.config'
+import { getDisplayedEvents, getNextFireFriday } from '@/lib/events.config'
 import Reveal from '@/components/Reveal'
-
-// Helper function to get the last Friday of the current month
-function getLastFridayOfMonth(): Date {
-  const now = new Date();
-  const year = now.getFullYear();
-  const month = now.getMonth();
-
-  // Get the last day of the month
-  const lastDay = new Date(year, month + 1, 0);
-
-  // Find the last Friday
-  let lastFriday = lastDay;
-  while (lastFriday.getDay() !== 5) { // 5 = Friday
-    lastFriday = new Date(lastFriday.getTime() - 24 * 60 * 60 * 1000);
-  }
-
-  return lastFriday;
-}
 
 // Helper function to extract date from event description
 function getEventDate(event: { slug: string; description: string }): Date | null {
   if (event.slug === 'fire-friday') {
-    return getLastFridayOfMonth();
+    return getNextFireFriday();
   }
 
   // Try to parse date from description (format: "📅 Saturday, February 14th, 2026")
@@ -55,10 +37,10 @@ function getEventColor(slug: string) {
 
 export default function EventsPage() {
   const events = getDisplayedEvents()
-  const lastFriday = getLastFridayOfMonth()
+  const nextFireFriday = getNextFireFriday()
 
-  // Format the date for Fire Friday
-  const fireFridayDate = lastFriday.toLocaleDateString('en-US', {
+  // Format the date for Fire Friday (next occurrence)
+  const fireFridayDate = nextFireFriday.toLocaleDateString('en-US', {
     month: 'long',
     day: 'numeric',
     year: 'numeric'
@@ -172,12 +154,12 @@ export default function EventsPage() {
                         {event.description && event.description.split('\n').map((line, idx) => {
                           if (!line.trim()) return null;
 
-                          // Handle Fire Friday date
+                          // Handle Fire Friday date (recurring: next occurrence)
                           if (event.slug === 'fire-friday' && line.includes('🔥') && line.includes('Monthly Event - Last Friday')) {
                             return (
                               <div key={idx} className="flex items-start gap-3">
                                 <Calendar className="h-4 w-4 text-grm-primary shrink-0 mt-0.5" />
-                                <span className="font-medium text-gray-700">{fireFridayDate}</span>
+                                <span className="font-medium text-gray-700">Next: {fireFridayDate}</span>
                               </div>
                             );
                           }

@@ -1,110 +1,46 @@
 import type { Metadata } from 'next'
 import Image from 'next/image'
 import Link from 'next/link'
-import Parser from 'rss-parser'
-import { BookOpen, Calendar, User, ArrowRight, ExternalLink } from 'lucide-react'
+import { BookOpen, Calendar, ArrowRight } from 'lucide-react'
 import Reveal from '@/components/Reveal'
-import { Button } from '@/components/ui/button'
-import { Card, CardContent } from '@/components/ui/card'
+import { getAllBlogPosts } from '@/lib/blogs.config'
 
 export const metadata: Metadata = {
-  title: 'Blogs | Great Redemption Ministries',
-  description: 'Read the latest articles and spiritual insights from Great Redemption Ministries.',
-}
-
-type BlogPost = {
-  title: string
-  link: string
-  pubDate: string
-  content: string
-  contentSnippet: string
-  guid: string
-  categories?: string[]
-  creator?: string
-  isoDate: string
-  'content:encoded'?: string
-}
-
-// Helper to extract the first image from the content content
-function extractImage(content: string | undefined): string | null {
-  if (!content) return null
-  const match = content.match(/<img[^>]+src="([^">]+)"/)
-  return match ? match[1] : null
-}
-
-// Helper to strip HTML tags for snippet
-function stripHtml(html: string): string {
-  if (!html) return ''
-
-  // Remove figcaption elements and their content entirely
-  const cleaned = html.replace(/<figcaption[\s\S]*?<\/figcaption>/gi, '');
-
-  // Replace <br>, <p>, <div>, <blockquote> tags with spaces to prevent words joining
-  const spaced = cleaned.replace(/<(br|p|div|blockquote|li|\/p|\/div|\/blockquote|\/li)>/gi, ' ');
-
-  // Strip remaining tags
-  let text = spaced.replace(/<[^>]*>?/gm, '');
-
-  // Remove residual "Photo by ... on Unsplash" if it somehow survived (including trailing text)
-  text = text.replace(/Photo by .+? on Unsplash/gi, '');
-
-  // Clean up whitespace
-  return text.replace(/\s+/g, ' ').trim();
-}
-
-// Helper to extract slug from Medium URL
-function getSlugFromUrl(url: string): string {
-  // Medium URLs: https://medium.com/grmblogs/the-title-of-the-post-12345abcdef
-  // We want the last part
-  const parts = url.split('/')
-  const lastPart = parts[parts.length - 1]
-  // Remove query params if any
-  return lastPart.split('?')[0]
+  title: 'Blog | Great Redemption Ministries',
+  description:
+    'Read articles and spiritual insights from Great Redemption Ministries: themes, direction, and encouragement for the church.',
 }
 
 export default async function BlogsPage() {
-  const parser = new Parser()
-  let posts: BlogPost[] = []
-
-  try {
-    const feed = await parser.parseURL('https://medium.com/feed/grmblogs')
-    posts = feed.items as BlogPost[]
-
-    // Limit to 9 posts
-    posts = posts.slice(0, 9);
-  } catch (error) {
-    console.error('Error fetching blog posts:', error)
-  }
+  const posts = getAllBlogPosts()
 
   return (
     <div className="bg-white min-h-screen">
       {/* Hero Section */}
       <section className="relative pt-32 pb-20 md:pt-40 md:pb-32 overflow-hidden">
-        {/* Background Image with Gradient Fade - using mask for seamless blend */}
         <div className="absolute inset-0 z-0 [mask-image:linear-gradient(to_bottom,black_30%,transparent_100%)]">
           <Image
             src="/images/blog/hero.webp"
-            alt="GRM Blogs"
+            alt="GRM Blog"
             fill
             className="object-cover object-[center_35%]"
             priority
             quality={92}
           />
-          {/* Menu visibility only */}
           <div className="absolute top-0 left-0 right-0 h-32 bg-gradient-to-b from-black/80 to-transparent" />
-          {/* Subtle Dark Overlay for Premium Feel & Contrast - Darker center for readability */}
           <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,_rgba(0,0,0,0.5)_0%,_rgba(15,58,112,0.6)_60%,_rgba(15,58,112,0.9)_100%)] z-10" />
         </div>
 
         <div className="container mx-auto px-4 relative z-10">
-
           <div className="max-w-4xl mx-auto text-center drop-shadow-lg">
             <Reveal>
               <h1 className="text-5xl md:text-7xl font-bold tracking-tight mb-6 leading-tight">
-                <span className="text-white">Our</span> <span className="text-white">Blogs</span>
+                <span className="text-white">Our</span>{' '}
+                <span className="text-white">Blog</span>
               </h1>
               <p className="text-xl text-white font-medium max-w-2xl mx-auto leading-relaxed">
-                Spiritual insights, church news, and words of encouragement from our ministry team.
+                Spiritual insights, church themes, and words of encouragement
+                from our ministry.
               </p>
             </Reveal>
           </div>
@@ -113,104 +49,77 @@ export default async function BlogsPage() {
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 md:py-24">
         {posts.length > 0 ? (
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-            {posts.map((post, index) => {
-              const imageUrl = extractImage(post['content:encoded'] || post.content || '')
-              // Create a snippet, limit to ~150 chars
-              // Prefer contentSnippet if available and not empty/useless, otherwise strip content
-              // Medium RSS contentSnippet is often just empty or not what we want, so let's try stripping content first if snippet is poor
-              let snippet = post.contentSnippet
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8">
+            {posts.map((post, index) => (
+              <Reveal key={post.slug} delay={index * 100} className="h-full">
+                <Link href={`/blogs/${post.slug}`} className="group block h-full">
+                  <article className="h-full flex flex-col bg-white rounded-[2rem] overflow-hidden border border-gray-100 shadow-sm hover:shadow-xl hover:-translate-y-1 transition-all duration-300 relative">
+                    {/* Hover ambient blur effect */}
+                    <div className="absolute bottom-0 right-0 w-[300px] h-[300px] bg-amber-200/40 rounded-full blur-[60px] translate-y-1/3 translate-x-1/3 opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none z-0" />
 
-              if (!snippet || snippet.length < 10 || snippet === '...') {
-                 snippet = stripHtml(post['content:encoded'] || post.content || '')
-              } else {
-                 snippet = stripHtml(snippet) // Ensure snippet is clean
-              }
-
-              snippet = snippet.length > 150 ? snippet.substring(0, 150) + '...' : snippet
-
-              const slug = getSlugFromUrl(post.link)
-
-              return (
-                <Reveal key={`${post.guid || index}-${index}`} delay={index * 100} className="h-full">
-                  <Link href={`/blogs/${slug}`} className="group block h-full">
-                    <Card className="h-full hover:shadow-xl transition-all duration-300 border-gray-100 overflow-hidden flex flex-col">
-                      <div className="relative aspect-[16/9] bg-gray-100 overflow-hidden">
-                        {imageUrl ? (
-                          <Image
-                            src={imageUrl}
-                            alt={post.title}
-                            fill
-                            className="object-cover transition-transform duration-700 group-hover:scale-105"
-                            quality={92}
-                          />
-                        ) : (
-                          <div className="w-full h-full flex items-center justify-center bg-blue-50">
-                            <BookOpen className="h-12 w-12 text-grm-primary/30" />
-                          </div>
-                        )}
-                        {/* Badge removed */}
+                    {/* Image container - 3/2 aspect shows more of landscape images with less crop */}
+                    <div className="relative z-10 aspect-[3/2] overflow-hidden bg-gray-100">
+                      <Image
+                        src={post.imagePath}
+                        alt={post.title}
+                        fill
+                        className="object-cover object-center transition-transform duration-700 group-hover:scale-105"
+                        quality={92}
+                        sizes="(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 33vw"
+                      />
+                      {/* Date badge */}
+                      <div className="absolute top-4 right-4">
+                        <span className="px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wide backdrop-blur-md shadow-sm bg-white/90 text-gray-800">
+                          {new Date(post.date).toLocaleDateString(undefined, {
+                            month: 'short',
+                            year: 'numeric',
+                          })}
+                        </span>
                       </div>
+                    </div>
 
-                      <CardContent className="p-6 flex flex-col flex-grow">
-                        <div className="flex items-center gap-4 text-xs text-gray-500 mb-4">
-                          <span className="flex items-center gap-1">
-                            <Calendar className="h-3 w-3" />
-                            {new Date(post.pubDate).toLocaleDateString(undefined, {
-                              month: 'short',
-                              day: 'numeric',
-                              year: 'numeric'
-                            })}
-                          </span>
-                          {post.creator && (
-                            <span className="flex items-center gap-1">
-                              <User className="h-3 w-3" />
-                              {post.creator}
-                            </span>
-                          )}
-                        </div>
-
-                        <h3 className="text-xl font-bold text-gray-900 mb-3 group-hover:text-grm-primary transition-colors line-clamp-2">
-                          {post.title}
-                        </h3>
-
-                        <p className="text-gray-600 text-sm leading-relaxed mb-6 line-clamp-3 flex-grow">
-                          {snippet}
-                        </p>
-
-                        <div className="mt-auto pt-4 border-t border-gray-50 flex items-center text-grm-primary font-semibold text-sm group-hover:gap-2 transition-all">
-                          Read Full Blog <ArrowRight className="ml-1 h-4 w-4" />
-                        </div>
-                      </CardContent>
-                    </Card>
-                  </Link>
-                </Reveal>
-              )
-            })}
+                    {/* Content */}
+                    <div className="relative z-10 flex flex-col flex-grow p-8">
+                      <div className="flex items-center gap-2 text-sm text-gray-500 mb-3">
+                        <Calendar className="h-4 w-4 text-grm-primary shrink-0" />
+                        <span>
+                          {new Date(post.date).toLocaleDateString(undefined, {
+                            month: 'long',
+                            day: 'numeric',
+                            year: 'numeric',
+                          })}
+                        </span>
+                      </div>
+                      <h3 className="text-2xl font-bold text-gray-900 mb-4 group-hover:text-grm-primary transition-colors line-clamp-2">
+                        {post.title}
+                      </h3>
+                      <p className="text-gray-600 text-sm leading-relaxed mb-8 line-clamp-3 flex-grow">
+                        {post.excerpt}
+                      </p>
+                      <div className="flex items-center text-sm font-bold text-gray-900 group-hover:text-grm-primary transition-colors pt-6 border-t border-gray-100">
+                        Read Article
+                        <ArrowRight className="ml-2 h-4 w-4 transition-transform group-hover:translate-x-1" />
+                      </div>
+                    </div>
+                  </article>
+                </Link>
+              </Reveal>
+            ))}
           </div>
         ) : (
           <div className="text-center py-20">
             <div className="w-20 h-20 bg-gray-50 rounded-full flex items-center justify-center mx-auto mb-6">
               <BookOpen className="h-10 w-10 text-gray-300" />
             </div>
-            <h3 className="text-2xl font-bold text-gray-900 mb-2">No articles found</h3>
-            <p className="text-gray-500 mb-8">We couldn&apos;t fetch the latest articles at this time.</p>
-            <Button asChild>
-              <a href="https://medium.com/grmblogs" target="_blank" rel="noopener noreferrer">
-                Visit our Medium Page <ExternalLink className="ml-2 h-4 w-4" />
-              </a>
-            </Button>
+            <h3 className="text-2xl font-bold text-gray-900 mb-2">
+              No articles yet
+            </h3>
+            <p className="text-gray-500 max-w-md mx-auto">
+              New posts will appear here. Check back soon for spiritual
+              insights and church updates.
+            </p>
           </div>
         )}
-
-        <div className="mt-20 text-center">
-          <p className="text-gray-600 mb-6">Want to read more?</p>
-          <Button variant="outline" size="lg" className="rounded-full px-8 border-grm-primary text-grm-primary hover:bg-grm-blue-50" asChild>
-            <a href="https://medium.com/grmblogs" target="_blank" rel="noopener noreferrer">
-              View All on Medium <ExternalLink className="ml-2 h-4 w-4" />
-            </a>
-          </Button>
-        </div>
       </div>
     </div>
   )

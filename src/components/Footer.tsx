@@ -3,7 +3,8 @@
 import Image from 'next/image'
 import Link from 'next/link'
 import { Facebook, Instagram, Mail, MapPin, Phone } from 'lucide-react'
-import { FaXTwitter } from "react-icons/fa6"
+// import { FaXTwitter } from "react-icons/fa6"
+import { FaTiktok, FaYoutube } from "react-icons/fa"
 import { Button } from '@/components/ui/button'
 
 const socialLinks = [
@@ -12,15 +13,25 @@ const socialLinks = [
     href: 'https://facebook.com/greatredemptionministies/',
     icon: Facebook,
   },
-  {
-    name: 'X',
-    href: 'https://x.com/grmatl',
-    icon: FaXTwitter,
-  },
+  // {
+  //   name: 'X',
+  //   href: 'https://x.com/grmatl',
+  //   icon: FaXTwitter,
+  // },
   {
     name: 'Instagram',
     href: 'https://www.instagram.com/grm_atl/',
     icon: Instagram,
+  },
+  {
+    name: 'TikTok',
+    href: 'https://www.tiktok.com/@grm_atl_',
+    icon: FaTiktok,
+  },
+  {
+    name: 'YouTube',
+    href: 'https://www.youtube.com/@greatredemptionministries',
+    icon: FaYoutube,
   },
 ]
 

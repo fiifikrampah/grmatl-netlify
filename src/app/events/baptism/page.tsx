@@ -2,7 +2,8 @@
 
 import { useState } from "react";
 import Image from "next/image";
-import { Calendar, MapPin, Droplet, Users } from "lucide-react";
+import Link from "next/link";
+import { Calendar, MapPin, Droplet, Users, ArrowLeft } from "lucide-react";
 import { getEventBySlug } from "@/lib/events.config";
 
 
@@ -67,8 +68,8 @@ export default function BaptismPage() {
 
   return (
     <div className="bg-white min-h-screen">
-      {/* Hero Section - pt-40 so content clears header; background extends behind header */}
-      <section className="relative pt-40 pb-20 px-4 sm:px-6 lg:px-8 overflow-hidden">
+      {/* Hero Section - pt-0 so background extends behind header; content has pt-40 to clear header */}
+      <section className="relative pt-0 pb-20 px-4 sm:px-6 lg:px-8 overflow-hidden bg-white">
         {/* Creative water/baptism themed background patterns */}
         <div className="absolute inset-0 overflow-hidden pointer-events-none">
           {/* Wave patterns - multiple layers */}
@@ -122,7 +123,16 @@ export default function BaptismPage() {
           <div className="absolute bottom-1/3 left-1/4 w-80 h-80 bg-[#2070B4]/5 rounded-full blur-3xl"></div>
         </div>
 
-        <div className="max-w-7xl mx-auto relative z-10">
+        <div className="max-w-7xl mx-auto relative z-10 pt-40">
+          <div className="pb-4">
+            <Link
+              href="/events"
+              className="inline-flex items-center text-sm font-medium text-gray-500 hover:text-grm-primary transition-colors"
+            >
+              <ArrowLeft className="mr-2 h-4 w-4" />
+              Back to Events
+            </Link>
+          </div>
           {/* Registration/status pill - always centered, not too wide on mobile */}
           <div className="flex justify-center mb-10">
             <div className={`inline-flex items-center px-4 py-2.5 sm:px-6 sm:py-3 text-white rounded-full text-sm font-semibold shadow-lg w-fit max-w-full sm:max-w-none justify-center text-center ${

@@ -1,28 +1,12 @@
 "use client";
 
 import Image from "next/image";
-import { Calendar, MapPin, Clock, Flame } from "lucide-react";
-
-// Helper function to get the last Friday of the current month
-function getLastFridayOfMonth(): Date {
-  const now = new Date();
-  const year = now.getFullYear();
-  const month = now.getMonth();
-
-  // Get the last day of the month
-  const lastDay = new Date(year, month + 1, 0);
-
-  // Find the last Friday
-  let lastFriday = lastDay;
-  while (lastFriday.getDay() !== 5) { // 5 = Friday
-    lastFriday = new Date(lastFriday.getTime() - 24 * 60 * 60 * 1000);
-  }
-
-  return lastFriday;
-}
+import Link from "next/link";
+import { Calendar, MapPin, Clock, Flame, ArrowLeft } from "lucide-react";
+import { getNextFireFriday } from "@/lib/events.config";
 
 export default function FireFridayPage() {
-  const lastFriday = getLastFridayOfMonth();
+  const nextFireFriday = getNextFireFriday();
   const time = "9pm - 1am";
   const location = "GRM Main Auditorium";
   const address = "24 Geneva Street, Hapeville GA 30354";
@@ -31,14 +15,14 @@ export default function FireFridayPage() {
   const scriptureRef = "Joshua 1:9 NKJV";
 
   // Format the date for badge (short format)
-  const badgeDate = lastFriday.toLocaleDateString('en-US', {
+  const badgeDate = nextFireFriday.toLocaleDateString('en-US', {
     month: 'short',
     day: 'numeric',
     year: 'numeric'
   });
 
   // Format the date for display (long format)
-  const formattedDate = lastFriday.toLocaleDateString('en-US', {
+  const formattedDate = nextFireFriday.toLocaleDateString('en-US', {
     weekday: 'long',
     year: 'numeric',
     month: 'long',
@@ -70,6 +54,15 @@ export default function FireFridayPage() {
         </div>
 
         <div className="max-w-7xl mx-auto relative z-10">
+          <div className="pb-4">
+            <Link
+              href="/events"
+              className="inline-flex items-center text-sm font-medium text-white/80 hover:text-orange-200 transition-colors"
+            >
+              <ArrowLeft className="mr-2 h-4 w-4" />
+              Back to Events
+            </Link>
+          </div>
           {/* Registration/status pill - always centered, not too wide on mobile */}
           <div className="flex justify-center mb-10">
             <div className="inline-flex items-center px-4 py-2.5 sm:px-6 sm:py-3 text-white rounded-full text-sm font-semibold shadow-lg bg-orange-600/80 backdrop-blur-sm w-fit max-w-full sm:max-w-none justify-center text-center">

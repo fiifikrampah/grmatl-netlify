@@ -18,7 +18,7 @@ const navigation: NavItem[] = [
   { name: 'Home', href: '/' },
   { name: 'About', href: '/about' },
   { name: 'Events', href: '/events' },
-  { name: 'Blogs', href: 'https://medium.com/grmblogs', external: true },
+  { name: 'Blog', href: '/blogs' },
   { name: 'Contact', href: '/contact' },
   { name: 'Watch', href: '/live' },
   { name: 'Give', href: '/give' },

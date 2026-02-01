@@ -1,7 +1,7 @@
 import { createServerClient } from '@supabase/ssr'
 import { NextResponse, type NextRequest } from 'next/server'
 
-// Public routes that don't need auth — skip Supabase to keep TTFB low
+// Public routes that don't need auth; skip Supabase to keep TTFB low
 const SKIP_AUTH_PATHS = [
   '/',
   '/give',
