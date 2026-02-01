@@ -46,7 +46,7 @@ export default function FireFridayPage() {
   });
 
   return (
-    <div className="bg-gradient-to-b from-red-950 via-red-900 to-gray-900 min-h-screen">
+    <div className="bg-gradient-to-b from-amber-950 via-orange-950/90 to-gray-900 min-h-screen">
       {/* Hero Section - pt-40 so content clears header; background extends behind header */}
       <section className="relative pt-40 pb-20 px-4 sm:px-6 lg:px-8 overflow-hidden">
         {/* Subtle background patterns - fire/flame themed */}
@@ -64,15 +64,15 @@ export default function FireFridayPage() {
             </svg>
           </div>
           {/* Gradient overlays */}
-          <div className="absolute top-0 left-0 w-full h-full bg-gradient-to-br from-red-900/20 via-orange-900/10 to-purple-900/20"></div>
-          <div className="absolute -top-32 -right-32 w-96 h-96 bg-red-600/10 rounded-full blur-3xl"></div>
-          <div className="absolute -bottom-32 -left-32 w-96 h-96 bg-orange-600/10 rounded-full blur-3xl"></div>
+          <div className="absolute top-0 left-0 w-full h-full bg-gradient-to-br from-amber-900/15 via-orange-900/10 to-slate-900/20"></div>
+          <div className="absolute -top-32 -right-32 w-96 h-96 bg-amber-600/8 rounded-full blur-3xl"></div>
+          <div className="absolute -bottom-32 -left-32 w-96 h-96 bg-orange-600/8 rounded-full blur-3xl"></div>
         </div>
 
         <div className="max-w-7xl mx-auto relative z-10">
           {/* Registration/status pill - always centered, not too wide on mobile */}
           <div className="flex justify-center mb-10">
-            <div className="inline-flex items-center px-4 py-2.5 sm:px-6 sm:py-3 text-white rounded-full text-sm font-semibold shadow-lg bg-red-600/80 backdrop-blur-sm w-fit max-w-full sm:max-w-none justify-center text-center">
+            <div className="inline-flex items-center px-4 py-2.5 sm:px-6 sm:py-3 text-white rounded-full text-sm font-semibold shadow-lg bg-orange-600/80 backdrop-blur-sm w-fit max-w-full sm:max-w-none justify-center text-center">
               <Flame className="h-4 w-4 mr-2 shrink-0" />
               <span>Next: {badgeDate} - No Registration Required</span>
             </div>
