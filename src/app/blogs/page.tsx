@@ -3,7 +3,17 @@ import Image from 'next/image'
 import Link from 'next/link'
 import { BookOpen, Calendar, ArrowRight } from 'lucide-react'
 import Reveal from '@/components/Reveal'
-import { getAllBlogPosts } from '@/lib/blogs.config'
+import { getPublishedBlogPosts } from '@/lib/blogs.config'
+
+/** Format an ISO date string (YYYY-MM-DD) as a local calendar date so it displays correctly in all timezones. */
+function formatBlogDate(
+  isoDate: string,
+  options: Intl.DateTimeFormatOptions
+): string {
+  const [y, m, d] = isoDate.split('-').map(Number)
+  const localDate = new Date(y, m - 1, d)
+  return localDate.toLocaleDateString(undefined, options)
+}
 
 export const metadata: Metadata = {
   title: 'Blog | Great Redemption Ministries',
@@ -12,7 +22,7 @@ export const metadata: Metadata = {
 }
 
 export default async function BlogsPage() {
-  const posts = getAllBlogPosts()
+  const posts = getPublishedBlogPosts()
 
   return (
     <div className="bg-white min-h-screen">
@@ -70,7 +80,7 @@ export default async function BlogsPage() {
                       {/* Date badge */}
                       <div className="absolute top-4 right-4">
                         <span className="px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wide backdrop-blur-md shadow-sm bg-white/90 text-gray-800">
-                          {new Date(post.date).toLocaleDateString(undefined, {
+                          {formatBlogDate(post.date, {
                             month: 'short',
                             year: 'numeric',
                           })}
@@ -83,7 +93,7 @@ export default async function BlogsPage() {
                       <div className="flex items-center gap-2 text-sm text-gray-500 mb-3">
                         <Calendar className="h-4 w-4 text-grm-primary shrink-0" />
                         <span>
-                          {new Date(post.date).toLocaleDateString(undefined, {
+                          {formatBlogDate(post.date, {
                             month: 'long',
                             day: 'numeric',
                             year: 'numeric',
@@ -93,7 +103,7 @@ export default async function BlogsPage() {
                       <h3 className="text-2xl font-bold text-gray-900 mb-4 group-hover:text-grm-primary transition-colors line-clamp-2">
                         {post.title}
                       </h3>
-                      <p className="text-gray-600 text-sm leading-relaxed mb-8 line-clamp-3 flex-grow">
+                      <p className="text-gray-600 text-sm leading-relaxed mb-8 line-clamp-4 min-h-[5.5rem] break-words">
                         {post.excerpt}
                       </p>
                       <div className="flex items-center text-sm font-bold text-gray-900 group-hover:text-grm-primary transition-colors pt-6 border-t border-gray-100">

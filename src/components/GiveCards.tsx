@@ -43,7 +43,7 @@ export default function GiveCards({ copied, onCopy }: GiveCardsProps) {
             </div>
             <div className="hidden md:flex justify-center">
               <Image
-                src="/images/give/tithely-qr.jpg"
+                src="/images/give/tithely-qr.webp"
                 alt="Scan to give with Tithe.ly"
                 width={160}
                 height={160}

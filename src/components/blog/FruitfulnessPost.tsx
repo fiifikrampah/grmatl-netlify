@@ -1,6 +1,7 @@
 import Image from 'next/image'
 import Link from 'next/link'
 import { ArrowLeft } from 'lucide-react'
+import { AmenButton } from '@/components/blog/AmenButton'
 
 const SCRIPTURE = `So, my brothers and sisters, you also died to the law through the body of Christ, that you might belong to another, to him who was raised from the dead, in order that we might bear fruit for God.`
 const SCRIPTURE_REF = 'Romans 7:4 (NIV)'
@@ -149,7 +150,7 @@ function ScriptureRef({ children }: { children: React.ReactNode }) {
   )
 }
 
-export function FruitfulnessPost() {
+export function FruitfulnessPost({ slug }: { slug: string }) {
   return (
     <article className="min-h-screen bg-white">
       {/* Back link */}
@@ -230,7 +231,7 @@ export function FruitfulnessPost() {
         <div className="my-12">
           <div className="relative aspect-[16/10] sm:aspect-[2/1] rounded-2xl overflow-hidden shadow-xl ring-1 ring-black/5">
             <Image
-              src="/images/blog/2026-theme.jpg.jpeg"
+              src="/images/blog/2026-theme.webp"
               alt="2026 Our Year of Fruitfulness: vineyard banner with golden typography and Romans 7:4"
               fill
               className="object-cover object-center"
@@ -290,6 +291,8 @@ export function FruitfulnessPost() {
           We are rooted in Christ. We bear fruit for God.
         </p>
 
+        <AmenButton slug={slug} />
+
         <div className="mt-12 pt-8 border-t border-amber-100 text-center">
           <h3 className="text-xl font-bold text-gray-900 mb-4">Join Us in This Season</h3>
           <p className="text-gray-600 mb-8 max-w-xl mx-auto">
@@ -298,13 +301,13 @@ export function FruitfulnessPost() {
           <div className="flex flex-col sm:flex-row justify-center gap-4">
             <Link
               href="/contact"
-              className="inline-flex items-center justify-center px-6 py-3 border border-transparent text-base font-medium rounded-md text-white bg-grm-primary hover:bg-grm-secondary transition-colors"
+              className="inline-flex items-center justify-center px-6 py-3 border border-transparent text-base font-medium rounded-md text-white bg-grm-primary hover:bg-grm-secondary hover:shadow-lg hover:-translate-y-0.5 transition-all duration-300 ease-out"
             >
               Plan Your Visit
             </Link>
             <Link
               href="/live"
-              className="inline-flex items-center justify-center px-6 py-3 border-2 border-grm-primary text-base font-medium rounded-md text-grm-primary bg-white hover:bg-grm-blue-50 transition-colors"
+              className="inline-flex items-center justify-center px-6 py-3 border-2 border-grm-primary text-base font-medium rounded-md text-grm-primary bg-white hover:bg-grm-blue-50 hover:shadow-lg hover:-translate-y-0.5 transition-all duration-300 ease-out"
             >
               Watch Online
             </Link>
