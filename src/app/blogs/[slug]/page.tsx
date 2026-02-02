@@ -71,6 +71,13 @@ export async function generateMetadata({
     }
   }
 
+  // Use the optimized preview image from the public/images/previews folder
+  // Convention: /public/images/previews/<filename>.jpg
+  const filename = post.imagePath.split('/').pop()?.split('.')[0] || ''
+  const previewImage = filename
+    ? `/images/previews/${filename}.jpg`
+    : '/images/previews/main-preview.jpg'
+
   return {
     title: `${post.title} | Great Redemption Ministries`,
     description: post.excerpt,
@@ -78,8 +85,23 @@ export async function generateMetadata({
       title: post.title,
       description: post.excerpt,
       type: 'article',
+      url: `/blogs/${slug}`,
       publishedTime: post.date,
-      images: [{ url: post.imagePath, alt: post.title }],
+      siteName: 'Great Redemption Ministries',
+      images: [
+        {
+          url: previewImage,
+          alt: post.title,
+          width: 1200,
+          height: 630,
+        },
+      ],
+    },
+    twitter: {
+      card: 'summary_large_image',
+      title: post.title,
+      description: post.excerpt,
+      images: [previewImage],
     },
   }
 }

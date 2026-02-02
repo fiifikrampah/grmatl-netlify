@@ -24,7 +24,7 @@ export const metadata: Metadata = {
     siteName: "Great Redemption Ministries",
     images: [
       {
-        url: "/images/branding/preview.png",
+        url: "/images/previews/main-preview.jpg",
         width: 1200,
         height: 630,
         alt: "Great Redemption Ministries Logo",
@@ -37,7 +37,7 @@ export const metadata: Metadata = {
     card: "summary_large_image",
     title: "Great Redemption Ministries | Church in Atlanta",
     description: "Join our diverse congregation for worship, prayer, and spiritual growth in Atlanta.",
-    images: ["/images/branding/preview.png"],
+    images: ["/images/previews/main-preview.jpg"],
   },
   robots: {
     index: true,
