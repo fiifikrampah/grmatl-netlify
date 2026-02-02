@@ -6,8 +6,8 @@ mkdir -p public/images/previews
 echo "Generating generic preview..."
 
 # Generic preview
-# Resize to max dimension 1200, format jpeg, quality normal (which is usually good balance)
-sips -Z 1200 -s format jpeg -s formatOptions 70 public/images/branding/preview.png --out public/images/previews/main-preview.jpg
+# Resize to max dimension 1200, format jpeg, quality low (35) for max speed
+sips -Z 1200 -s format jpeg -s formatOptions 35 public/images/branding/preview.png --out public/images/previews/main-preview.jpg
 
 echo "Generating blog previews..."
 
@@ -33,8 +33,8 @@ for img in "${images[@]}"; do
         filename=$(basename -- "$img")
         filename_no_ext="${filename%.*}"
 
-        # Convert to jpg, resize max dim 1200, quality 70
-        sips -Z 1200 -s format jpeg -s formatOptions 70 "$img" --out "public/images/previews/${filename_no_ext}.jpg"
+        # Convert to jpg, resize max dim 1200, quality 35
+        sips -Z 1200 -s format jpeg -s formatOptions 35 "$img" --out "public/images/previews/${filename_no_ext}.jpg"
         echo "Processed $filename"
     else
         echo "Warning: File $img not found"
