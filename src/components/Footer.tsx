@@ -37,8 +37,8 @@ const socialLinks = [
 
 const quickLinks = [
   { name: 'About Us', href: '/about' },
-  { name: 'Our Ministries', href: '/ministries' },
   { name: 'Events', href: '/events' },
+  { name: 'Blog', href: '/blogs' },
   { name: 'Watch Live', href: '/live' },
   { name: 'Give', href: '/give' },
   { name: 'Contact', href: '/contact' },
