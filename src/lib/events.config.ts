@@ -49,7 +49,7 @@ export const events: EventConfig[] = [
     title: 'Heart to Heart Prayer Breakfast',
     description: 'Join us for a special prayer breakfast on Valentine\'s Day.\n\n📅 Saturday, February 14th, 2026\n🕐 10am - 1pm\n👔 Formal Attire - Red & Pink',
     path: '/events/heart-to-heart-prayer-breakfast',
-    isRegistrationOpen: true,
+    isRegistrationOpen: false,
     display: true,
     imageUrl: '/images/events/flyers/heart-to-heart-2026.webp',
   },
