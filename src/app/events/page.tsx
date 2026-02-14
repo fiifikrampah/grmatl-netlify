@@ -2,7 +2,7 @@
 
 import Link from 'next/link'
 import Image from 'next/image'
-import { Calendar, ArrowRight, Clock, MapPin, Shirt } from 'lucide-react'
+import { Calendar, ArrowRight, Clock, MapPin, Shirt, DollarSign } from 'lucide-react'
 import { getDisplayedEvents, getNextFireFriday } from '@/lib/events.config'
 import Reveal from '@/components/Reveal'
 
@@ -32,6 +32,7 @@ function getEventColor(slug: string) {
   if (slug === 'heart-to-heart-prayer-breakfast') return 'bg-red-200/60';
   if (slug.includes('summer-camp')) return 'bg-yellow-200/60';
   if (slug === 'baptism') return 'bg-cyan-200/60';
+  if (slug === 'mens-fellowship-trip-savannah') return 'bg-slate-200/60';
   return 'bg-blue-200/60';
 }
 
@@ -180,6 +181,9 @@ export default function EventsPage() {
                           } else if (line.includes('👔')) {
                             Icon = Shirt;
                             text = line.replace(/👔\s*/g, '').trim();
+                          } else if (line.includes('💰')) {
+                            Icon = DollarSign;
+                            text = line.replace(/💰\s*/g, '').trim();
                           } else if (line.includes('🔥')) {
                             text = line.replace(/🔥\s*/g, '').trim();
                           }

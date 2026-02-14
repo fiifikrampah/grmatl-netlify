@@ -97,7 +97,8 @@ export default function Header() {
   const isLightEventPage =
     pathname?.startsWith('/events/baptism') ||
     pathname?.startsWith('/events/heart-to-heart-prayer-breakfast') ||
-    pathname?.startsWith('/events/summer-camp')
+    pathname?.startsWith('/events/summer-camp') ||
+    pathname?.startsWith('/events/mens-fellowship-trip-savannah')
   const isTransparent = !scrolled
   const isSolidHeader = scrolled
   // Text/logo: dark when solid bar, or when transparent on light event pages (readable on page bg).

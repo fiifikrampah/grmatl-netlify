@@ -71,6 +71,15 @@ export const events: EventConfig[] = [
     display: true,
     imageUrl: '/images/events/flyers/baptism.webp',
   },
+  {
+    slug: 'mens-fellowship-trip-savannah',
+    title: "Men's Fellowship Trip to Savannah",
+    description: 'A day of fellowship, bonding, and fun in historic Savannah.\n\n📅 Saturday, June 20th, 2026\n📍 Forsyth Park, Riverboat Cruise, Tybee Island Beach\n💰 $150 adults / $120 youth',
+    path: '/events/mens-fellowship-trip-savannah',
+    isRegistrationOpen: true,
+    display: true,
+    imageUrl: '/images/events/flyers/men-trip.jpg',
+  },
   // Add more events here as you create them
   // Example:
   // {
