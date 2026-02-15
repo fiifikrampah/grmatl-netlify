@@ -55,8 +55,9 @@ export default function SummerCampPage() {
       const result = await response.json();
 
       if (response.ok) {
-        // Redirect to success page
-        window.location.href = '/events/summer-camp/success';
+        const shortPath = eventConfig?.shortPath;
+        const isShortUrl = typeof window !== "undefined" && shortPath && window.location.pathname === shortPath;
+        window.location.href = isShortUrl ? `${shortPath}/success` : `${eventConfig?.path ?? "/events/summer-camp"}/success`;
       } else {
         setSubmitError(result.error || 'Failed to submit registration. Please try again.');
         setIsSubmitting(false);

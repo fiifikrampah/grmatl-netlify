@@ -118,9 +118,24 @@ The site uses a modern color scheme:
 - Text: Dark Gray (#333)
 - Background: White (#fff)
 
-## Deployment
+## Event Registration Email Notifications
 
-The site is deployed via Netlify
+When someone completes an event registration form, an email with the form details is sent to `grmmedia16@gmail.com`. This uses [Resend](https://resend.com).
+
+### Setup
+
+1. Create a [Resend](https://resend.com) account and get an API key.
+2. Add these environment variables in Netlify (Site settings → Environment variables) and locally in `.env.local`:
+
+| Variable | Required | Description |
+|----------|----------|-------------|
+| `RESEND_API_KEY` | Yes | Your Resend API key |
+| `RESEND_FROM_EMAIL` | No | Sender email (default: `onboarding@resend.dev` for testing) |
+| `RESEND_FROM_NAME` | No | Sender name (default: `GRM Events`) |
+
+3. For production, verify your domain in Resend and set `RESEND_FROM_EMAIL` to something like `noreply@yourdomain.com`.
+
+If `RESEND_API_KEY` is not set, registrations still succeed and are saved to the database; only the email notification is skipped.
 
 ## License
 

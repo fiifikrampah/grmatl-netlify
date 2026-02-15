@@ -28,7 +28,8 @@ export interface EventConfig {
   slug: string
   title: string
   description: string
-  path: string // The route path to the event page (e.g., '/summer-camp' or '/events/winter-retreat')
+  path: string // The route path to the event page (e.g., '/events/summer-camp')
+  shortPath?: string // Direct link for sharing (e.g., '/summer-camp' → grmatl.org/summer-camp)
   isRegistrationOpen: boolean // ⚠️ SOURCE OF TRUTH - control registration status here
   display: boolean // Control whether event appears on the public events listing page
   imageUrl?: string
@@ -40,6 +41,7 @@ export const events: EventConfig[] = [
     title: 'Summer Camp 2026',
     description: 'Join us for an exciting week of fun, learning, and fellowship at our annual Youth & Children\'s Summer Camp.',
     path: '/events/summer-camp',
+    shortPath: '/summer-camp',
     isRegistrationOpen: false,
     display: false,
     imageUrl: '/images/events/flyers/summer-camp-2025.webp',
@@ -49,8 +51,9 @@ export const events: EventConfig[] = [
     title: 'Heart to Heart Prayer Breakfast',
     description: 'Join us for a special prayer breakfast on Valentine\'s Day.\n\n📅 Saturday, February 14th, 2026\n🕐 10am - 1pm\n👔 Formal Attire - Red & Pink',
     path: '/events/heart-to-heart-prayer-breakfast',
+    shortPath: '/heart-to-heart',
     isRegistrationOpen: false,
-    display: true,
+    display: false,
     imageUrl: '/images/events/flyers/heart-to-heart-2026.webp',
   },
   {
@@ -67,6 +70,7 @@ export const events: EventConfig[] = [
     title: 'Baptism Service',
     description: 'Interested in baptism? Register and we\'ll contact you with details about upcoming classes.\n\n📅 Date TBA\n🕐 Time TBA\n📍 GRM Main Auditorium',
     path: '/events/baptism',
+    shortPath: '/baptism',
     isRegistrationOpen: true, // Registration required
     display: true,
     imageUrl: '/images/events/flyers/baptism.webp',
@@ -76,6 +80,7 @@ export const events: EventConfig[] = [
     title: "Men's Fellowship Trip to Savannah",
     description: 'A day of fellowship, bonding, and fun in historic Savannah.\n\n📅 Saturday, June 20th, 2026\n📍 Forsyth Park, Riverboat Cruise, Tybee Island Beach\n💰 $150 adults / $120 youth',
     path: '/events/mens-fellowship-trip-savannah',
+    shortPath: '/savannah-trip',
     isRegistrationOpen: true,
     display: true,
     imageUrl: '/images/events/flyers/men-trip.jpg',

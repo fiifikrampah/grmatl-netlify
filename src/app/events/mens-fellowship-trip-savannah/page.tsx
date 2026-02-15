@@ -12,10 +12,13 @@ const NAVY = "#0f3a70";
 const AMBER = "#b8860b"; // dark goldenrod - Savannah warmth
 const CREAM = "#faf8f5";
 
+type RegistrationType = "adult" | "youth";
+
 export default function MensFellowshipTripPage() {
   const [isFormValid, setIsFormValid] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submitError, setSubmitError] = useState<string | null>(null);
+  const [registrationType, setRegistrationType] = useState<RegistrationType>("adult");
 
   const eventConfig = getEventBySlug("mens-fellowship-trip-savannah");
   const isRegistrationOpen = eventConfig?.isRegistrationOpen ?? false;
@@ -27,6 +30,12 @@ export default function MensFellowshipTripPage() {
     setIsFormValid(isValid);
   };
 
+  // Reset form validity when switching registration type (fields change)
+  const handleRegistrationTypeChange = (type: RegistrationType) => {
+    setRegistrationType(type);
+    setIsFormValid(false);
+  };
+
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setIsSubmitting(true);
@@ -35,7 +44,9 @@ export default function MensFellowshipTripPage() {
     const form = e.currentTarget;
     const formData = new FormData(form);
 
-    const data: Record<string, string> = {};
+    const data: Record<string, string> = {
+      registration_type: registrationType,
+    };
     formData.forEach((value, key) => {
       data[key] = typeof value === "string" ? value : value.name;
     });
@@ -55,7 +66,9 @@ export default function MensFellowshipTripPage() {
       const result = await response.json();
 
       if (response.ok) {
-        window.location.href = "/events/mens-fellowship-trip-savannah/success";
+        const shortPath = eventConfig?.shortPath;
+        const isShortUrl = typeof window !== "undefined" && shortPath && window.location.pathname === shortPath;
+        window.location.href = isShortUrl ? `${shortPath}/success` : `${eventConfig?.path ?? "/events/mens-fellowship-trip-savannah"}/success`;
       } else {
         setSubmitError(result.error || "Failed to submit registration. Please try again.");
         setIsSubmitting(false);
@@ -377,12 +390,41 @@ export default function MensFellowshipTripPage() {
 
                     <div className="text-center mb-6">
                       <h3 className="text-2xl font-bold text-[#080A0C]">Register Now</h3>
-                      <p className="text-[#0D2B45]/80 mt-2">Please fill out all required fields below</p>
+                      <p className="text-[#0D2B45]/80 mt-2">Choose your registration type and fill out the form</p>
                     </div>
 
+                    {/* Adult / Youth toggle */}
+                    <div className="flex rounded-xl p-1" style={{ background: `${NAVY}10`, border: `1px solid ${NAVY}15` }}>
+                      <button
+                        type="button"
+                        onClick={() => handleRegistrationTypeChange("adult")}
+                        className={`flex-1 py-3 px-4 rounded-lg text-sm font-semibold transition-all duration-200 ${
+                          registrationType === "adult"
+                            ? "text-white shadow-sm"
+                            : "text-[#0D2B45]/70 hover:text-[#0D2B45]"
+                        }`}
+                        style={registrationType === "adult" ? { backgroundColor: NAVY } : {}}
+                      >
+                        Adult Registration
+                      </button>
+                      <button
+                        type="button"
+                        onClick={() => handleRegistrationTypeChange("youth")}
+                        className={`flex-1 py-3 px-4 rounded-lg text-sm font-semibold transition-all duration-200 ${
+                          registrationType === "youth"
+                            ? "text-white shadow-sm"
+                            : "text-[#0D2B45]/70 hover:text-[#0D2B45]"
+                        }`}
+                        style={registrationType === "youth" ? { backgroundColor: NAVY } : {}}
+                      >
+                        Youth Registration
+                      </button>
+                    </div>
+
+                    {/* Common fields */}
                     <div>
                       <label htmlFor="fullName" className="block text-sm font-semibold text-[#080A0C] mb-2">
-                        Name <span className="text-red-600">*</span>
+                        Full Name <span className="text-red-600">*</span>
                       </label>
                       <input
                         type="text"
@@ -409,6 +451,61 @@ export default function MensFellowshipTripPage() {
                         placeholder="Enter your phone number"
                       />
                     </div>
+
+                    {/* Adult-only: No. of Kids */}
+                    {registrationType === "adult" && (
+                      <div>
+                        <label htmlFor="numKids" className="block text-sm font-semibold text-[#080A0C] mb-2">
+                          No. of Kids Going With Adult <span className="text-red-600">*</span>
+                        </label>
+                        <input
+                          type="number"
+                          id="numKids"
+                          name="num_kids"
+                          required
+                          min={0}
+                          max={20}
+                          className="w-full px-4 py-3 border rounded-xl focus:ring-2 focus:ring-[#0f3a70] focus:border-[#0f3a70] transition-all duration-200"
+                          style={{ borderColor: `${NAVY}25` }}
+                          placeholder="0"
+                        />
+                        <p className="text-xs text-gray-500 mt-1">Enter 0 if none</p>
+                      </div>
+                    )}
+
+                    {/* Youth-only: Parent Name, Emergency Contact */}
+                    {registrationType === "youth" && (
+                      <>
+                        <div>
+                          <label htmlFor="parentName" className="block text-sm font-semibold text-[#080A0C] mb-2">
+                            Parent Name
+                          </label>
+                          <input
+                            type="text"
+                            id="parentName"
+                            name="parent_name"
+                            className="w-full px-4 py-3 border rounded-xl focus:ring-2 focus:ring-[#0f3a70] focus:border-[#0f3a70] transition-all duration-200"
+                            style={{ borderColor: `${NAVY}25` }}
+                            placeholder="If parents are GRM members"
+                          />
+                          <p className="text-xs text-gray-500 mt-1">If parents are GRM members</p>
+                        </div>
+                        <div>
+                          <label htmlFor="emergencyContact" className="block text-sm font-semibold text-[#080A0C] mb-2">
+                            Emergency Contact <span className="text-red-600">*</span>
+                          </label>
+                          <input
+                            type="text"
+                            id="emergencyContact"
+                            name="emergency_contact"
+                            required
+                            className="w-full px-4 py-3 border rounded-xl focus:ring-2 focus:ring-[#0f3a70] focus:border-[#0f3a70] transition-all duration-200"
+                            style={{ borderColor: `${NAVY}25` }}
+                            placeholder="Name and phone number"
+                          />
+                        </div>
+                      </>
+                    )}
 
                     <div className="pt-4">
                       <button

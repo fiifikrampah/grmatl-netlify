@@ -57,8 +57,9 @@ export default function HeartToHeartPrayerBreakfastPage() {
       const result = await response.json();
 
       if (response.ok) {
-        // Redirect to success page
-        window.location.href = '/events/heart-to-heart-prayer-breakfast/success';
+        const shortPath = eventConfig?.shortPath;
+        const isShortUrl = typeof window !== "undefined" && shortPath && window.location.pathname === shortPath;
+        window.location.href = isShortUrl ? `${shortPath}/success` : `${eventConfig?.path ?? "/events/heart-to-heart-prayer-breakfast"}/success`;
       } else {
         setSubmitError(result.error || 'Failed to submit registration. Please try again.');
         setIsSubmitting(false);
