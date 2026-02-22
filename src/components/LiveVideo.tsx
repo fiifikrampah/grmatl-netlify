@@ -6,7 +6,7 @@ import { Play } from 'lucide-react'
 
 export default function LiveVideo() {
   // This URL will be updated by the GitHub Actions workflow
-  const baseVideoUrl = "https://www.youtube.com/embed/ZuF5SZGiCek?si=4o0cL6UmrvIApmrY"
+  const baseVideoUrl = "https://www.youtube.com/embed/i5v-fvyqEkg?si=4o0cL6UmrvIApmrY"
   const [showVideo, setShowVideo] = useState(false)
   const [shouldAutoplay, setShouldAutoplay] = useState(false)
 
