@@ -28,7 +28,8 @@ function getEventDate(event: { slug: string; description: string }): Date | null
 
 // Helper to get ambient color based on event slug
 function getEventColor(slug: string) {
-  if (slug === 'fire-friday') return 'bg-orange-200/60';
+  if (slug === 'fire-friday') return 'bg-amber-200/60';
+  if (slug === 'founders-day') return 'bg-amber-200/60';
   if (slug === 'heart-to-heart-prayer-breakfast') return 'bg-red-200/60';
   if (slug.includes('summer-camp')) return 'bg-yellow-200/60';
   if (slug === 'baptism') return 'bg-cyan-200/60';

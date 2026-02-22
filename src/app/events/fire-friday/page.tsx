@@ -4,214 +4,197 @@ import Image from "next/image";
 import Link from "next/link";
 import { Calendar, MapPin, Clock, Flame, ArrowLeft } from "lucide-react";
 import { getNextFireFriday } from "@/lib/events.config";
+import Reveal from "@/components/Reveal";
 
 export default function FireFridayPage() {
   const nextFireFriday = getNextFireFriday();
   const time = "9pm - 1am";
   const location = "GRM Main Auditorium";
   const address = "24 Geneva Street, Hapeville GA 30354";
-  const theme = "THE LORD IS WITH US";
-  const scripture = "Have I not commanded you? Be strong and of good courage; do not be afraid, nor be dismayed, for the Lord your God is with you wherever you go.";
-  const scriptureRef = "Joshua 1:9 NKJV";
+  const theme = "GETTING HEAVEN'S ATTENTION";
+  const scripture = "Present your case, says the LORD. Set forth your arguments, says the King of Jacob.";
+  const scriptureRef = "Isaiah 41:21";
+  const subtitle = "February Watch Night Service";
 
-  // Format the date for badge (short format)
-  const badgeDate = nextFireFriday.toLocaleDateString('en-US', {
-    month: 'short',
-    day: 'numeric',
-    year: 'numeric'
+  const badgeDate = nextFireFriday.toLocaleDateString("en-US", {
+    month: "short",
+    day: "numeric",
+    year: "numeric",
   });
 
-  // Format the date for display (long format)
-  const formattedDate = nextFireFriday.toLocaleDateString('en-US', {
-    weekday: 'long',
-    year: 'numeric',
-    month: 'long',
-    day: 'numeric'
+  const formattedDate = nextFireFriday.toLocaleDateString("en-US", {
+    weekday: "long",
+    year: "numeric",
+    month: "long",
+    day: "numeric",
   });
 
   return (
-    <div className="bg-gradient-to-b from-amber-950 via-orange-950/90 to-gray-900 min-h-screen">
-      {/* Hero Section - pt-40 so content clears header; background extends behind header */}
-      <section className="relative pt-40 pb-20 px-4 sm:px-6 lg:px-8 overflow-hidden">
-        {/* Subtle background patterns - fire/flame themed */}
-        <div className="absolute inset-0 overflow-hidden pointer-events-none">
-          {/* Flame patterns */}
-          <div className="absolute top-20 right-10 w-72 h-72 opacity-[0.05] transform rotate-12">
-            <svg viewBox="0 0 200 200" className="w-full h-full">
-              <path d="M100 180c-20-30-40-50-50-70s-10-40 0-50c10-10 30-20 50-10s40 20 50 10c10-10 10-30 0-50s-30-40-50-70" fill="#ff6b35" opacity="0.6"/>
-              <path d="M100 180c-15-25-30-40-40-60s-5-30 0-40c5-10 20-15 40-5s30 15 40 5c10-10 5-25 0-40s-25-35-40-60" fill="#ff8c42" opacity="0.4"/>
-            </svg>
-          </div>
-          <div className="absolute bottom-40 left-20 w-96 h-96 opacity-[0.04] transform -rotate-6">
-            <svg viewBox="0 0 200 200" className="w-full h-full">
-              <path d="M100 180c-20-30-40-50-50-70s-10-40 0-50c10-10 30-20 50-10s40 20 50 10c10-10 10-30 0-50s-30-40-50-70" fill="#ff6b35" opacity="0.6"/>
-            </svg>
-          </div>
-          {/* Gradient overlays */}
-          <div className="absolute top-0 left-0 w-full h-full bg-gradient-to-br from-amber-900/15 via-orange-900/10 to-slate-900/20"></div>
-          <div className="absolute -top-32 -right-32 w-96 h-96 bg-amber-600/8 rounded-full blur-3xl"></div>
-          <div className="absolute -bottom-32 -left-32 w-96 h-96 bg-orange-600/8 rounded-full blur-3xl"></div>
-        </div>
-
-        <div className="max-w-7xl mx-auto relative z-10">
-          <div className="pb-4">
+    <div className="min-h-screen">
+      {/* Top section - subtle pink, purple, white gradient */}
+      <section className="pt-32 pb-16 md:pt-40 md:pb-24 bg-gradient-to-b from-violet-50/80 via-purple-50/40 to-white">
+        <div className="container mx-auto px-4">
+          <Reveal>
             <Link
               href="/events"
-              className="inline-flex items-center text-sm font-medium text-white/80 hover:text-orange-200 transition-colors"
+              className="inline-flex items-center text-sm font-medium text-gray-500 hover:text-grm-primary transition-colors mb-8"
             >
               <ArrowLeft className="mr-2 h-4 w-4" />
               Back to Events
             </Link>
-          </div>
-          {/* Registration/status pill - always centered, not too wide on mobile */}
-          <div className="flex justify-center mb-10">
-            <div className="inline-flex items-center px-4 py-2.5 sm:px-6 sm:py-3 text-white rounded-full text-sm font-semibold shadow-lg bg-orange-600/80 backdrop-blur-sm w-fit max-w-full sm:max-w-none justify-center text-center">
-              <Flame className="h-4 w-4 mr-2 shrink-0" />
-              <span>Next: {badgeDate} - No Registration Required</span>
-            </div>
-          </div>
+          </Reveal>
 
-          <div className="text-center">
-            <h1 className="text-5xl md:text-7xl font-bold text-white mb-4 leading-tight drop-shadow-2xl">
-              FIRE{" "}
-              <span className="text-orange-400">
-                FRIDAY
-              </span>
-            </h1>
-            <p className="text-xl md:text-2xl text-orange-200 max-w-4xl mx-auto leading-relaxed mb-8 font-semibold">
-              {theme}
-            </p>
-          </div>
+          <div className="max-w-7xl mx-auto">
+            <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16 items-center">
+              {/* Left: Title + details */}
+              <div className="lg:col-span-5 order-2 lg:order-1">
+                <Reveal delay={50}>
+                  <span className="inline-block px-4 py-1.5 rounded-full text-xs font-bold uppercase tracking-widest text-grm-primary bg-grm-blue-50 mb-6">
+                    <Flame className="inline h-3.5 w-3.5 mr-1.5 -mt-0.5" />
+                    Next: {badgeDate} · No Registration
+                  </span>
+                </Reveal>
+                <Reveal delay={100}>
+                  <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold text-gray-900 mb-3 leading-[1.1] tracking-tight">
+                    FIRE <span className="text-grm-primary">FRIDAY</span>
+                  </h1>
+                  <p className="text-gray-500 text-sm uppercase tracking-[0.2em] font-medium mb-4">
+                    {subtitle}
+                  </p>
+                  <p className="text-xl md:text-2xl text-gray-800 font-semibold leading-snug mb-8">
+                    {theme}
+                  </p>
+                </Reveal>
+                <Reveal delay={150}>
+                  <div className="space-y-3 text-gray-700">
+                    <div className="flex items-center gap-3">
+                      <Calendar className="h-5 w-5 text-grm-primary shrink-0" />
+                      <span className="font-medium">{formattedDate}</span>
+                    </div>
+                    <div className="flex items-center gap-3">
+                      <Clock className="h-5 w-5 text-grm-primary shrink-0" />
+                      <span className="font-medium">{time}</span>
+                    </div>
+                    <div className="flex items-start gap-3">
+                      <MapPin className="h-5 w-5 text-grm-primary shrink-0 mt-0.5" />
+                      <span>{location}<br /><span className="text-sm text-gray-500">{address}</span></span>
+                    </div>
+                  </div>
+                </Reveal>
+              </div>
 
-          <div className="text-center">
-            {/* Scripture */}
-            <div className="bg-black/40 backdrop-blur-sm rounded-2xl p-6 max-w-4xl mx-auto mb-8 border border-orange-500/30">
-              <p className="text-lg md:text-xl text-white/90 italic leading-relaxed mb-3">
-                &quot;{scripture}&quot;
-              </p>
-              <p className="text-orange-300 font-semibold">{scriptureRef}</p>
-            </div>
-
-            {/* Event Details */}
-            <div className="flex flex-col items-center justify-center gap-4 text-lg text-white mb-8">
-              <div className="flex items-center gap-2">
-                <Calendar className="h-5 w-5 text-orange-400" />
-                <span className="font-semibold">Last Friday of Each Month</span>
-              </div>
-              <div className="flex items-center gap-2">
-                <Calendar className="h-5 w-5 text-orange-400" />
-                <span className="font-semibold">Next: {formattedDate}</span>
-              </div>
-              <div className="flex items-center gap-2">
-                <Clock className="h-5 w-5 text-orange-400" />
-                <span className="font-semibold">{time}</span>
-              </div>
-              <div className="flex items-center gap-2">
-                <MapPin className="h-5 w-5 text-orange-400" />
-                <span>{location}</span>
-              </div>
-              <div className="flex items-center gap-2">
-                <MapPin className="h-5 w-5 text-orange-400 opacity-0" />
-                <span className="text-sm text-white/80">{address}</span>
-              </div>
-            </div>
-          </div>
-
-          {/* Event Flyer */}
-          <div className="mb-12 max-w-2xl mx-auto">
-            <div className="relative rounded-2xl overflow-hidden shadow-2xl border-4 border-orange-500/50">
-              <Image
-                src="/images/events/flyers/fire-friday.webp"
-                alt="Fire Friday Watch Night Service Flyer"
-                width={800}
-                height={1200}
-                className="w-full h-auto object-contain"
-                priority
-                quality={92}
-              />
-            </div>
-          </div>
-
-          {/* Event Highlights */}
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-5xl mx-auto mb-16">
-            <div className="group bg-black/40 backdrop-blur-sm rounded-2xl p-6 shadow-lg hover:shadow-xl transition-all duration-300 hover:-translate-y-1 border-2 border-orange-500/30">
-              <div className="flex flex-col items-center text-center space-y-4">
-                <div className="w-16 h-16 bg-orange-600 rounded-full flex items-center justify-center group-hover:scale-110 transition-transform duration-300">
-                  <Flame className="h-8 w-8 text-white" />
-                </div>
-                <div>
-                  <h3 className="text-xl font-bold text-white mb-2">Watch Night Service</h3>
-                  <p className="text-orange-200/70 text-sm">Monthly prayer and worship</p>
-                </div>
+              {/* Right: Flyer */}
+              <div className="lg:col-span-7 order-1 lg:order-2">
+                <Reveal delay={100}>
+                  <div className="relative max-w-md mx-auto lg:max-w-none lg:ml-auto">
+                    <div className="absolute -inset-4 bg-grm-blue-50 rounded-3xl -z-10" />
+                    <div className="rounded-2xl overflow-hidden shadow-xl ring-1 ring-gray-200">
+                      <Image
+                        src="/images/events/flyers/fire-friday-feb.webp"
+                        alt="Fire Friday February Watch Night Service Flyer"
+                        width={800}
+                        height={1200}
+                        className="w-full h-auto object-contain"
+                        priority
+                        quality={92}
+                      />
+                    </div>
+                  </div>
+                </Reveal>
               </div>
             </div>
-
-            <div className="group bg-black/40 backdrop-blur-sm rounded-2xl p-6 shadow-lg hover:shadow-xl transition-all duration-300 hover:-translate-y-1 border-2 border-orange-500/30">
-              <div className="flex flex-col items-center text-center space-y-4">
-                <div className="w-16 h-16 bg-orange-600 rounded-full flex items-center justify-center group-hover:scale-110 transition-transform duration-300">
-                  <Clock className="h-8 w-8 text-white" />
-                </div>
-                <div>
-                  <h3 className="text-xl font-bold text-white mb-2">Late Night Service</h3>
-                  <p className="text-orange-200/70 text-sm">9pm - 1am</p>
-                </div>
-              </div>
-            </div>
-
-            <div className="group bg-black/40 backdrop-blur-sm rounded-2xl p-6 shadow-lg hover:shadow-xl transition-all duration-300 hover:-translate-y-1 border-2 border-orange-500/30">
-              <div className="flex flex-col items-center text-center space-y-4">
-                <div className="w-16 h-16 bg-orange-600 rounded-full flex items-center justify-center group-hover:scale-110 transition-transform duration-300">
-                  <Calendar className="h-8 w-8 text-white" />
-                </div>
-                <div>
-                  <h3 className="text-xl font-bold text-white mb-2">Monthly Event</h3>
-                  <p className="text-orange-200/70 text-sm">Last Friday of each month</p>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          <div className="bg-black/40 backdrop-blur-sm rounded-3xl shadow-2xl p-10 max-w-4xl mx-auto border-2 border-orange-500/30 relative overflow-hidden">
-            <div className="absolute top-0 right-0 w-32 h-32 bg-orange-600/20 rounded-full -translate-y-16 translate-x-16"></div>
-            <p className="text-lg text-white leading-relaxed relative z-10 font-medium">
-              Join us every last Friday of the month for Fire Friday, our Watch Night Service.
-              Experience powerful prayer, worship, and fellowship as we seek the Lord together.
-              No registration required - all are welcome!
-            </p>
           </div>
         </div>
       </section>
 
-      {/* Contact Section */}
-      <section className="py-16 px-4 sm:px-6 lg:px-8 bg-black/20 backdrop-blur-sm relative">
-        <div className="absolute inset-0 overflow-hidden pointer-events-none">
-          <div className="absolute top-16 right-16 w-80 h-80 opacity-[0.03] transform rotate-10">
-            <svg viewBox="0 0 200 200" className="w-full h-full">
-              <path d="M100 180c-20-30-40-50-50-70s-10-40 0-50c10-10 30-20 50-10s40 20 50 10c10-10 10-30 0-50s-30-40-50-70" fill="#ff6b35"/>
-            </svg>
+      {/* Scripture */}
+      <section className="py-16 md:py-20 bg-gradient-to-b from-white to-violet-50/30">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <Reveal>
+            <div className="max-w-3xl mx-auto text-center">
+              <blockquote className="text-xl md:text-2xl text-gray-700 italic leading-relaxed mb-4">
+                &ldquo;{scripture}&rdquo;
+              </blockquote>
+              <cite className="text-grm-primary font-semibold not-italic">{scriptureRef}</cite>
+            </div>
+          </Reveal>
+        </div>
+      </section>
+
+      {/* Highlights */}
+      <section className="py-16 md:py-20 bg-gradient-to-b from-violet-50/30 via-purple-50/20 to-white">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+            {[
+              { icon: Flame, title: "Watch Night Service", desc: "Monthly prayer and worship" },
+              { icon: Clock, title: "Late Night Service", desc: "9pm – 1am" },
+              { icon: Calendar, title: "Monthly Event", desc: "Last Friday of each month" },
+            ].map((item, i) => {
+              const Icon = item.icon;
+              return (
+                <Reveal key={item.title} delay={i * 50}>
+                  <div className="bg-white rounded-2xl p-8 shadow-sm hover:shadow-lg transition-shadow duration-300 border border-gray-100">
+                    <div className="w-14 h-14 bg-grm-blue-50 rounded-xl flex items-center justify-center mb-6">
+                      <Icon className="h-7 w-7 text-grm-primary" />
+                    </div>
+                    <h3 className="text-xl font-bold text-gray-900 mb-2">{item.title}</h3>
+                    <p className="text-gray-600">{item.desc}</p>
+                  </div>
+                </Reveal>
+              );
+            })}
           </div>
         </div>
-        <div className="max-w-4xl mx-auto text-center relative z-10">
-          <h2 className="text-3xl font-bold text-white mb-6">
-            Questions About Fire Friday?
-          </h2>
-          <p className="text-lg text-orange-200/80 mb-8">
-            If you have any questions about the event, please don&apos;t hesitate to reach out to us.
-          </p>
-          <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <a
-              href="/contact"
-              className="inline-flex items-center justify-center px-8 py-4 bg-orange-600 text-white font-semibold rounded-lg hover:bg-orange-700 transition-colors duration-200 shadow-lg hover:shadow-xl"
-            >
-              Contact Us
-            </a>
-            <a
-              href="tel:404-210-1136"
-              className="inline-flex items-center justify-center px-8 py-4 bg-white/10 backdrop-blur-sm text-white font-semibold rounded-lg hover:bg-white/20 transition-colors duration-200 shadow-lg hover:shadow-xl border-2 border-orange-400/50"
-            >
-              Call: 404-210-1136
-            </a>
-          </div>
+      </section>
+
+      {/* Join us - GRM blue band like About beliefs */}
+      <section className="py-16 md:py-20 bg-grm-primary text-white relative overflow-hidden">
+        <div className="absolute inset-0 z-0">
+          <Image
+            src="/images/about/believes-bg.webp"
+            alt=""
+            fill
+            quality={92}
+            className="object-cover opacity-[0.05]"
+          />
+        </div>
+        <div className="absolute inset-0 bg-[url('/images/pattern.png')] opacity-10 z-[1]" />
+        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center relative z-10">
+          <Reveal>
+            <p className="text-xl md:text-2xl leading-relaxed font-light">
+              Join us every last Friday of the month for Fire Friday, our Watch Night Service.
+              Experience powerful prayer, worship, and fellowship as we seek the Lord together.
+              No registration required — all are welcome.
+            </p>
+          </Reveal>
+        </div>
+      </section>
+
+      {/* Contact CTA */}
+      <section className="py-16 md:py-20 bg-gradient-to-b from-white to-pink-50/20">
+        <div className="max-w-2xl mx-auto px-4 text-center">
+          <Reveal>
+            <h2 className="text-2xl md:text-3xl font-bold text-gray-900 mb-4">
+              Questions about Fire Friday?
+            </h2>
+            <p className="text-gray-600 mb-8">
+              Reach out anytime — we&apos;re here to help.
+            </p>
+            <div className="flex flex-col sm:flex-row gap-4 justify-center">
+              <Link
+                href="/contact"
+                className="inline-flex items-center justify-center px-8 py-4 bg-grm-primary text-white font-semibold rounded-lg hover:opacity-90 transition-opacity shadow-lg"
+              >
+                Contact Us
+              </Link>
+              <a
+                href="tel:404-210-1136"
+                className="inline-flex items-center justify-center px-8 py-4 bg-white text-gray-900 font-semibold rounded-lg border-2 border-gray-200 hover:border-grm-primary hover:text-grm-primary transition-colors"
+              >
+                Call: 404-210-1136
+              </a>
+            </div>
+          </Reveal>
         </div>
       </section>
     </div>

@@ -63,7 +63,17 @@ export const events: EventConfig[] = [
     path: '/events/fire-friday',
     isRegistrationOpen: false, // No registration required
     display: true,
-    imageUrl: '/images/events/flyers/fire-friday.webp',
+    imageUrl: '/images/events/flyers/fire-friday-feb.webp',
+  },
+  {
+    slug: 'founders-day',
+    title: "Founder's Day Celebration",
+    description: "Remember and celebrate the life and legacy of our late Head Pastor and Founder, Pastor Andrews Frimpong.\n\n📅 Sunday, March 8th, 2026\n🕐 12 Noon\n📍 24 Geneva Street, Hapeville GA 30354",
+    path: '/events/founders-day',
+    shortPath: '/founders-day',
+    isRegistrationOpen: false,
+    display: true,
+    imageUrl: '/images/events/flyers/founders-day.webp',
   },
   {
     slug: 'baptism',
@@ -83,7 +93,7 @@ export const events: EventConfig[] = [
     shortPath: '/savannah-trip',
     isRegistrationOpen: true,
     display: true,
-    imageUrl: '/images/events/flyers/men-trip.jpg',
+    imageUrl: '/images/events/flyers/men-trip.webp',
   },
   // Add more events here as you create them
   // Example:

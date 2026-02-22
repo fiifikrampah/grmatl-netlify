@@ -76,7 +76,7 @@ export async function generateMetadata({
   const filename = post.imagePath.split('/').pop()?.split('.')[0] || ''
   const previewImage = filename
     ? `/images/previews/${filename}.jpg`
-    : '/images/previews/main-preview.jpg'
+    : '/images/previews/main-preview.webp'
 
   return {
     title: `${post.title} | Great Redemption Ministries`,

@@ -1,0 +1,36 @@
+name: Keep Supabase Alive
+
+# Prevents free-tier project from pausing after 7 days of inactivity
+# by running a lightweight query every 5 days.
+
+on:
+  schedule:
+    # Runs at 9:00 AM UTC every Monday and Friday (~5 days apart)
+    - cron: '0 9 * * 1,5'
+  workflow_dispatch: # Manual trigger from Actions tab
+
+jobs:
+  ping-supabase:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Ping Supabase
+        env:
+          SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
+          SUPABASE_ANON_KEY: ${{ secrets.SUPABASE_ANON_KEY }}
+        run: |
+          if [ -z "$SUPABASE_URL" ] || [ -z "$SUPABASE_ANON_KEY" ]; then
+            echo "Missing SUPABASE_URL or SUPABASE_ANON_KEY secrets. Add them in repo Settings > Secrets and variables > Actions."
+            exit 1
+          fi
+          # Lightweight REST query - hits the DB and counts as activity
+          HTTP_CODE=$(curl -s -o /dev/null -w "%{http_code}" \
+            -H "apikey: $SUPABASE_ANON_KEY" \
+            -H "Authorization: Bearer $SUPABASE_ANON_KEY" \
+            -H "Prefer: count=exact" \
+            "${SUPABASE_URL}/rest/v1/blog_amens?select=count&limit=1")
+          if [ "$HTTP_CODE" -ge 200 ] && [ "$HTTP_CODE" -lt 300 ]; then
+            echo "Supabase ping successful (HTTP $HTTP_CODE)"
+          else
+            echo "Supabase ping failed (HTTP $HTTP_CODE)"
+            exit 1
+          fi

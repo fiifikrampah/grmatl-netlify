@@ -168,7 +168,7 @@ export default function MensFellowshipTripPage() {
               >
                 <div className="rounded-xl overflow-hidden bg-white">
                   <Image
-                    src="/images/events/flyers/men-trip.jpg"
+                    src="/images/events/flyers/men-trip.webp"
                     alt="Men's Fellowship Trip to Savannah Flyer"
                     width={800}
                     height={1200}
