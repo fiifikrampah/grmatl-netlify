@@ -100,7 +100,7 @@ export const blogPosts: BlogPostConfig[] = [
       'We walk in alignment with God’s Word this month. Obedience positions us for His blessing and keeps our lives rooted in His will…',
     date: '2026-03-01',
     imagePath: '/images/blog/mar26-obedience.webp',
-    published: false,
+    published: true,
   },
   {
     slug: 'february-2026-establishment',
