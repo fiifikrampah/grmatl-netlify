@@ -10,27 +10,48 @@ on:
   workflow_dispatch: # Manual trigger from Actions tab
 
 jobs:
-  ping-supabase:
+  beat-supabase:
     runs-on: ubuntu-latest
     steps:
-      - name: Ping Supabase
+      - name: Touch beat table
         env:
           SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
-          SUPABASE_ANON_KEY: ${{ secrets.SUPABASE_ANON_KEY }}
+          SUPABASE_SERVICE_ROLE_KEY: ${{ secrets.SUPABASE_SERVICE_ROLE_KEY }}
         run: |
-          if [ -z "$SUPABASE_URL" ] || [ -z "$SUPABASE_ANON_KEY" ]; then
-            echo "Missing SUPABASE_URL or SUPABASE_ANON_KEY secrets. Add them in repo Settings > Secrets and variables > Actions."
+          if [ -z "$SUPABASE_URL" ] || [ -z "$SUPABASE_SERVICE_ROLE_KEY" ]; then
+            echo "Missing SUPABASE_URL or SUPABASE_SERVICE_ROLE_KEY secrets. Add them in repo Settings > Secrets and variables > Actions."
             exit 1
           fi
-          # Lightweight REST query - hits the DB and counts as activity
-          HTTP_CODE=$(curl -s -o /dev/null -w "%{http_code}" \
-            -H "apikey: $SUPABASE_ANON_KEY" \
-            -H "Authorization: Bearer $SUPABASE_ANON_KEY" \
-            -H "Prefer: count=exact" \
-            "${SUPABASE_URL}/rest/v1/blog_amens?select=count&limit=1")
-          if [ "$HTTP_CODE" -ge 200 ] && [ "$HTTP_CODE" -lt 300 ]; then
-            echo "Supabase ping successful (HTTP $HTTP_CODE)"
+          # Write a row to beat, then delete it so the table stays clean.
+          INSERT_RESPONSE=$(mktemp)
+          INSERT_CODE=$(curl -sS -o "$INSERT_RESPONSE" -w "%{http_code}" \
+            -X POST \
+            -H "apikey: $SUPABASE_SERVICE_ROLE_KEY" \
+            -H "Authorization: Bearer $SUPABASE_SERVICE_ROLE_KEY" \
+            -H "Content-Type: application/json" \
+            -H "Prefer: return=representation" \
+            -d '{}' \
+            "${SUPABASE_URL}/rest/v1/beat?select=id")
+
+          if [ "$INSERT_CODE" -lt 200 ] || [ "$INSERT_CODE" -ge 300 ]; then
+            echo "Beat insert failed (HTTP $INSERT_CODE)"
+            cat "$INSERT_RESPONSE"
+            exit 1
+          fi
+
+          BEAT_ID=$(python3 -c 'import json, sys; data = json.load(open(sys.argv[1], encoding="utf-8")); print(data[0]["id"] if data and "id" in data[0] else sys.exit("Missing inserted beat id"))' "$INSERT_RESPONSE")
+
+          DELETE_CODE=$(curl -sS -o /dev/null -w "%{http_code}" \
+            -X DELETE \
+            -H "apikey: $SUPABASE_SERVICE_ROLE_KEY" \
+            -H "Authorization: Bearer $SUPABASE_SERVICE_ROLE_KEY" \
+            "${SUPABASE_URL}/rest/v1/beat?id=eq.${BEAT_ID}")
+
+          rm -f "$INSERT_RESPONSE"
+
+          if [ "$DELETE_CODE" -ge 200 ] && [ "$DELETE_CODE" -lt 300 ]; then
+            echo "Beat write/delete successful (insert HTTP $INSERT_CODE, delete HTTP $DELETE_CODE, id $BEAT_ID)"
           else
-            echo "Supabase ping failed (HTTP $HTTP_CODE)"
+            echo "Beat delete failed (HTTP $DELETE_CODE, id $BEAT_ID)"
             exit 1
           fi
