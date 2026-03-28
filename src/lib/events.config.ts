@@ -59,11 +59,11 @@ export const events: EventConfig[] = [
   {
     slug: 'fire-friday',
     title: 'Fire Friday',
-    description: 'Join us for our monthly Watch Night Service on the last Friday of each month.\n\n🔥 Monthly Event - Last Friday\n🕐 9pm - 1am\n📍 GRM Main Auditorium',
+    description: 'Join us for our monthly Watch Night Service on the last Friday of each month.\n\n🔥 Monthly Event - Last Friday\n🕐 9pm - 1am\n📍 24 Geneva Street, Hapeville GA 30354',
     path: '/events/fire-friday',
     isRegistrationOpen: false, // No registration required
     display: true,
-    imageUrl: '/images/events/flyers/fire-friday-feb.webp',
+    imageUrl: '/images/events/flyers/fire-friday-mar.webp',
   },
   {
     slug: 'founders-day',
