@@ -91,7 +91,7 @@ export const blogPosts: BlogPostConfig[] = [
       'We bear fruit through consistency and trust this month. Faithfulness in the small things leads to harvest in due season…',
     date: '2026-04-01',
     imagePath: '/images/blog/apr26-faithfulness.webp',
-    published: false,
+    published: true,
   },
   {
     slug: 'march-2026-obedience',
