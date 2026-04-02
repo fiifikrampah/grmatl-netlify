@@ -100,7 +100,8 @@ export default function Header() {
     pathname?.startsWith('/events/summer-camp') ||
     pathname?.startsWith('/events/mens-fellowship-trip-savannah') ||
     pathname?.startsWith('/events/founders-day') ||
-    pathname?.startsWith('/events/fire-friday')
+    pathname?.startsWith('/events/fire-friday') ||
+    pathname === '/room-to-grow'
   const isTransparent = !scrolled
   const isSolidHeader = scrolled
   // Text/logo: dark when solid bar, or when transparent on light event pages (readable on page bg).

@@ -17,7 +17,12 @@ const shortPathRewrites = events
 
 const nextConfig: NextConfig = {
   async rewrites() {
-    return shortPathRewrites;
+    return [
+      ...shortPathRewrites,
+      { source: '/room2grow', destination: '/room-to-grow' },
+      { source: '/harvest', destination: '/room-to-grow' },
+      { source: '/campaign', destination: '/room-to-grow' },
+    ];
   },
   images: {
     // Images are pre-converted to WebP (scripts/convert-to-webp.mjs); no runtime conversion

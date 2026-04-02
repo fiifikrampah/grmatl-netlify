@@ -24,6 +24,9 @@ export function getNextFireFriday(): Date {
   return date
 }
 
+/** Number of days after an event's date before it is automatically hidden from the listing. */
+const AUTO_HIDE_DAYS = 14
+
 export interface EventConfig {
   slug: string
   title: string
@@ -32,6 +35,7 @@ export interface EventConfig {
   shortPath?: string // Direct link for sharing (e.g., '/summer-camp' → grmatl.org/summer-camp)
   isRegistrationOpen: boolean // ⚠️ SOURCE OF TRUTH - control registration status here
   display: boolean // Control whether event appears on the public events listing page
+  eventDate?: string // ISO date (e.g., '2026-03-08'). Events auto-hide 14 days after this date.
   imageUrl?: string
 }
 
@@ -54,6 +58,7 @@ export const events: EventConfig[] = [
     shortPath: '/heart-to-heart',
     isRegistrationOpen: false,
     display: false,
+    eventDate: '2026-02-14',
     imageUrl: '/images/events/flyers/heart-to-heart-2026.webp',
   },
   {
@@ -73,6 +78,7 @@ export const events: EventConfig[] = [
     shortPath: '/founders-day',
     isRegistrationOpen: false,
     display: true,
+    eventDate: '2026-03-08',
     imageUrl: '/images/events/flyers/founders-day.webp',
   },
   {
@@ -93,6 +99,7 @@ export const events: EventConfig[] = [
     shortPath: '/savannah-trip',
     isRegistrationOpen: true,
     display: true,
+    eventDate: '2026-06-20',
     imageUrl: '/images/events/flyers/men-trip.webp',
   },
   // Add more events here as you create them
@@ -107,8 +114,18 @@ export const events: EventConfig[] = [
 ]
 
 // Helper function to get events that should be displayed on the events listing page
+// Events with an eventDate are automatically hidden AUTO_HIDE_DAYS after that date.
 export function getDisplayedEvents(): EventConfig[] {
-  return events.filter(event => event.display)
+  const now = new Date()
+  return events.filter(event => {
+    if (!event.display) return false
+    if (event.eventDate) {
+      const cutoff = new Date(event.eventDate)
+      cutoff.setDate(cutoff.getDate() + AUTO_HIDE_DAYS)
+      if (now > cutoff) return false
+    }
+    return true
+  })
 }
 
 // Helper function to get events with open registration (for backwards compatibility)
