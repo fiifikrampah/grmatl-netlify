@@ -2,7 +2,7 @@
 
 import { useEffect, useState, useCallback, useMemo } from 'react'
 import { useRouter } from 'next/navigation'
-import { Download, FileText, Calendar, ArrowLeft, Trash2, Table as TableIcon, LayoutGrid, HandHeart, UserPlus, MessageSquareHeart, Sparkles } from 'lucide-react'
+import { Download, FileText, Calendar, ArrowLeft, Trash2, Table as TableIcon, LayoutGrid, HandHeart, UserPlus, MessageSquareHeart, Inbox } from 'lucide-react'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
 import { Button } from '@/components/ui/button'
 import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle } from '@/components/ui/dialog'
@@ -477,7 +477,17 @@ export default function AdminDashboard() {
   }
 
   // ===== LIST VIEW: All forms + events =====
-  const hasConnect = connectForms.length > 0
+  // Always render the known connect form types — even with 0 submissions —
+  // so the dashboard structure is consistent regardless of data.
+  const connectFormsByType = new Map(connectForms.map((f) => [f.form_type, f]))
+  const allConnectForms: ConnectFormSummary[] = Object.keys(CONNECT_FORM_META).map(
+    (type) =>
+      connectFormsByType.get(type) ?? {
+        form_type: type,
+        submission_count: 0,
+        latest_submission: '',
+      }
+  )
   const hasEvents = events.length > 0
 
   return (
@@ -495,77 +505,81 @@ export default function AdminDashboard() {
 
         {/* Connect Submissions Section */}
         <div className="mb-10">
-          <div className="flex items-center gap-2 mb-4">
-            <Sparkles className="h-5 w-5 text-grm-primary" />
+          <div className="flex items-center gap-2 mb-2">
+            <Inbox className="h-5 w-5 text-grm-primary" />
             <h2 className="text-xl sm:text-2xl font-bold text-grm-primary">Connect Submissions</h2>
           </div>
-          <p className="text-sm text-gray-600 mb-4">
+          <p className="text-sm text-gray-600 mb-5">
             Submissions from the <code className="px-1.5 py-0.5 bg-gray-100 rounded text-xs">/connect</code> page — visitor welcomes, prayer requests, and experience surveys.
           </p>
 
-          {hasConnect ? (
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6">
-              {connectForms.map((form) => {
-                const meta = CONNECT_FORM_META[form.form_type] || {
-                  label: formatLabel(form.form_type),
-                  description: '',
-                  Icon: FileText,
-                  color: 'text-gray-600',
-                }
-                const Icon = meta.Icon
-                return (
-                  <Card
-                    key={form.form_type}
-                    className="cursor-pointer hover:shadow-lg transition-shadow border-2 hover:border-grm-primary/30"
-                    onClick={() => {
-                      setSelected({
-                        source: 'connect',
-                        key: form.form_type,
-                        label: meta.label,
-                      })
-                      window.scrollTo(0, 0)
-                    }}
-                  >
-                    <CardHeader className="pb-3">
-                      <div className="flex items-center justify-between gap-2">
-                        <div className="flex items-center gap-3 flex-1 min-w-0">
-                          <div className={`p-2 rounded-lg bg-gray-50 ${meta.color}`}>
-                            <Icon className="h-5 w-5" />
-                          </div>
-                          <CardTitle className="text-lg sm:text-xl text-grm-primary break-words flex-1">
-                            {meta.label}
-                          </CardTitle>
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6">
+            {allConnectForms.map((form) => {
+              const meta = CONNECT_FORM_META[form.form_type] || {
+                label: formatLabel(form.form_type),
+                description: '',
+                Icon: FileText,
+                color: 'text-gray-600',
+              }
+              const Icon = meta.Icon
+              const count = form.submission_count
+              const isEmpty = count === 0
+              return (
+                <Card
+                  key={form.form_type}
+                  className={`transition-all border ${
+                    isEmpty
+                      ? 'opacity-75 cursor-default'
+                      : 'cursor-pointer hover:shadow-lg hover:border-grm-primary/40 hover:-translate-y-0.5'
+                  }`}
+                  onClick={() => {
+                    if (isEmpty) return
+                    setSelected({
+                      source: 'connect',
+                      key: form.form_type,
+                      label: meta.label,
+                    })
+                    window.scrollTo(0, 0)
+                  }}
+                >
+                  <CardHeader className="pb-3">
+                    <div className="flex items-center justify-between gap-2">
+                      <div className="flex items-center gap-3 flex-1 min-w-0">
+                        <div className={`p-2.5 rounded-xl bg-gray-50 ${meta.color}`}>
+                          <Icon className="h-5 w-5" />
                         </div>
-                        <span className="text-xl sm:text-2xl font-bold text-grm-primary flex-shrink-0">
-                          {form.submission_count}
-                        </span>
+                        <CardTitle className="text-lg sm:text-xl text-grm-primary break-words flex-1">
+                          {meta.label}
+                        </CardTitle>
                       </div>
-                      <CardDescription className="text-xs sm:text-sm">
-                        {meta.description} · Latest: {new Date(form.latest_submission).toLocaleDateString()}
-                      </CardDescription>
-                    </CardHeader>
-                    <CardContent className="pt-0">
-                      <p className="text-xs sm:text-sm text-gray-600">
-                        Click to view {form.submission_count} submission{form.submission_count !== 1 ? 's' : ''}
-                      </p>
-                    </CardContent>
-                  </Card>
-                )
-              })}
-            </div>
-          ) : (
-            <Card>
-              <CardContent className="pt-6">
-                <div className="text-center py-8 sm:py-10">
-                  <Sparkles className="h-10 w-10 sm:h-12 sm:w-12 text-gray-400 mx-auto mb-3" />
-                  <h3 className="text-base sm:text-lg font-semibold text-gray-700 mb-1">No connect submissions yet</h3>
-                  <p className="text-sm text-gray-600 px-4">
-                    Submissions from the /connect page will appear here.
-                  </p>
-                </div>
-              </CardContent>
-            </Card>
-          )}
+                      <span
+                        className={`text-xl sm:text-2xl font-bold flex-shrink-0 ${
+                          isEmpty ? 'text-gray-300' : 'text-grm-primary'
+                        }`}
+                      >
+                        {count}
+                      </span>
+                    </div>
+                    <CardDescription className="text-xs sm:text-sm">
+                      {meta.description}
+                      {!isEmpty && form.latest_submission && (
+                        <>
+                          {' · '}Latest: {new Date(form.latest_submission).toLocaleDateString()}
+                        </>
+                      )}
+                    </CardDescription>
+                  </CardHeader>
+                  <CardContent className="pt-0">
+                    <p className="text-xs sm:text-sm text-gray-500">
+                      {isEmpty
+                        ? 'No submissions yet'
+                        : `Click to view ${count} submission${count !== 1 ? 's' : ''}`}
+                    </p>
+                  </CardContent>
+                </Card>
+              )
+            })}
+          </div>
         </div>
 
         {/* Event Registrations Section */}
