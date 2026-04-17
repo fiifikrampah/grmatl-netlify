@@ -14,15 +14,21 @@ export default function ConnectCardLink({ href, className, children }: Props) {
   const { trigger } = useWebHaptics();
   const [tapped, setTapped] = useState(false);
   const timeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const firedRef = useRef(false);
 
-  const handleTap = () => {
-    // Fire the native vibrate directly and synchronously so it's queued with
-    // the OS before Next.js starts the navigation teardown. Longer patterns
-    // (like "nudge") get cancelled by the page transition on mobile.
+  const fireHaptic = () => {
+    // Debounce so touchstart + click don't both fire on the same tap.
+    if (firedRef.current) return;
+    firedRef.current = true;
+    setTimeout(() => {
+      firedRef.current = false;
+    }, 300);
+
+    // Call navigator.vibrate directly and synchronously so the OS gets the
+    // request while user activation is still fresh.
     if (typeof navigator !== "undefined" && typeof navigator.vibrate === "function") {
       navigator.vibrate(30);
     }
-    // Also call the library so it respects the user's haptics toggle if enabled.
     trigger(30);
 
     setTapped(true);
@@ -34,7 +40,8 @@ export default function ConnectCardLink({ href, className, children }: Props) {
     <Link
       href={href}
       className={className}
-      onPointerDown={handleTap}
+      onClick={fireHaptic}
+      onTouchStart={fireHaptic}
       data-tapped={tapped ? "true" : "false"}
     >
       {children}
