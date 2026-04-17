@@ -115,7 +115,7 @@ export default function ConnectPage() {
         </div>
 
         {/* Hero content */}
-        <div className="relative z-10 h-full flex flex-col justify-end px-6 sm:px-10 pb-48 sm:pb-56">
+        <div className="relative z-10 h-full flex flex-col justify-end px-6 sm:px-10 pb-36 sm:pb-44">
           <div className="max-w-5xl mx-auto w-full">
             <p className="animate-hero-reveal-eyebrow text-sm sm:text-base text-white/80 font-medium mb-4 tracking-wide">
               Great Redemption Ministries
