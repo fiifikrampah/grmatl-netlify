@@ -2,13 +2,13 @@ import Link from "next/link";
 import Image from "next/image";
 import type { Metadata } from "next";
 import ConnectCardLink from "./ConnectCardLink";
+import HeroScrollTo from "./HeroScrollTo";
 import {
   UserPlus,
   HandHeart,
   MessageSquareHeart,
   Gift,
   Globe,
-  ChevronDown,
   ArrowRight,
 } from "lucide-react";
 
@@ -80,16 +80,21 @@ export default function ConnectPage() {
     <div className="bg-[#FAF7F2] min-h-screen">
       {/* ===== HERO: Warm photo with soft overlay ===== */}
       <section className="relative h-[65vh] min-h-[440px] max-h-[640px] w-full overflow-hidden">
-        {/* Background photo */}
-        <Image
-          src="/images/connect/hero.webp"
-          alt="Welcome to Great Redemption Ministries"
-          fill
-          priority
-          quality={90}
-          className="object-cover object-center"
-          sizes="100vw"
-        />
+        {/* Background photo (wrapped for parallax transform) */}
+        <div
+          data-hero-parallax="true"
+          className="absolute inset-0 will-change-transform"
+        >
+          <Image
+            src="/images/connect/hero.webp"
+            alt="Welcome to Great Redemption Ministries"
+            fill
+            priority
+            quality={90}
+            className="object-cover object-center"
+            sizes="100vw"
+          />
+        </div>
 
         {/* Warm reverent overlay — not pitch-dark, preserves the photo feel */}
         <div className="absolute inset-0 bg-gradient-to-b from-black/55 via-black/40 to-black/70"></div>
@@ -125,12 +130,9 @@ export default function ConnectPage() {
           </div>
         </div>
 
-        {/* Scroll hint */}
-        <div className="absolute bottom-16 sm:bottom-20 left-1/2 -translate-x-1/2 z-10 hidden sm:block pointer-events-none">
-          <ChevronDown
-            className="h-5 w-5 text-white/60 animate-bounce"
-            strokeWidth={1.5}
-          />
+        {/* Scroll hint (clickable) */}
+        <div className="absolute bottom-20 sm:bottom-24 left-1/2 -translate-x-1/2 z-10 hidden sm:block">
+          <HeroScrollTo targetId="connect-cards" />
         </div>
 
         {/* Bottom fade — blends hero into the cream section below */}
@@ -149,7 +151,7 @@ export default function ConnectPage() {
         ></div>
 
       {/* ===== CARDS SECTION ===== */}
-      <section className="relative px-6 sm:px-10 py-20 sm:py-24">
+      <section id="connect-cards" className="relative scroll-mt-8 px-6 sm:px-10 py-20 sm:py-24">
         <div className="max-w-5xl mx-auto">
           {/* Intro copy */}
           <div className="text-center mb-16 sm:mb-20">
