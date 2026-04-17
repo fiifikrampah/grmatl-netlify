@@ -248,3 +248,34 @@
   animation: float 6s ease-in-out infinite;
 }
 
+/* Cinematic hero entrance — blur-to-focus with gentle rise */
+@keyframes hero-reveal {
+  0% {
+    opacity: 0;
+    transform: translateY(24px);
+    filter: blur(12px);
+    letter-spacing: 0.02em;
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+    filter: blur(0);
+    letter-spacing: -0.02em;
+  }
+}
+
+.animate-hero-reveal {
+  opacity: 0;
+  animation: hero-reveal 1.4s cubic-bezier(0.22, 1, 0.36, 1) 0.2s forwards;
+}
+
+.animate-hero-reveal-eyebrow {
+  opacity: 0;
+  animation: fade-in-up 0.8s cubic-bezier(0.22, 1, 0.36, 1) 0s forwards;
+}
+
+.animate-hero-reveal-body {
+  opacity: 0;
+  animation: fade-in-up 0.9s cubic-bezier(0.22, 1, 0.36, 1) 0.7s forwards;
+}
+

@@ -110,16 +110,15 @@ export default function ConnectPage() {
         </div>
 
         {/* Hero content */}
-        <div className="relative z-10 h-full flex flex-col justify-end px-6 sm:px-10 pb-12 sm:pb-16">
+        <div className="relative z-10 h-full flex flex-col justify-end px-6 sm:px-10 pb-48 sm:pb-56">
           <div className="max-w-5xl mx-auto w-full">
-            <div className="w-10 h-px bg-[#C9A66B] mb-4"></div>
-            <p className="text-sm sm:text-base text-white/80 font-medium mb-4 tracking-wide">
+            <p className="animate-hero-reveal-eyebrow text-sm sm:text-base text-white/80 font-medium mb-4 tracking-wide">
               Great Redemption Ministries
             </p>
-            <h1 className="text-white text-4xl sm:text-6xl md:text-7xl font-bold leading-[1.05] tracking-tight mb-5 max-w-3xl">
+            <h1 className="animate-hero-reveal text-white text-4xl sm:text-6xl md:text-7xl font-bold leading-[1.05] tracking-tight mb-5 max-w-3xl">
               Welcome home.
             </h1>
-            <p className="text-lg sm:text-xl text-white/90 leading-relaxed max-w-2xl font-light">
+            <p className="animate-hero-reveal-body text-lg sm:text-xl text-white/90 leading-relaxed max-w-2xl font-light">
               We&apos;re so glad you&apos;re here. However you found us, whatever brought you
               today — you matter to us, and you matter to God.
             </p>
@@ -127,19 +126,25 @@ export default function ConnectPage() {
         </div>
 
         {/* Scroll hint */}
-        <div className="absolute bottom-4 left-1/2 -translate-x-1/2 z-10 hidden sm:block pointer-events-none">
+        <div className="absolute bottom-16 sm:bottom-20 left-1/2 -translate-x-1/2 z-10 hidden sm:block pointer-events-none">
           <ChevronDown
             className="h-5 w-5 text-white/60 animate-bounce"
             strokeWidth={1.5}
           />
         </div>
+
+        {/* Bottom fade — blends hero into the cream section below */}
+        <div
+          className="absolute inset-x-0 bottom-0 h-72 sm:h-80 bg-[linear-gradient(to_bottom,rgba(250,247,242,0)_0%,rgba(250,247,242,0.05)_15%,rgba(250,247,242,0.15)_30%,rgba(250,247,242,0.35)_45%,rgba(250,247,242,0.6)_60%,rgba(250,247,242,0.85)_75%,rgba(250,247,242,0.97)_90%,#FAF7F2_100%)] pointer-events-none z-[5]"
+          aria-hidden="true"
+        ></div>
       </section>
 
       {/* ===== POST-HERO: gradient backdrop ===== */}
-      <div className="relative overflow-hidden">
-        {/* Soft vertical gradient */}
+      <div className="relative overflow-hidden -mt-px">
+        {/* Soft vertical gradient — starts transparent so it blends with the hero fade */}
         <div
-          className="absolute inset-0 pointer-events-none bg-[linear-gradient(180deg,rgba(27,82,153,0.10)_0%,rgba(250,247,242,0)_25%,rgba(201,166,107,0.10)_55%,rgba(250,247,242,0)_80%,rgba(154,59,44,0.08)_100%)]"
+          className="absolute inset-0 pointer-events-none bg-[linear-gradient(180deg,rgba(250,247,242,0)_0%,rgba(27,82,153,0.08)_20%,rgba(250,247,242,0)_40%,rgba(201,166,107,0.10)_60%,rgba(250,247,242,0)_80%,rgba(154,59,44,0.08)_100%)]"
           aria-hidden="true"
         ></div>
 
@@ -164,7 +169,7 @@ export default function ConnectPage() {
                 <ConnectCardLink
                   key={card.title}
                   href={card.href}
-                  className="group block"
+                  className="group block w-full sm:last:col-span-2 sm:last:w-[calc(50%-0.625rem)] sm:last:mx-auto"
                 >
                   <div className="h-full bg-white rounded-2xl p-6 sm:p-7 border border-gray-200/70 shadow-[0_8px_30px_rgb(0,0,0,0.04)] hover:border-[#1B5299]/30 hover:shadow-lg hover:ring-1 hover:ring-inset hover:ring-[#1B5299]/10 transition-all duration-300 flex items-start gap-5">
                     <div
