@@ -202,7 +202,7 @@ export default function VisitorFormPage() {
               We&apos;re Glad You&apos;re Here
             </h1>
             <p className="text-base sm:text-lg text-gray-600 max-w-xl mx-auto leading-relaxed">
-              Welcome to Great Redemption Church! We&apos;re delighted to have you with us and would love to keep in touch. Share a little about yourself below.
+              Welcome to Great Redemption Ministries! We&apos;re delighted to have you with us and would love to keep in touch. Share a little about yourself below.
             </p>
           </div>
 
