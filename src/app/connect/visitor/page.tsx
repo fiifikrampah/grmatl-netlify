@@ -62,6 +62,9 @@ export default function VisitorFormPage() {
       data[key] = typeof value === "string" ? value : value.name;
     });
 
+    // Capture today's date automatically
+    data.todays_date = todayIso();
+
     // Resolve "Other" values
     if (data.title === "Other" && titleOther.trim()) {
       data.title = titleOther.trim();
@@ -202,21 +205,6 @@ export default function VisitorFormPage() {
                   {submitError}
                 </div>
               )}
-
-              {/* Today's Date */}
-              <div>
-                <label htmlFor="todays_date" className="block text-sm font-semibold text-[#0D2B45] mb-2">
-                  Today&apos;s Date <span className="text-red-600">*</span>
-                </label>
-                <input
-                  type="date"
-                  id="todays_date"
-                  name="todays_date"
-                  required
-                  defaultValue={todayIso()}
-                  className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#1B5299] focus:border-[#1B5299] transition-colors"
-                />
-              </div>
 
               {/* Title */}
               {renderRadioGroup(
