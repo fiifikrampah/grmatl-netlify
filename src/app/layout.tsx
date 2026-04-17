@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Manrope } from "next/font/google";
+import { Manrope, Fraunces } from "next/font/google";
 import "./globals.css";
 import ConditionalLayout from "@/components/ConditionalLayout";
 
@@ -7,6 +7,13 @@ const manrope = Manrope({
   subsets: ["latin"],
   variable: "--font-manrope",
   display: "swap", // Show text immediately with fallback, then swap when font loads
+});
+
+const fraunces = Fraunces({
+  subsets: ["latin"],
+  variable: "--font-fraunces",
+  display: "swap",
+  weight: ["400", "500", "600", "700"],
 });
 
 export const metadata: Metadata = {
@@ -71,7 +78,7 @@ export default function RootLayout({
         <meta name="theme-color" content="#1B5299" />
       </head>
       <body
-        className={`${manrope.variable} font-sans antialiased bg-white text-gray-900 overflow-x-hidden`}
+        className={`${manrope.variable} ${fraunces.variable} font-sans antialiased bg-white text-gray-900 overflow-x-hidden`}
       >
         <ConditionalLayout>
           {children}

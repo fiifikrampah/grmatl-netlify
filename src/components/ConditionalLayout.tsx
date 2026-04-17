@@ -8,9 +8,10 @@ export default function ConditionalLayout({ children }: { children: React.ReactN
   const pathname = usePathname()
   const isAdminRoute = pathname?.startsWith('/admin')
   const isThankYou = pathname === '/thank-you'
+  const isConnectRoute = pathname?.startsWith('/connect')
 
-  if (isAdminRoute || isThankYou) {
-    // Admin routes and thank-you page have no header/footer
+  if (isAdminRoute || isThankYou || isConnectRoute) {
+    // Admin, thank-you, and connect (QR landing) pages have no header/footer
     return <>{children}</>
   }
 
