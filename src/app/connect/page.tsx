@@ -1,11 +1,14 @@
 import Link from "next/link";
 import Image from "next/image";
 import type { Metadata } from "next";
+import ConnectCardLink from "./ConnectCardLink";
 import {
   UserPlus,
   HandHeart,
   MessageSquareHeart,
   Gift,
+  Globe,
+  ChevronDown,
   ArrowRight,
 } from "lucide-react";
 
@@ -61,6 +64,15 @@ const cards: ConnectCard[] = [
     iconBg: "bg-[#b45309]/10",
     iconColor: "text-[#b45309]",
   },
+  {
+    title: "Visit Our Website",
+    description:
+      "Explore our ministries, events, sermons, and everything happening at GRM.",
+    href: "/",
+    icon: Globe,
+    iconBg: "bg-[#4c1d95]/10",
+    iconColor: "text-[#4c1d95]",
+  },
 ];
 
 export default function ConnectPage() {
@@ -89,9 +101,9 @@ export default function ConnectPage() {
             <Image
               src="/images/branding/logo.png"
               alt="Great Redemption Ministries"
-              width={56}
-              height={56}
-              className="filter brightness-0 invert opacity-90 hover:opacity-100 transition-opacity"
+              width={88}
+              height={88}
+              className="w-24 h-auto sm:w-28 filter brightness-0 invert opacity-90 hover:opacity-100 transition-opacity"
               priority
             />
           </Link>
@@ -100,10 +112,11 @@ export default function ConnectPage() {
         {/* Hero content */}
         <div className="relative z-10 h-full flex flex-col justify-end px-6 sm:px-10 pb-12 sm:pb-16">
           <div className="max-w-5xl mx-auto w-full">
+            <div className="w-10 h-px bg-[#C9A66B] mb-4"></div>
             <p className="text-sm sm:text-base text-white/80 font-medium mb-4 tracking-wide">
-              Great Redemption Ministries · Atlanta
+              Great Redemption Ministries
             </p>
-            <h1 className="text-white text-4xl sm:text-6xl md:text-7xl font-bold leading-[1.05] mb-5 max-w-3xl">
+            <h1 className="text-white text-4xl sm:text-6xl md:text-7xl font-bold leading-[1.05] tracking-tight mb-5 max-w-3xl">
               Welcome home.
             </h1>
             <p className="text-lg sm:text-xl text-white/90 leading-relaxed max-w-2xl font-light">
@@ -112,13 +125,29 @@ export default function ConnectPage() {
             </p>
           </div>
         </div>
+
+        {/* Scroll hint */}
+        <div className="absolute bottom-4 left-1/2 -translate-x-1/2 z-10 hidden sm:block pointer-events-none">
+          <ChevronDown
+            className="h-5 w-5 text-white/60 animate-bounce"
+            strokeWidth={1.5}
+          />
+        </div>
       </section>
 
+      {/* ===== POST-HERO: gradient backdrop ===== */}
+      <div className="relative overflow-hidden">
+        {/* Soft vertical gradient */}
+        <div
+          className="absolute inset-0 pointer-events-none bg-[linear-gradient(180deg,rgba(27,82,153,0.10)_0%,rgba(250,247,242,0)_25%,rgba(201,166,107,0.10)_55%,rgba(250,247,242,0)_80%,rgba(154,59,44,0.08)_100%)]"
+          aria-hidden="true"
+        ></div>
+
       {/* ===== CARDS SECTION ===== */}
-      <section className="px-6 sm:px-10 py-14 sm:py-20">
+      <section className="relative px-6 sm:px-10 py-20 sm:py-24">
         <div className="max-w-5xl mx-auto">
           {/* Intro copy */}
-          <div className="text-center mb-10 sm:mb-14">
+          <div className="text-center mb-16 sm:mb-20">
             <p className="text-sm uppercase tracking-[0.2em] text-[#1B5299] font-semibold mb-3">
               Let&apos;s Connect
             </p>
@@ -132,16 +161,19 @@ export default function ConnectPage() {
             {cards.map((card) => {
               const Icon = card.icon;
               return (
-                <Link
+                <ConnectCardLink
                   key={card.title}
                   href={card.href}
                   className="group block"
                 >
-                  <div className="h-full bg-white rounded-2xl p-6 sm:p-7 border border-gray-200/70 hover:border-[#1B5299]/30 hover:shadow-lg transition-all duration-300 flex items-start gap-5">
+                  <div className="h-full bg-white rounded-2xl p-6 sm:p-7 border border-gray-200/70 shadow-[0_8px_30px_rgb(0,0,0,0.04)] hover:border-[#1B5299]/30 hover:shadow-lg hover:ring-1 hover:ring-inset hover:ring-[#1B5299]/10 transition-all duration-300 flex items-start gap-5">
                     <div
-                      className={`flex-shrink-0 w-14 h-14 rounded-2xl ${card.iconBg} flex items-center justify-center group-hover:scale-105 transition-transform`}
+                      className={`flex-shrink-0 w-14 h-14 rounded-2xl ${card.iconBg} flex items-center justify-center transition-transform duration-300 ease-out group-hover:scale-105 group-data-[tapped=true]:scale-110 group-data-[tapped=true]:-rotate-6 group-data-[tapped=true]:duration-150`}
                     >
-                      <Icon className={`h-7 w-7 ${card.iconColor}`} strokeWidth={2} />
+                      <Icon
+                        className={`h-7 w-7 ${card.iconColor} transition-transform duration-300 ease-out group-data-[tapped=true]:scale-125`}
+                        strokeWidth={2}
+                      />
                     </div>
 
                     <div className="flex-1 min-w-0">
@@ -156,7 +188,7 @@ export default function ConnectPage() {
                       </p>
                     </div>
                   </div>
-                </Link>
+                </ConnectCardLink>
               );
             })}
           </div>
@@ -164,11 +196,14 @@ export default function ConnectPage() {
       </section>
 
       {/* ===== CLOSING ===== */}
-      <section className="px-6 sm:px-10 pb-16 sm:pb-24">
+      <section className="relative px-6 sm:px-10 pb-20 sm:pb-28">
         <div className="max-w-3xl mx-auto text-center">
           <div className="h-px bg-gray-200 w-16 mx-auto mb-8"></div>
-          <p className="text-base sm:text-lg text-gray-600 leading-relaxed mb-3 italic">
-            &ldquo;Whoever comes through these doors is family.&rdquo;
+          <p className="font-serif text-lg sm:text-xl text-gray-700 leading-relaxed mb-3 italic">
+            &ldquo;Accept one another, then, just as Christ accepted you.&rdquo;
+            <span className="block not-italic font-sans text-sm text-gray-500 mt-3 tracking-wide">
+              — Romans 15:7
+            </span>
           </p>
           <p className="text-sm text-gray-500 mb-8">
             Need help or have a question?{" "}
@@ -182,6 +217,7 @@ export default function ConnectPage() {
           </p>
         </div>
       </section>
+      </div>
     </div>
   );
 }
