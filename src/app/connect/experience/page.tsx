@@ -3,6 +3,7 @@
 import { useState } from "react";
 import Link from "next/link";
 import { ArrowLeft, MessageSquareHeart, CheckCircle2 } from "lucide-react";
+import { useConnectHaptics } from "../useConnectHaptics";
 
 type ScaleField = {
   name: string;
@@ -30,6 +31,7 @@ const SCALES: ScaleField[] = [
 ];
 
 export default function ExperienceFormPage() {
+  const { tapOption } = useConnectHaptics();
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submitError, setSubmitError] = useState<string | null>(null);
   const [answers, setAnswers] = useState<Record<string, string>>({});
@@ -135,9 +137,10 @@ export default function ExperienceFormPage() {
                           name={field.name}
                           value={opt}
                           checked={answers[field.name] === opt}
-                          onChange={(e) =>
-                            setAnswers((prev) => ({ ...prev, [field.name]: e.target.value }))
-                          }
+                          onChange={(e) => {
+                            tapOption();
+                            setAnswers((prev) => ({ ...prev, [field.name]: e.target.value }));
+                          }}
                           required
                           className="sr-only"
                         />

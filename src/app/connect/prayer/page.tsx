@@ -3,8 +3,10 @@
 import { useState } from "react";
 import Link from "next/link";
 import { ArrowLeft, HandHeart, Lock, CheckCircle2 } from "lucide-react";
+import { useConnectHaptics } from "../useConnectHaptics";
 
 export default function PrayerRequestPage() {
+  const { tapOption } = useConnectHaptics();
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submitError, setSubmitError] = useState<string | null>(null);
   const [isAnonymous, setIsAnonymous] = useState(false);
@@ -111,7 +113,10 @@ export default function PrayerRequestPage() {
                 <input
                   type="checkbox"
                   checked={isAnonymous}
-                  onChange={(e) => setIsAnonymous(e.target.checked)}
+                  onChange={(e) => {
+                    tapOption();
+                    setIsAnonymous(e.target.checked);
+                  }}
                   className="h-5 w-5 rounded border-gray-300 text-[#6b4fa3] focus:ring-[#6b4fa3]"
                 />
                 <span className="text-sm text-gray-800">
@@ -184,7 +189,10 @@ export default function PrayerRequestPage() {
                         name="urgency"
                         value={opt}
                         checked={urgency === opt}
-                        onChange={(e) => setUrgency(e.target.value)}
+                        onChange={(e) => {
+                          tapOption();
+                          setUrgency(e.target.value);
+                        }}
                         required
                         className="sr-only"
                       />
@@ -218,6 +226,7 @@ export default function PrayerRequestPage() {
                       type="checkbox"
                       name="request_followup"
                       value="Yes"
+                      onChange={tapOption}
                       className="mt-1 h-5 w-5 rounded border-gray-300 text-[#6b4fa3] focus:ring-[#6b4fa3]"
                     />
                     <span className="text-sm text-gray-700">

@@ -3,6 +3,7 @@
 import { useState } from "react";
 import Link from "next/link";
 import { ArrowLeft, UserPlus, CheckCircle2 } from "lucide-react";
+import { useConnectHaptics } from "../useConnectHaptics";
 
 type RadioField = {
   name: string;
@@ -40,6 +41,7 @@ function todayIso(): string {
 }
 
 export default function VisitorFormPage() {
+  const { tapOption } = useConnectHaptics();
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submitError, setSubmitError] = useState<string | null>(null);
   const [title, setTitle] = useState("");
@@ -126,7 +128,10 @@ export default function VisitorFormPage() {
               name={field.name}
               value={opt}
               checked={selected === opt}
-              onChange={(e) => setSelected(e.target.value)}
+              onChange={(e) => {
+                tapOption();
+                setSelected(e.target.value);
+              }}
               required={field.required}
               className="sr-only"
             />
@@ -146,7 +151,10 @@ export default function VisitorFormPage() {
               name={field.name}
               value="Other"
               checked={selected === "Other"}
-              onChange={(e) => setSelected(e.target.value)}
+              onChange={(e) => {
+                tapOption();
+                setSelected(e.target.value);
+              }}
               required={field.required}
               className="sr-only"
             />

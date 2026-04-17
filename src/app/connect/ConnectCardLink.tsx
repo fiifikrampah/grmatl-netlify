@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { useRef, useState } from "react";
-import { WebHaptics } from "web-haptics";
+import { useWebHaptics } from "web-haptics/react";
 
 type Props = {
   href: string;
@@ -11,15 +11,12 @@ type Props = {
 };
 
 export default function ConnectCardLink({ href, className, children }: Props) {
-  const hapticsRef = useRef<WebHaptics | null>(null);
+  const { trigger } = useWebHaptics();
   const [tapped, setTapped] = useState(false);
   const timeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
   const handleTap = () => {
-    if (!hapticsRef.current) {
-      hapticsRef.current = new WebHaptics();
-    }
-    hapticsRef.current.trigger();
+    trigger("nudge");
 
     setTapped(true);
     if (timeoutRef.current) clearTimeout(timeoutRef.current);
