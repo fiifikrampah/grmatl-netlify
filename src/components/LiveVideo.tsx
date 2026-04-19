@@ -61,22 +61,25 @@ export default function LiveVideo() {
   const playerSrc = showVideo ? videoSrc : undefined
   const canPlayVideo = Boolean(videoUrl)
   const statusTitle = isLoadingLiveVideo
-    ? 'Checking for the current live stream'
+    ? 'Checking live status'
     : broadcastState === 'live'
       ? 'Join Our Live Service'
       : broadcastState === 'archive'
         ? 'Watch the Most Recent Livestream'
-        : 'No livestream available'
+        : 'Watch the Most Recent Livestream'
   const statusDescription = isLoadingLiveVideo
-    ? 'Looking for the latest live broadcast on YouTube'
+    ? 'Looking for the current broadcast'
     : broadcastState === 'live'
       ? 'Click to start watching'
       : broadcastState === 'archive'
-        ? 'Click to watch the most recent service recording'
-      : 'No live stream right now'
-  const statusSubtext = broadcastState === 'archive'
-    ? 'Reload the page to check for a new current livestream'
-    : 'Check back when we are broadcasting live'
+        ? 'Latest service recording'
+      : 'Latest service recording'
+  const coverImageSrc = broadcastState === 'live'
+    ? '/images/watch/thumbnail.webp'
+    : '/images/watch/archive-cover.webp'
+  const coverImageAlt = broadcastState === 'live'
+    ? 'Great Redemption Ministries Live Stream'
+    : 'Most recent service recording'
 
   return (
     <div className="w-full aspect-video relative bg-gray-100 rounded-2xl overflow-hidden">
@@ -94,14 +97,20 @@ export default function LiveVideo() {
             }}
           >
             <Image
-              src="/images/watch/thumbnail.webp"
-              alt="Great Redemption Ministries Live Stream"
+              src={coverImageSrc}
+              alt={coverImageAlt}
               fill
               className="object-cover transition-transform duration-700 group-hover:scale-105"
               quality={92}
             />
             {/* Overlay */}
-            <div className="absolute inset-0 bg-grm-primary/20 group-hover:bg-grm-primary/10 transition-colors duration-300 mix-blend-multiply" />
+            <div
+              className={`absolute inset-0 transition-colors duration-300 ${
+                broadcastState === 'live'
+                  ? 'bg-grm-primary/20 group-hover:bg-grm-primary/10 mix-blend-multiply'
+                  : 'bg-slate-950/45 group-hover:bg-slate-950/35'
+              }`}
+            />
 
             {/* Play button */}
             <div className="absolute inset-0 flex items-center justify-center">
@@ -121,11 +130,6 @@ export default function LiveVideo() {
               <p className="text-blue-100 text-sm md:text-lg font-medium max-w-[70%] md:max-w-full">
                 {statusDescription}
               </p>
-              {broadcastState === 'archive' ? (
-                <p className="text-blue-100/80 text-xs md:text-sm mt-2 max-w-[70%] md:max-w-full">
-                  {statusSubtext}
-                </p>
-              ) : null}
             </div>
           </div>
         ) : (

@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 /**
- * One-time batch convert JPG/JPEG/PNG (photos) to WebP using cwebp (libwebp).
+ * One-time batch convert JPG/JPEG photos to WebP using cwebp (libwebp).
  * Requires: brew install webp  (or cwebp on PATH)
  * Quality 92 for HD, crisp output. Skips favicon folder.
  */
@@ -13,21 +13,48 @@ import { spawnSync } from 'child_process'
 const __dirname = dirname(fileURLToPath(import.meta.url))
 const IMAGES_ROOT = join(__dirname, '..', 'public', 'images')
 const QUALITY = 92
-const EXTENSIONS = new Set(['.jpg', '.jpeg', '.JPG']) // photos only; keep PNGs (logos, etc.)
+const DEFAULT_EXTENSIONS = new Set(['.jpg', '.jpeg', '.JPG']) // photos only; keep PNGs (logos, etc.)
+const TARGET_EXTENSIONS = new Set(['.jpg', '.jpeg', '.JPG', '.png', '.PNG'])
 const SKIP_DIRS = new Set(['favicon']) // keep favicons as PNG/ICO
 
-function getAllImageFiles(dir, list = []) {
+function getAllImageFiles(dir, list = [], extensions = DEFAULT_EXTENSIONS) {
   const entries = readdirSync(dir, { withFileTypes: true })
   for (const e of entries) {
     const full = join(dir, e.name)
     if (e.isDirectory()) {
-      if (!SKIP_DIRS.has(e.name)) getAllImageFiles(full, list)
+      if (!SKIP_DIRS.has(e.name)) getAllImageFiles(full, list, extensions)
       continue
     }
     const ext = extname(e.name)
-    if (EXTENSIONS.has(ext)) list.push(full)
+    if (extensions.has(ext)) list.push(full)
   }
   return list
+}
+
+function getFilesFromArgs(paths) {
+  const files = []
+
+  for (const input of paths) {
+    if (!existsSync(input)) {
+      console.warn(`Skipping missing path: ${input}`)
+      continue
+    }
+
+    const stats = statSync(input)
+    if (stats.isDirectory()) {
+      getAllImageFiles(input, files, TARGET_EXTENSIONS)
+      continue
+    }
+
+    if (TARGET_EXTENSIONS.has(extname(input))) {
+      files.push(input)
+      continue
+    }
+
+    console.warn(`Skipping unsupported file type: ${input}`)
+  }
+
+  return files
 }
 
 function toWebpPath(path) {
@@ -36,9 +63,14 @@ function toWebpPath(path) {
   return join(dir, `${base}.webp`)
 }
 
-const files = getAllImageFiles(IMAGES_ROOT)
+const cliInputs = process.argv.slice(2)
+const files = cliInputs.length > 0
+  ? getFilesFromArgs(cliInputs)
+  : getAllImageFiles(IMAGES_ROOT)
 if (files.length === 0) {
-  console.log('No JPG/PNG files found under public/images (excluding favicon).')
+  console.log(cliInputs.length > 0
+    ? 'No supported image files found for the provided paths.'
+    : 'No JPG files found under public/images (excluding favicon).')
   process.exit(0)
 }
 
