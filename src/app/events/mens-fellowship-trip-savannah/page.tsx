@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
-import { Calendar, MapPin, Anchor, Sun, DollarSign, ArrowLeft } from "lucide-react";
+import { Calendar, MapPin, Anchor, Sun, ArrowLeft } from "lucide-react";
 import { getEventBySlug } from "@/lib/events.config";
 import Reveal from "@/components/Reveal";
 
