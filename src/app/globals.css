@@ -279,3 +279,9 @@
   animation: fade-in-up 0.9s cubic-bezier(0.22, 1, 0.36, 1) 0.7s forwards;
 }
 
+/* Live player ring: gentle breathing halo behind the rotating glints */
+@keyframes livePulse {
+  0%, 100% { opacity: 0.55; transform: scale(1); }
+  50%      { opacity: 1;    transform: scale(1.015); }
+}
+

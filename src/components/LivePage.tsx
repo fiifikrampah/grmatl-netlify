@@ -64,20 +64,30 @@ export default function LivePage() {
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pb-20 -mt-12 relative z-20">
         <Reveal delay={200} className="max-w-6xl mx-auto">
-          {/* Player Container: small blue blur travels along the visible edge border */}
-          <div className="relative rounded-[2rem] overflow-hidden bg-white shadow-xl" style={{ padding: '4px' }}>
-            {/* Rotating gradient - clipped to ring by the inner white block */}
+          {/* Player Container: dual blue glints chase along the visible edge border with a soft breathing glow */}
+          <div className="relative rounded-[2rem] overflow-hidden bg-white shadow-xl motion-reduce:shadow-xl" style={{ padding: '4px' }}>
+            {/* Sharp ring: two opposing glints on a conic-gradient, slowly rotating */}
             <div
-              className="absolute inset-0 rounded-[2rem] animate-[spin_6s_linear_infinite]"
+              className="absolute inset-0 rounded-[2rem] animate-[spin_16s_linear_infinite] motion-reduce:animate-none"
               style={{
-                background: 'conic-gradient(from 0deg, transparent 0deg, transparent 300deg, rgba(27,82,153,0.85) 330deg, transparent 360deg)',
+                background:
+                  'conic-gradient(from 0deg, transparent 0deg, rgba(27,82,153,0.9) 30deg, rgba(125,180,255,0.55) 55deg, transparent 90deg, transparent 180deg, rgba(27,82,153,0.9) 210deg, rgba(125,180,255,0.55) 235deg, transparent 270deg, transparent 360deg)',
               }}
             />
-            {/* Blur layer: same gradient, blurred, so the "spot" is a soft blue blur */}
+            {/* Soft glow: same gradient, heavily blurred and gently breathing for a luxe halo */}
             <div
-              className="absolute inset-0 rounded-[2rem] animate-[spin_6s_linear_infinite] pointer-events-none"
+              className="absolute inset-0 rounded-[2rem] animate-[spin_16s_linear_infinite] pointer-events-none motion-reduce:animate-none"
               style={{
-                background: 'conic-gradient(from 0deg, transparent 0deg, transparent 300deg, rgba(27,82,153,0.6) 330deg, transparent 360deg)',
+                background:
+                  'conic-gradient(from 0deg, transparent 0deg, rgba(27,82,153,0.7) 30deg, rgba(125,180,255,0.45) 55deg, transparent 90deg, transparent 180deg, rgba(27,82,153,0.7) 210deg, rgba(125,180,255,0.45) 235deg, transparent 270deg, transparent 360deg)',
+                filter: 'blur(14px)',
+              }}
+            />
+            <div
+              className="absolute inset-0 rounded-[2rem] pointer-events-none animate-[livePulse_5s_ease-in-out_infinite] motion-reduce:animate-none"
+              style={{
+                background:
+                  'radial-gradient(ellipse at center, transparent 55%, rgba(27,82,153,0.18) 100%)',
                 filter: 'blur(8px)',
               }}
             />
