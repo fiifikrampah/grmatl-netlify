@@ -1,13 +1,15 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import { Calendar, MapPin, Droplet, Users, ArrowLeft } from "lucide-react";
 import { getEventBySlug } from "@/lib/events.config";
 
 
 export default function BaptismPage() {
+  const router = useRouter();
   const [isFormValid, setIsFormValid] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submitError, setSubmitError] = useState<string | null>(null);
@@ -16,6 +18,13 @@ export default function BaptismPage() {
   const isRegistrationOpen = eventConfig?.isRegistrationOpen ?? false;
   const location = "24 Geneva St. Hapeville GA 30354";
   const eventSlug = 'baptism';
+
+  // Warm up the success page bundle so the post-submit transition is instant.
+  useEffect(() => {
+    const basePath = eventConfig?.path ?? "/events/baptism";
+    router.prefetch(`${basePath}/success`);
+    if (eventConfig?.shortPath) router.prefetch(`${eventConfig.shortPath}/success`);
+  }, [router, eventConfig?.path, eventConfig?.shortPath]);
 
   // Check if form is valid
   const checkFormValidity = (form: HTMLFormElement) => {
@@ -50,13 +59,12 @@ export default function BaptismPage() {
         }),
       });
 
-      const result = await response.json();
-
       if (response.ok) {
         const shortPath = eventConfig?.shortPath;
         const isShortUrl = typeof window !== "undefined" && shortPath && window.location.pathname === shortPath;
-        window.location.href = isShortUrl ? `${shortPath}/success` : `${eventConfig?.path ?? "/events/baptism"}/success`;
+        router.replace(isShortUrl ? `${shortPath}/success` : `${eventConfig?.path ?? "/events/baptism"}/success`);
       } else {
+        const result = await response.json().catch(() => ({}));
         setSubmitError(result.error || 'Failed to submit registration. Please try again.');
         setIsSubmitting(false);
       }

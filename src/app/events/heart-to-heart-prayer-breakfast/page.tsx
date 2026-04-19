@@ -1,13 +1,15 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
+import { useRouter } from "next/navigation";
 import { Calendar, MapPin, Users, Heart, Clock, Shirt, ArrowLeft } from "lucide-react";
 import { getEventBySlug } from "@/lib/events.config";
 
 
 export default function HeartToHeartPrayerBreakfastPage() {
+  const router = useRouter();
   const [isFormValid, setIsFormValid] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submitError, setSubmitError] = useState<string | null>(null);
@@ -20,6 +22,13 @@ export default function HeartToHeartPrayerBreakfastPage() {
   const time = "10am - 1pm";
   const location = "24 Geneva St. Hapeville GA 30354";
   const eventSlug = `heart-to-heart-prayer-breakfast-2026`;
+
+  // Warm up the success page bundle so the post-submit transition is instant.
+  useEffect(() => {
+    const basePath = eventConfig?.path ?? "/events/heart-to-heart-prayer-breakfast";
+    router.prefetch(`${basePath}/success`);
+    if (eventConfig?.shortPath) router.prefetch(`${eventConfig.shortPath}/success`);
+  }, [router, eventConfig?.path, eventConfig?.shortPath]);
 
   // Check if form is valid
   const checkFormValidity = (form: HTMLFormElement) => {
@@ -54,13 +63,12 @@ export default function HeartToHeartPrayerBreakfastPage() {
         }),
       });
 
-      const result = await response.json();
-
       if (response.ok) {
         const shortPath = eventConfig?.shortPath;
         const isShortUrl = typeof window !== "undefined" && shortPath && window.location.pathname === shortPath;
-        window.location.href = isShortUrl ? `${shortPath}/success` : `${eventConfig?.path ?? "/events/heart-to-heart-prayer-breakfast"}/success`;
+        router.replace(isShortUrl ? `${shortPath}/success` : `${eventConfig?.path ?? "/events/heart-to-heart-prayer-breakfast"}/success`);
       } else {
+        const result = await response.json().catch(() => ({}));
         setSubmitError(result.error || 'Failed to submit registration. Please try again.');
         setIsSubmitting(false);
       }

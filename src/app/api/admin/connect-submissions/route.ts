@@ -1,4 +1,5 @@
 import { createClient } from '@/lib/supabase/server'
+import { createAdminClient } from '@/lib/supabase/admin'
 import { NextResponse } from 'next/server'
 
 // Get connect submissions grouped by form_type, or all rows for a specific form_type.
@@ -28,8 +29,11 @@ export async function GET(request: Request) {
     const { searchParams } = new URL(request.url)
     const formType = searchParams.get('form_type')
 
+    // Bypass RLS for admin reads after the admin check above.
+    const adminDb = createAdminClient()
+
     if (formType) {
-      const { data: submissions, error } = await supabase
+      const { data: submissions, error } = await adminDb
         .from('connect_submissions')
         .select('*')
         .eq('form_type', formType)
@@ -42,7 +46,7 @@ export async function GET(request: Request) {
 
       return NextResponse.json({ submissions: submissions || [] })
     } else {
-      const { data: submissions, error } = await supabase
+      const { data: submissions, error } = await adminDb
         .from('connect_submissions')
         .select('form_type, created_at')
 

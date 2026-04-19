@@ -1,6 +1,6 @@
 import { createClient } from '@supabase/supabase-js'
 import { Resend } from 'resend'
-import { NextResponse } from 'next/server'
+import { NextResponse, after } from 'next/server'
 
 const NOTIFICATION_EMAIL = 'grmmedia16@gmail.com'
 
@@ -9,6 +9,19 @@ const FORM_LABELS: Record<string, string> = {
   prayer: 'Prayer Request',
   experience: 'Share Your Experience',
 }
+
+// Module-scope clients: created once per warm invocation instead of per request.
+// Saves ~10-50ms of client construction on every repeat call.
+const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL!
+const supabaseKey =
+  process.env.SUPABASE_SERVICE_ROLE_KEY ||
+  process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!
+const supabase = createClient(supabaseUrl, supabaseKey, {
+  auth: { autoRefreshToken: false, persistSession: false },
+})
+
+const resendApiKey = process.env.RESEND_API_KEY
+const resend = resendApiKey ? new Resend(resendApiKey) : null
 
 // Format field key for display (e.g. "firstName" / "first_name" -> "First Name")
 function formatFieldLabel(key: string): string {
@@ -72,24 +85,11 @@ export async function POST(request: Request) {
       )
     }
 
-    const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL!
-    const supabaseKey = process.env.SUPABASE_SERVICE_ROLE_KEY || process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!
-
-    const supabase = createClient(supabaseUrl, supabaseKey, {
-      auth: {
-        autoRefreshToken: false,
-        persistSession: false,
-      },
-    })
-
-    const { data: submission, error: insertError } = await supabase
+    // Insert only — no .select().single() because the client doesn't need the row back.
+    // Skipping the select avoids an extra read round-trip on every submission.
+    const { error: insertError } = await supabase
       .from('connect_submissions')
-      .insert({
-        form_type,
-        submission_data,
-      })
-      .select()
-      .single()
+      .insert({ form_type, submission_data })
 
     if (insertError) {
       console.error('Error creating connect submission:', {
@@ -108,32 +108,34 @@ export async function POST(request: Request) {
       )
     }
 
-    // Send notification email (non-blocking)
-    const apiKey = process.env.RESEND_API_KEY
-    if (apiKey) {
+    // Send notification email *after* the response is returned to the client.
+    // Next.js `after()` keeps the runtime alive so the promise completes — unlike
+    // plain fire-and-forget which Netlify terminates the instant the response
+    // is sent. This removes 1-3s of Resend latency from the user-facing path.
+    if (resend) {
       const fromEmail = process.env.RESEND_FROM_EMAIL || 'onboarding@resend.dev'
       const fromName = process.env.RESEND_FROM_NAME || 'GRM Connect'
       const formLabel = FORM_LABELS[form_type] || form_type
+      const html = buildEmailHtml(form_type, submission_data as Record<string, unknown>)
 
-      const resend = new Resend(apiKey)
-      resend.emails
-        .send({
-          from: `${fromName} <${fromEmail}>`,
-          to: NOTIFICATION_EMAIL,
-          subject: `New ${formLabel} submission`,
-          html: buildEmailHtml(form_type, submission_data as Record<string, unknown>),
-        })
-        .then((result) => {
+      after(async () => {
+        try {
+          const result = await resend.emails.send({
+            from: `${fromName} <${fromEmail}>`,
+            to: NOTIFICATION_EMAIL,
+            subject: `New ${formLabel} submission`,
+            html,
+          })
           if (result.error) {
             console.error('Resend email error:', result.error)
           }
-        })
-        .catch((err) => {
+        } catch (err) {
           console.error('Failed to send connect submission email:', err)
-        })
+        }
+      })
     }
 
-    return NextResponse.json({ submission }, { status: 201 })
+    return NextResponse.json({ ok: true }, { status: 201 })
   } catch (error) {
     console.error('Error in POST /api/connect-submissions:', error)
     return NextResponse.json(

@@ -1,4 +1,5 @@
 import { createClient } from '@/lib/supabase/server'
+import { createAdminClient } from '@/lib/supabase/admin'
 import { NextResponse } from 'next/server'
 
 /**
@@ -29,12 +30,15 @@ export async function GET() {
       return NextResponse.json({ error: 'Forbidden' }, { status: 403 })
     }
 
+    // Use service-role client for reads so RLS can't silently hide rows from
+    // admins. Safe because we just verified the caller is in admin_users.
+    const adminDb = createAdminClient()
     const [eventRes, connectRes] = await Promise.all([
-      supabase
+      adminDb
         .from('event_responses')
         .select('id, event_slug, response_data, created_at')
         .order('created_at', { ascending: false }),
-      supabase
+      adminDb
         .from('connect_submissions')
         .select('id, form_type, submission_data, created_at')
         .order('created_at', { ascending: false }),

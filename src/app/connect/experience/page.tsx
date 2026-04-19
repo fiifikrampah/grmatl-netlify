@@ -1,7 +1,8 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import { ArrowLeft, MessageSquareHeart, CheckCircle2 } from "lucide-react";
 import { useConnectHaptics } from "../useConnectHaptics";
 
@@ -31,10 +32,16 @@ const SCALES: ScaleField[] = [
 ];
 
 export default function ExperienceFormPage() {
+  const router = useRouter();
   const { tapOption } = useConnectHaptics();
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submitError, setSubmitError] = useState<string | null>(null);
   const [answers, setAnswers] = useState<Record<string, string>>({});
+
+  // Warm up the success page bundle so the post-submit transition is instant.
+  useEffect(() => {
+    router.prefetch("/connect/success");
+  }, [router]);
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -58,10 +65,10 @@ export default function ExperienceFormPage() {
         }),
       });
 
-      const result = await response.json();
       if (response.ok) {
-        window.location.href = "/connect/success?type=experience";
+        router.replace("/connect/success?type=experience");
       } else {
+        const result = await response.json().catch(() => ({}));
         setSubmitError(result.error || "Failed to submit. Please try again.");
         setIsSubmitting(false);
       }

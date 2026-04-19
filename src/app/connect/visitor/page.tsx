@@ -1,7 +1,8 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import { ArrowLeft, UserPlus, CheckCircle2 } from "lucide-react";
 import { useConnectHaptics } from "../useConnectHaptics";
 
@@ -41,6 +42,7 @@ function todayIso(): string {
 }
 
 export default function VisitorFormPage() {
+  const router = useRouter();
   const { tapOption } = useConnectHaptics();
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submitError, setSubmitError] = useState<string | null>(null);
@@ -51,6 +53,11 @@ export default function VisitorFormPage() {
   const [contactMethod, setContactMethod] = useState("");
   const [contactTime, setContactTime] = useState("");
   const [contactTimeOther, setContactTimeOther] = useState("");
+
+  // Warm up the success page bundle so the post-submit transition is instant.
+  useEffect(() => {
+    router.prefetch("/connect/success");
+  }, [router]);
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -85,10 +92,11 @@ export default function VisitorFormPage() {
         }),
       });
 
-      const result = await response.json();
       if (response.ok) {
-        window.location.href = "/connect/success?type=visitor";
+        // Skip parsing the body on success — SPA nav for instant feel.
+        router.replace("/connect/success?type=visitor");
       } else {
+        const result = await response.json().catch(() => ({}));
         setSubmitError(result.error || "Failed to submit. Please try again.");
         setIsSubmitting(false);
       }

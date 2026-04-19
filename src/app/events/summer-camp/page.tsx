@@ -1,12 +1,14 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import { Calendar, MapPin, Users, DollarSign, BookOpen, Trophy, Tent, Mountain, ArrowLeft } from "lucide-react";
 import { getEventBySlug } from "@/lib/events.config";
 
 
 export default function SummerCampPage() {
+  const router = useRouter();
   const [isFormValid, setIsFormValid] = useState(false);
   const [selectedPaymentMethod, setSelectedPaymentMethod] = useState("");
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -18,6 +20,13 @@ export default function SummerCampPage() {
   const isRegistrationOpen = eventConfig?.isRegistrationOpen ?? false; // Read from config (source of truth)
   const date = "July 14th to 18th"; // Date of the camp
   const eventSlug = `summer-camp-${currentYear}`;
+
+  // Warm up the success page bundle so the post-submit transition is instant.
+  useEffect(() => {
+    const basePath = eventConfig?.path ?? "/events/summer-camp";
+    router.prefetch(`${basePath}/success`);
+    if (eventConfig?.shortPath) router.prefetch(`${eventConfig.shortPath}/success`);
+  }, [router, eventConfig?.path, eventConfig?.shortPath]);
 
   // Check if form is valid
   const checkFormValidity = (form: HTMLFormElement) => {
@@ -52,13 +61,12 @@ export default function SummerCampPage() {
         }),
       });
 
-      const result = await response.json();
-
       if (response.ok) {
         const shortPath = eventConfig?.shortPath;
         const isShortUrl = typeof window !== "undefined" && shortPath && window.location.pathname === shortPath;
-        window.location.href = isShortUrl ? `${shortPath}/success` : `${eventConfig?.path ?? "/events/summer-camp"}/success`;
+        router.replace(isShortUrl ? `${shortPath}/success` : `${eventConfig?.path ?? "/events/summer-camp"}/success`);
       } else {
+        const result = await response.json().catch(() => ({}));
         setSubmitError(result.error || 'Failed to submit registration. Please try again.');
         setIsSubmitting(false);
       }

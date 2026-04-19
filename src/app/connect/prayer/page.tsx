@@ -1,16 +1,23 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import { ArrowLeft, HandHeart, Lock, CheckCircle2 } from "lucide-react";
 import { useConnectHaptics } from "../useConnectHaptics";
 
 export default function PrayerRequestPage() {
+  const router = useRouter();
   const { tapOption } = useConnectHaptics();
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submitError, setSubmitError] = useState<string | null>(null);
   const [isAnonymous, setIsAnonymous] = useState(false);
   const [urgency, setUrgency] = useState("Standard");
+
+  // Warm up the success page bundle so the post-submit transition is instant.
+  useEffect(() => {
+    router.prefetch("/connect/success");
+  }, [router]);
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -41,10 +48,10 @@ export default function PrayerRequestPage() {
         }),
       });
 
-      const result = await response.json();
       if (response.ok) {
-        window.location.href = "/connect/success?type=prayer";
+        router.replace("/connect/success?type=prayer");
       } else {
+        const result = await response.json().catch(() => ({}));
         setSubmitError(result.error || "Failed to submit. Please try again.");
         setIsSubmitting(false);
       }

@@ -1,8 +1,9 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
+import { useRouter } from "next/navigation";
 import { Calendar, MapPin, Anchor, Sun, DollarSign, ArrowLeft } from "lucide-react";
 import { getEventBySlug } from "@/lib/events.config";
 import Reveal from "@/components/Reveal";
@@ -15,6 +16,7 @@ const CREAM = "#faf8f5";
 type RegistrationType = "adult" | "youth";
 
 export default function MensFellowshipTripPage() {
+  const router = useRouter();
   const [isFormValid, setIsFormValid] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submitError, setSubmitError] = useState<string | null>(null);
@@ -24,6 +26,13 @@ export default function MensFellowshipTripPage() {
   const isRegistrationOpen = eventConfig?.isRegistrationOpen ?? false;
   const date = "Saturday, June 20th, 2026";
   const eventSlug = "mens-fellowship-trip-savannah";
+
+  // Warm up the success page bundle so the post-submit transition is instant.
+  useEffect(() => {
+    const basePath = eventConfig?.path ?? "/events/mens-fellowship-trip-savannah";
+    router.prefetch(`${basePath}/success`);
+    if (eventConfig?.shortPath) router.prefetch(`${eventConfig.shortPath}/success`);
+  }, [router, eventConfig?.path, eventConfig?.shortPath]);
 
   const checkFormValidity = (form: HTMLFormElement) => {
     const isValid = form.checkValidity();
@@ -63,13 +72,12 @@ export default function MensFellowshipTripPage() {
         }),
       });
 
-      const result = await response.json();
-
       if (response.ok) {
         const shortPath = eventConfig?.shortPath;
         const isShortUrl = typeof window !== "undefined" && shortPath && window.location.pathname === shortPath;
-        window.location.href = isShortUrl ? `${shortPath}/success` : `${eventConfig?.path ?? "/events/mens-fellowship-trip-savannah"}/success`;
+        router.replace(isShortUrl ? `${shortPath}/success` : `${eventConfig?.path ?? "/events/mens-fellowship-trip-savannah"}/success`);
       } else {
+        const result = await response.json().catch(() => ({}));
         setSubmitError(result.error || "Failed to submit registration. Please try again.");
         setIsSubmitting(false);
       }

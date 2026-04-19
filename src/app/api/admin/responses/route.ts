@@ -1,4 +1,5 @@
 import { createClient } from '@/lib/supabase/server'
+import { createAdminClient } from '@/lib/supabase/admin'
 import { NextResponse } from 'next/server'
 
 // Get all unique event slugs and their response counts (admin only)
@@ -28,9 +29,12 @@ export async function GET(request: Request) {
     const { searchParams } = new URL(request.url)
     const eventSlug = searchParams.get('event_slug')
 
+    // Bypass RLS for admin reads after the admin check above.
+    const adminDb = createAdminClient()
+
     if (eventSlug) {
       // Get responses for specific event
-      const { data: responses, error } = await supabase
+      const { data: responses, error } = await adminDb
         .from('event_responses')
         .select('*')
         .eq('event_slug', eventSlug)
@@ -44,7 +48,7 @@ export async function GET(request: Request) {
       return NextResponse.json({ responses: responses || [] })
     } else {
       // Get all unique event slugs with counts
-      const { data: responses, error } = await supabase
+      const { data: responses, error } = await adminDb
         .from('event_responses')
         .select('event_slug, created_at')
 
