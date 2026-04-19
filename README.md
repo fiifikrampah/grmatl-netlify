@@ -52,8 +52,8 @@ The live page resolves the current YouTube live broadcast at request time:
 
 1. **Live Video API route** (`src/app/api/live-video/route.ts`):
    - Calls the YouTube Data API for the channel's current live broadcast
-   - Returns the live `videoId` when a stream is active
-   - Returns a 404 response when the channel is not currently live
+   - Falls back to the most recent completed livestream when nothing is live
+   - Returns a 404 response only when the channel has no live or archived broadcast to show
 
 2. **LiveVideo Component** (`src/components/LiveVideo.tsx`):
    - Fetches `/api/live-video` on load
@@ -68,6 +68,7 @@ To enable live video lookup:
 2. Add it as an environment variable named `YOUTUBE_API_KEY`
 3. Optionally set `YOUTUBE_CHANNEL_ID` if the channel changes
 4. The live page will always request the current live broadcast before showing the player
+5. When nothing is live, the page shows the most recent livestream recording
 
 ### Channel Configuration
 

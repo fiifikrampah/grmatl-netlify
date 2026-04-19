@@ -11,12 +11,18 @@ type YouTubeSearchResponse = {
   }>
 }
 
-async function fetchLiveVideoId(channelId: string, apiKey: string): Promise<string | null> {
+type BroadcastState = 'live' | 'archive'
+
+async function fetchBroadcastVideoId(
+  channelId: string,
+  apiKey: string,
+  eventType: 'live' | 'completed'
+): Promise<string | null> {
   const url = new URL(YOUTUBE_SEARCH_URL)
   url.searchParams.set('part', 'snippet')
   url.searchParams.set('channelId', channelId)
   url.searchParams.set('type', 'video')
-  url.searchParams.set('eventType', 'live')
+  url.searchParams.set('eventType', eventType)
   url.searchParams.set('order', 'date')
   url.searchParams.set('maxResults', '1')
   url.searchParams.set('key', apiKey)
@@ -50,14 +56,29 @@ export async function GET() {
   const channelId = process.env.YOUTUBE_CHANNEL_ID || DEFAULT_CHANNEL_ID
 
   try {
-    const videoId = await fetchLiveVideoId(channelId, apiKey)
+    const liveVideoId = await fetchBroadcastVideoId(channelId, apiKey, 'live')
 
-    if (!videoId) {
+    if (liveVideoId) {
+      return NextResponse.json(
+        {
+          live: true,
+          videoId: liveVideoId,
+          channelId,
+          broadcastState: 'live' satisfies BroadcastState,
+        },
+        { headers: { 'Cache-Control': 'no-store' } }
+      )
+    }
+
+    const archiveVideoId = await fetchBroadcastVideoId(channelId, apiKey, 'completed')
+
+    if (!archiveVideoId) {
       return NextResponse.json(
         {
           live: false,
           videoId: null,
           channelId,
+          broadcastState: null,
         },
         { status: 404, headers: { 'Cache-Control': 'no-store' } }
       )
@@ -65,9 +86,10 @@ export async function GET() {
 
     return NextResponse.json(
       {
-        live: true,
-        videoId,
+        live: false,
+        videoId: archiveVideoId,
         channelId,
+        broadcastState: 'archive' satisfies BroadcastState,
       },
       { headers: { 'Cache-Control': 'no-store' } }
     )

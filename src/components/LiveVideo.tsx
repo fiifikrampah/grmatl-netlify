@@ -8,6 +8,7 @@ export default function LiveVideo() {
   const [showVideo, setShowVideo] = useState(false)
   const [shouldAutoplay, setShouldAutoplay] = useState(false)
   const [liveVideoId, setLiveVideoId] = useState<string | null>(null)
+  const [broadcastState, setBroadcastState] = useState<'live' | 'archive' | null>(null)
   const [isLoadingLiveVideo, setIsLoadingLiveVideo] = useState(true)
 
   useEffect(() => {
@@ -22,14 +23,20 @@ export default function LiveVideo() {
 
         if (!response.ok) {
           setLiveVideoId(null)
+          setBroadcastState(null)
           return
         }
 
-        const data = (await response.json()) as { videoId?: string | null }
+        const data = (await response.json()) as {
+          broadcastState?: 'live' | 'archive' | null
+          videoId?: string | null
+        }
         setLiveVideoId(data.videoId ?? null)
+        setBroadcastState(data.broadcastState ?? null)
       } catch (error) {
         if ((error as Error).name !== 'AbortError') {
           setLiveVideoId(null)
+          setBroadcastState(null)
         }
       } finally {
         if (!controller.signal.aborted) {
@@ -55,14 +62,21 @@ export default function LiveVideo() {
   const canPlayVideo = Boolean(videoUrl)
   const statusTitle = isLoadingLiveVideo
     ? 'Checking for the current live stream'
-    : liveVideoId
+    : broadcastState === 'live'
       ? 'Join Our Live Service'
-      : 'No live stream right now'
+      : broadcastState === 'archive'
+        ? 'Watch the Most Recent Livestream'
+        : 'No livestream available'
   const statusDescription = isLoadingLiveVideo
     ? 'Looking for the latest live broadcast on YouTube'
-    : liveVideoId
+    : broadcastState === 'live'
       ? 'Click to start watching'
-      : 'Check back when we are broadcasting live'
+      : broadcastState === 'archive'
+        ? 'Click to watch the most recent service recording'
+      : 'No live stream right now'
+  const statusSubtext = broadcastState === 'archive'
+    ? 'Reload the page to check for a new current livestream'
+    : 'Check back when we are broadcasting live'
 
   return (
     <div className="w-full aspect-video relative bg-gray-100 rounded-2xl overflow-hidden">
@@ -107,6 +121,11 @@ export default function LiveVideo() {
               <p className="text-blue-100 text-sm md:text-lg font-medium max-w-[70%] md:max-w-full">
                 {statusDescription}
               </p>
+              {broadcastState === 'archive' ? (
+                <p className="text-blue-100/80 text-xs md:text-sm mt-2 max-w-[70%] md:max-w-full">
+                  {statusSubtext}
+                </p>
+              ) : null}
             </div>
           </div>
         ) : (
