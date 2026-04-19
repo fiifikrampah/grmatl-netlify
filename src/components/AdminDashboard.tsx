@@ -434,7 +434,7 @@ export default function AdminDashboard() {
                   disabled={rows.length === 0}
                 >
                   <Download className="h-4 w-4 mr-1.5" />
-                  CSV
+                  Download Submissions
                 </Button>
               </div>
 
