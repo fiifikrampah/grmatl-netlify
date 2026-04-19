@@ -27,7 +27,7 @@
     "clsx": "^2.1.1",
     "isomorphic-dompurify": "^2.35.0",
     "lucide-react": "^0.542.0",
-    "next": "^15.5.7",
+    "next": "^15.5.15",
     "react": "19.1.0",
     "react-dom": "19.1.0",
     "react-icons": "^5.5.0",
@@ -45,9 +45,45 @@
     "@types/react": "^19",
     "@types/react-dom": "^19",
     "eslint": "^9",
-    "eslint-config-next": "^15.5.7",
+    "eslint-config-next": "^15.5.15",
     "tailwindcss": "^4",
     "tw-animate-css": "^1.3.7",
     "typescript": "^5"
+  },
+  "overrides": {
+    "dompurify": "3.2.6",
+    "flatted": "3.4.2",
+    "js-yaml": "4.1.1",
+    "@eslint/eslintrc": {
+      "minimatch": "3.1.3"
+    },
+    "eslint": {
+      "minimatch": "3.1.3"
+    },
+    "eslint-plugin-import": {
+      "minimatch": "3.1.3"
+    },
+    "eslint-plugin-jsx-a11y": {
+      "minimatch": "3.1.3"
+    },
+    "eslint-plugin-react": {
+      "minimatch": "3.1.3"
+    },
+    "@typescript-eslint/typescript-estree": {
+      "minimatch": "9.0.7"
+    },
+    "fast-glob": {
+      "picomatch": "2.3.2"
+    },
+    "micromatch": {
+      "picomatch": "2.3.2"
+    },
+    "tinyglobby": {
+      "picomatch": "4.0.4"
+    },
+    "fdir": {
+      "picomatch": "4.0.4"
+    },
+    "tar": "7.5.11"
   }
 }
