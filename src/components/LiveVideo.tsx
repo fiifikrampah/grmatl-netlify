@@ -1,27 +1,80 @@
 "use client"
 
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import Image from 'next/image'
 import { Play } from 'lucide-react'
 
 export default function LiveVideo() {
-  // This URL will be updated by the GitHub Actions workflow
-  const baseVideoUrl = "https://www.youtube.com/embed/_ZLfDRFrKkI?si=4o0cL6UmrvIApmrY"
   const [showVideo, setShowVideo] = useState(false)
   const [shouldAutoplay, setShouldAutoplay] = useState(false)
+  const [liveVideoId, setLiveVideoId] = useState<string | null>(null)
+  const [isLoadingLiveVideo, setIsLoadingLiveVideo] = useState(true)
+
+  useEffect(() => {
+    const controller = new AbortController()
+
+    async function loadLiveVideo() {
+      try {
+        const response = await fetch('/api/live-video', {
+          cache: 'no-store',
+          signal: controller.signal,
+        })
+
+        if (!response.ok) {
+          setLiveVideoId(null)
+          return
+        }
+
+        const data = (await response.json()) as { videoId?: string | null }
+        setLiveVideoId(data.videoId ?? null)
+      } catch (error) {
+        if ((error as Error).name !== 'AbortError') {
+          setLiveVideoId(null)
+        }
+      } finally {
+        if (!controller.signal.aborted) {
+          setIsLoadingLiveVideo(false)
+        }
+      }
+    }
+
+    loadLiveVideo()
+
+    return () => {
+      controller.abort()
+    }
+  }, [])
 
   // Create autoplay URL when video should start playing
-  const videoUrl = shouldAutoplay
-    ? `${baseVideoUrl}&autoplay=1&mute=0&rel=0&modestbranding=1&showinfo=0`
+  const baseVideoUrl = liveVideoId ? `https://www.youtube.com/embed/${liveVideoId}` : null
+  const videoUrl = baseVideoUrl && shouldAutoplay
+    ? `${baseVideoUrl}?autoplay=1&mute=0&rel=0&modestbranding=1&showinfo=0`
     : baseVideoUrl
+  const videoSrc = videoUrl ?? undefined
+  const playerSrc = showVideo ? videoSrc : undefined
+  const canPlayVideo = Boolean(videoUrl)
+  const statusTitle = isLoadingLiveVideo
+    ? 'Checking for the current live stream'
+    : liveVideoId
+      ? 'Join Our Live Service'
+      : 'No live stream right now'
+  const statusDescription = isLoadingLiveVideo
+    ? 'Looking for the latest live broadcast on YouTube'
+    : liveVideoId
+      ? 'Click to start watching'
+      : 'Check back when we are broadcasting live'
 
   return (
     <div className="w-full aspect-video relative bg-gray-100 rounded-2xl overflow-hidden">
-        {!showVideo ? (
+        {!playerSrc ? (
           // Cover Image with Play Button
           <div
-            className="w-full h-full cursor-pointer overflow-hidden relative group"
+            className={`w-full h-full overflow-hidden relative group ${canPlayVideo ? 'cursor-pointer' : 'cursor-default'}`}
             onClick={() => {
+              if (!canPlayVideo) {
+                return
+              }
+
               setShouldAutoplay(true)
               setShowVideo(true)
             }}
@@ -39,27 +92,27 @@ export default function LiveVideo() {
             {/* Play button */}
             <div className="absolute inset-0 flex items-center justify-center">
               <div className="relative">
-                <div className="absolute inset-0 bg-white/30 rounded-full animate-ping" />
-                <div className="bg-white/90 hover:bg-white rounded-full p-4 md:p-6 transition-all duration-300 group-hover:scale-110 shadow-lg backdrop-blur-md relative z-10">
+                <div className={`absolute inset-0 bg-white/30 rounded-full ${canPlayVideo ? 'animate-ping' : ''}`} />
+                <div className={`rounded-full p-4 md:p-6 transition-all duration-300 shadow-lg backdrop-blur-md relative z-10 ${canPlayVideo ? 'bg-white/90 hover:bg-white group-hover:scale-110' : 'bg-white/70'}`}>
                   <Play className="h-8 w-8 md:h-12 md:w-12 text-grm-primary ml-1" fill="currentColor" />
                 </div>
               </div>
             </div>
 
-            {/* Text overlay - Updated to Blue gradient instead of black */}
+            {/* Text overlay */}
             <div className="absolute bottom-0 left-0 right-0 p-4 md:p-8 bg-gradient-to-t from-grm-primary/90 to-transparent">
               <h3 className="text-white text-lg md:text-3xl font-bold mb-1 md:mb-2 max-w-[70%] md:max-w-full">
-                Join Our Live Service
+                {statusTitle}
               </h3>
               <p className="text-blue-100 text-sm md:text-lg font-medium max-w-[70%] md:max-w-full">
-                Click to start watching
+                {statusDescription}
               </p>
             </div>
           </div>
         ) : (
           // YouTube Video
           <iframe
-            src={videoUrl}
+            src={playerSrc}
             title="YouTube video player"
             className="w-full h-full"
             frameBorder="0"

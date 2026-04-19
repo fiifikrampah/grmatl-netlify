@@ -46,33 +46,33 @@ src/
 
 ## Live Video Integration
 
-The site includes automatic live video updates through GitHub Actions:
+The live page resolves the current YouTube live broadcast at request time:
 
 ### How It Works
 
-1. **GitHub Actions Workflow** (`.github/workflows/stream-embedder.yml`):
-   - Runs twice weekly (Sundays at 11:15 AM and 11:25 AM EST)
-   - Fetches latest YouTube live video from the church's channel
-   - Updates the embed URL in `src/components/LiveVideo.tsx`
-   - Adjusts cron schedules based on DST status
+1. **Live Video API route** (`src/app/api/live-video/route.ts`):
+   - Calls the YouTube Data API for the channel's current live broadcast
+   - Returns the live `videoId` when a stream is active
+   - Returns a 404 response when the channel is not currently live
 
 2. **LiveVideo Component** (`src/components/LiveVideo.tsx`):
-   - Contains the YouTube embed with placeholder URL
-   - GitHub Actions updates the URL automatically
+   - Fetches `/api/live-video` on load
+   - Embeds the returned live stream when one is available
    - Displays live stream with service information
 
 ### YouTube API Setup
 
-To enable automatic live video updates:
+To enable live video lookup:
 
 1. Get a YouTube Data API v3 key
-2. Add it as a GitHub repository secret named `YOUTUBE_API_KEY`
-3. The workflow will automatically fetch and update the latest live video
+2. Add it as an environment variable named `YOUTUBE_API_KEY`
+3. Optionally set `YOUTUBE_CHANNEL_ID` if the channel changes
+4. The live page will always request the current live broadcast before showing the player
 
 ### Channel Configuration
 
-The workflow is configured for channel ID: `UCaWvM15oR08RL5DYKxQ4TzA`
-Update this in the workflow file if the channel ID changes.
+Default channel ID: `UCaWvM15oR08RL5DYKxQ4TzA`
+Set `YOUTUBE_CHANNEL_ID` if the channel changes.
 
 ## Development
 
