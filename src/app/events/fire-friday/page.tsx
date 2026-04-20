@@ -10,13 +10,12 @@ const BURGUNDY = "#5b1b28";
 const GOLD = "#d2a24a";
 const CREAM = "#faf6f2";
 
-const flyerImage = "/images/events/flyers/fire-friday-mar.webp";
-const eventDate = "Friday, March 27, 2026";
-const eventTime = "9PM";
+const flyerImage = "/images/events/flyers/fire-friday.webp";
+const eventSchedule = "Last Friday of Every Month";
+const eventTime = "9PM - 1AM";
 const eventLocation = "24 Geneva Street, Hapeville GA 30354";
-const eventType = "March Watch Night Service";
-const theme = "The Battle is the Lord's";
-const scriptureRef = "1 Samuel 17:47";
+const eventType = "Monthly Watch Night Service";
+const tagline = "A late-night encounter with God.";
 
 export default function FireFridayPage() {
   return (
@@ -71,10 +70,10 @@ export default function FireFridayPage() {
                 <span style={{ color: BURGUNDY }}>Friday</span>
               </h1>
               <p className="text-xl md:text-2xl italic font-medium max-w-2xl mx-auto leading-relaxed" style={{ color: `${BURGUNDY}dd` }}>
-                {theme}
+                {tagline}
               </p>
               <p className="mt-2 text-sm uppercase tracking-[0.3em] text-gray-500">
-                {scriptureRef}
+                {eventSchedule}
               </p>
             </div>
           </Reveal>
@@ -93,7 +92,7 @@ export default function FireFridayPage() {
                 <div className="rounded-xl overflow-hidden bg-white">
                   <Image
                     src={flyerImage}
-                    alt="Fire Friday March Watch Night Service flyer"
+                    alt="Fire Friday monthly watch night service flyer"
                     width={2048}
                     height={2048}
                     className="w-full h-auto object-contain"
@@ -105,7 +104,7 @@ export default function FireFridayPage() {
             </div>
           </Reveal>
 
-          {/* Scripture */}
+          {/* About */}
           <Reveal delay={200}>
             <div
               className="mb-14 max-w-2xl mx-auto text-center py-8 px-6 sm:py-10 sm:px-10 rounded-2xl relative overflow-hidden"
@@ -116,12 +115,17 @@ export default function FireFridayPage() {
               }}
             >
               <div className="absolute top-0 left-1/2 -translate-x-1/2 w-24 h-px bg-gradient-to-r from-transparent to-transparent opacity-40" style={{ background: `linear-gradient(90deg, transparent, ${BURGUNDY}, transparent)` }} />
-              <p className="text-xl md:text-2xl italic text-[#2a1116] leading-relaxed font-medium">
-                &ldquo;The battle is the Lord&apos;s.&rdquo;
+              <p
+                className="text-[10px] sm:text-xs font-semibold tracking-[0.35em] uppercase mb-4"
+                style={{ color: `${BURGUNDY}99` }}
+              >
+                What is Fire Friday?
               </p>
-              <cite className="block mt-3 text-base font-semibold not-italic" style={{ color: BURGUNDY }}>
-                &mdash; {scriptureRef}
-              </cite>
+              <p className="text-lg md:text-xl text-[#2a1116] leading-relaxed font-medium">
+                Fire Friday is our monthly watch night service &mdash; a late-night gathering for
+                worship, prayer, and the Word. We meet on the last Friday of every month to
+                contend in faith together and welcome a fresh move of the Holy Spirit.
+              </p>
               <div className="absolute bottom-0 left-1/2 -translate-x-1/2 w-16 h-px opacity-50" style={{ background: `linear-gradient(90deg, transparent, ${GOLD}, transparent)` }} />
             </div>
           </Reveal>
@@ -157,9 +161,9 @@ export default function FireFridayPage() {
                 </p>
 
                 <p className="text-2xl sm:text-3xl md:text-4xl font-bold tracking-tight text-[#080A0C] mb-1">
-                  {eventDate}
+                  {eventSchedule}
                 </p>
-                <p className="text-sm text-gray-500 mb-8">Last Friday of the Month</p>
+                <p className="text-sm text-gray-500 mb-8">Monthly Watch Night Service</p>
 
                 <div
                   className="h-px mb-8"
@@ -168,9 +172,9 @@ export default function FireFridayPage() {
                   }}
                 />
 
-                <div className="grid grid-cols-1 sm:grid-cols-3 gap-6 sm:gap-4 mb-6">
+                <div className="grid grid-cols-1 sm:grid-cols-[1fr_1fr_1.5fr] gap-6 sm:gap-4 mb-6">
                   {[
-                    { icon: Calendar, label: "Date", value: eventDate },
+                    { icon: Calendar, label: "When", value: eventSchedule },
                     { icon: Clock, label: "Time", value: eventTime },
                     { icon: MapPin, label: "Location", value: eventLocation },
                   ].map(({ icon: Icon, label, value }) => (
@@ -184,7 +188,7 @@ export default function FireFridayPage() {
                       <p className="text-[10px] font-semibold uppercase tracking-[0.3em]" style={{ color: `${BURGUNDY}80` }}>
                         {label}
                       </p>
-                      <p className="text-base font-semibold text-[#080A0C] leading-snug">
+                      <p className="text-base font-semibold text-[#080A0C] leading-snug whitespace-normal sm:whitespace-nowrap">
                         {value}
                       </p>
                     </div>

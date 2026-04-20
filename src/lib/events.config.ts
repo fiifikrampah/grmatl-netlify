@@ -68,7 +68,7 @@ export const events: EventConfig[] = [
     path: '/events/fire-friday',
     isRegistrationOpen: false, // No registration required
     display: true,
-    imageUrl: '/images/events/flyers/fire-friday-mar.webp',
+    imageUrl: '/images/events/flyers/fire-friday.webp',
   },
   {
     slug: 'founders-day',
