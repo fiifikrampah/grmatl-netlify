@@ -29,6 +29,15 @@ type ConnectCard = {
 
 const cards: ConnectCard[] = [
   {
+    title: "Give",
+    description:
+      "Partner with the ministry through tithes, offerings, and giving.",
+    href: "/give",
+    icon: Gift,
+    iconBg: "bg-[#b45309]/10",
+    iconColor: "text-[#b45309]",
+  },
+  {
     title: "First Time Visitor",
     description:
       "Tell us a little about yourself so we can stay in touch and help you feel at home.",
@@ -36,15 +45,6 @@ const cards: ConnectCard[] = [
     icon: UserPlus,
     iconBg: "bg-[#1B5299]/10",
     iconColor: "text-[#1B5299]",
-  },
-  {
-    title: "Prayer Request",
-    description:
-      "Share something on your heart. Our prayer team would be honored to pray with you.",
-    href: "/connect/prayer",
-    icon: HandHeart,
-    iconBg: "bg-[#9a3b2c]/10",
-    iconColor: "text-[#9a3b2c]",
   },
   {
     title: "Share Your Experience",
@@ -56,13 +56,13 @@ const cards: ConnectCard[] = [
     iconColor: "text-[#0f766e]",
   },
   {
-    title: "Give",
+    title: "Prayer Request",
     description:
-      "Partner with the ministry through tithes, offerings, and giving.",
-    href: "/give",
-    icon: Gift,
-    iconBg: "bg-[#b45309]/10",
-    iconColor: "text-[#b45309]",
+      "Share something on your heart. Our prayer team would be honored to pray with you.",
+    href: "/connect/prayer",
+    icon: HandHeart,
+    iconBg: "bg-[#9a3b2c]/10",
+    iconColor: "text-[#9a3b2c]",
   },
   {
     title: "Visit Our Website",
