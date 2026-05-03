@@ -82,7 +82,7 @@ export const blogPosts: BlogPostConfig[] = [
       'We expand in influence and capacity this month. The Lord calls us to enlarge our tent and prepare for His increase…',
     date: '2026-05-01',
     imagePath: '/images/blog/may26-increase.webp',
-    published: false,
+    published: true,
   },
   {
     slug: 'april-2026-faithfulness',

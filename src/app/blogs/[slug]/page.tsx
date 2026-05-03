@@ -1,4 +1,6 @@
 import type { Metadata } from 'next'
+import { existsSync } from 'fs'
+import { join } from 'path'
 import { notFound } from 'next/navigation'
 import {
   getBlogPostBySlug,
@@ -71,12 +73,19 @@ export async function generateMetadata({
     }
   }
 
-  // Use the optimized preview image from the public/images/previews folder
-  // Convention: /public/images/previews/<filename>.jpg
+  // Prefer a generated preview image, then fall back to the post image.
   const filename = post.imagePath.split('/').pop()?.split('.')[0] || ''
-  const previewImage = filename
-    ? `/images/previews/${filename}.jpg`
-    : '/images/previews/main-preview.webp'
+  const previewBase = filename
+    ? `/images/previews/${filename}`
+    : '/images/previews/main-preview'
+  const previewCandidates = [
+    `${previewBase}.webp`,
+    `${previewBase}.jpg`,
+  ]
+  const previewImage =
+    previewCandidates.find((candidate) =>
+      existsSync(join(process.cwd(), 'public', candidate))
+    ) ?? post.imagePath ?? '/images/previews/main-preview.webp'
 
   return {
     title: `${post.title} | Great Redemption Ministries`,
