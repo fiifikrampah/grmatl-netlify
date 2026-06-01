@@ -72,8 +72,8 @@ export const blogPosts: BlogPostConfig[] = [
     excerpt:
       'We bear fruit through love in action this month. Using our gifts to serve others as stewards of God’s grace…',
     date: '2026-06-01',
-    imagePath: '/images/blog/jun26-service.webp',
-    published: false,
+    imagePath: '/images/blog/june26-service.webp',
+    published: true,
   },
   {
     slug: 'may-2026-increase',
