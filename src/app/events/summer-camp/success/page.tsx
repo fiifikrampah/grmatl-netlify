@@ -4,7 +4,7 @@ import Link from "next/link";
 import { CheckCircle } from "lucide-react";
 
 export default function SummerCampSuccessPage() {
-  const date = "July 14th to 18th";
+  const date = "July 20th to 24th";
 
   return (
     <div className="min-h-screen bg-white">

@@ -43,11 +43,12 @@ export const events: EventConfig[] = [
   {
     slug: 'summer-camp',
     title: 'Summer Camp 2026',
-    description: 'Join us for an exciting week of fun, learning, and fellowship at our annual Youth & Children\'s Summer Camp.',
+    description: 'Join us for an exciting week of fun, learning, and fellowship at our annual Youth & Children\'s Summer Camp.\n\n📅 Monday, July 20th to Friday, July 24th, 2026',
     path: '/events/summer-camp',
     shortPath: '/summer-camp',
-    isRegistrationOpen: false,
-    display: false,
+    isRegistrationOpen: true,
+    display: true,
+    eventDate: '2026-07-24',
     imageUrl: '/images/events/flyers/summer-camp-2025.webp',
   },
   {

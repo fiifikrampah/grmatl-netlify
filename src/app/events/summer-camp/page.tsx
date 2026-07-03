@@ -18,7 +18,7 @@ export default function SummerCampPage() {
   const currentYear = new Date().getFullYear();
   const eventConfig = getEventBySlug('summer-camp');
   const isRegistrationOpen = eventConfig?.isRegistrationOpen ?? false; // Read from config (source of truth)
-  const date = "July 14th to 18th"; // Date of the camp
+  const date = "July 20th to 24th"; // Date of the camp
   const eventSlug = `summer-camp-${currentYear}`;
 
   // Warm up the success page bundle so the post-submit transition is instant.
