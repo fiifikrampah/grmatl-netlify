@@ -64,7 +64,7 @@ export const blogPosts: BlogPostConfig[] = [
       'We reap the results of faith and perseverance this month. A man reaps what he sows; we sow to the Spirit…',
     date: '2026-07-01',
     imagePath: '/images/blog/jul26-harvest.webp',
-    published: false,
+    published: true,
   },
   {
     slug: 'june-2026-service',
