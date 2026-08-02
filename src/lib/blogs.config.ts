@@ -55,7 +55,7 @@ export const blogPosts: BlogPostConfig[] = [
       'We reflect God’s glory in all we do this month. Daniel’s exceptional qualities point us to a life of excellence…',
     date: '2026-08-01',
     imagePath: '/images/blog/aug26-excellence.webp',
-    published: false,
+    published: true,
   },
   {
     slug: 'july-2026-harvest',
