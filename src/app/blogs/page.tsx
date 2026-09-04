@@ -73,7 +73,7 @@ export default async function BlogsPage() {
                         src={post.imagePath}
                         alt={post.title}
                         fill
-                        className="object-cover object-center transition-transform duration-700 group-hover:scale-105"
+                        className={`${post.slug === 'september-2026-generosity' ? 'object-contain bg-[#f7f4eb]' : 'object-cover object-center'} transition-transform duration-700 group-hover:scale-105`}
                         quality={92}
                         sizes="(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 33vw"
                       />

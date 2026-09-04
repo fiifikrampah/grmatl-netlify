@@ -87,12 +87,12 @@ export function GenerosityPost({ imagePath, slug }: { imagePath?: string; slug: 
 
       {imagePath && (
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 mb-12">
-          <div className="relative aspect-[16/10] sm:aspect-[2/1] rounded-2xl overflow-hidden shadow-xl ring-1 ring-black/5">
+          <div className="relative aspect-square rounded-2xl overflow-hidden bg-[#f7f4eb] shadow-xl ring-1 ring-black/5">
             <Image
               src={imagePath}
               alt="September: Generosity"
               fill
-              className="object-cover object-center"
+              className="object-contain"
               sizes="(max-width: 1024px) 100vw, 896px"
             />
           </div>

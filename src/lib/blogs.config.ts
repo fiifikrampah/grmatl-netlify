@@ -46,7 +46,7 @@ export const blogPosts: BlogPostConfig[] = [
       'We bear fruit that blesses others this month. God supplies seed and enlarges the harvest of our righteousness…',
     date: '2026-09-01',
     imagePath: '/images/blog/sep26-generosity.webp',
-    published: false,
+    published: true,
   },
   {
     slug: 'august-2026-excellence',
