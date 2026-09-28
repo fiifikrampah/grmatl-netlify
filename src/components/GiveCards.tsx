@@ -109,17 +109,17 @@ export default function GiveCards({ copied, onCopy }: GiveCardsProps) {
         </div>
         <h3 className="text-2xl font-bold text-gray-900 mb-2 md:mb-3">Cash App</h3>
         <p className="text-gray-600 mb-3 md:mb-4 text-sm md:text-base md:hidden">Tap below to open Cash App and give.</p>
-        <p className="text-gray-600 mb-3 md:mb-4 text-sm md:text-base hidden md:block">Peer-to-peer giving to $grmatl.</p>
+        <p className="text-gray-600 mb-3 md:mb-4 text-sm md:text-base hidden md:block">Peer-to-peer giving to $grmatlga.</p>
         <div className="w-full flex-grow flex flex-col justify-end min-h-[100px] md:min-h-[140px]">
           <div className="space-y-4">
             <div className="md:hidden flex justify-center">
               <div className="bg-gray-50 rounded-xl px-6 py-4 border border-gray-100 w-full max-w-[200px]">
-                <p className="text-2xl font-bold text-gray-900 tracking-tight">$grmatl</p>
+                <p className="text-2xl font-bold text-gray-900 tracking-tight">$grmatlga</p>
               </div>
             </div>
             <div className="hidden md:flex justify-center">
               <Image
-                src={`https://api.qrserver.com/v1/create-qr-code/?size=160x160&data=${encodeURIComponent('https://cash.app/$grmatl')}`}
+                src={`https://api.qrserver.com/v1/create-qr-code/?size=160x160&data=${encodeURIComponent('https://cash.app/$grmatlga')}`}
                 alt="Scan to pay with Cash App"
                 width={160}
                 height={160}
@@ -128,7 +128,7 @@ export default function GiveCards({ copied, onCopy }: GiveCardsProps) {
               />
             </div>
             <p className="text-sm text-gray-500 hidden md:block">Scan with your phone camera or Cash App</p>
-            <a href="https://cash.app/$grmatl" target="_blank" rel="noopener noreferrer" className="block w-full">
+            <a href="https://cash.app/$grmatlga" target="_blank" rel="noopener noreferrer" className="block w-full">
               <Button className="w-full bg-gray-900 text-white hover:bg-green-500 py-6 text-lg rounded-xl shadow-md transition-colors">
                 Open Cash App <ArrowUpRight className="ml-2 h-5 w-5" />
               </Button>

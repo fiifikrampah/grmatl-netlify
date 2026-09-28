@@ -493,7 +493,7 @@ export default function SummerCampPage() {
                           </div>
                           <div className="flex-1">
                             <h4 className="font-semibold text-blue-900">CashApp</h4>
-                            <p className="text-gray-600 text-sm">Send to $grmatl (label as &quot;camp&quot;)</p>
+                            <p className="text-gray-600 text-sm">Send to $grmatlga (label as &quot;camp&quot;)</p>
                           </div>
                         </div>
                         {selectedPaymentMethod === "CashApp" && (
