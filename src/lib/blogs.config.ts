@@ -37,7 +37,7 @@ export const blogPosts: BlogPostConfig[] = [
       'We focus on transforming lives and communities this month. Let your light shine before others so they may glorify God…',
     date: '2026-10-01',
     imagePath: '/images/blog/oct26-impact.webp',
-    published: false,
+    published: true,
   },
   {
     slug: 'september-2026-generosity',

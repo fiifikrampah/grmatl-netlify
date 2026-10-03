@@ -87,13 +87,14 @@ export function ImpactPost({ imagePath, slug }: { imagePath?: string; slug: stri
 
       {imagePath && (
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 mb-12">
-          <div className="relative aspect-[16/10] sm:aspect-[2/1] rounded-2xl overflow-hidden shadow-xl ring-1 ring-black/5">
+          <div className="relative aspect-[8/9] max-w-2xl mx-auto rounded-2xl overflow-hidden shadow-xl ring-1 ring-black/5">
             <Image
               src={imagePath}
               alt="October: Impact"
               fill
-              className="object-cover object-center"
-              sizes="(max-width: 1024px) 100vw, 896px"
+              className="object-contain"
+              sizes="(max-width: 768px) 100vw, 672px"
+              priority
             />
           </div>
         </div>
