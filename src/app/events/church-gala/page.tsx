@@ -1,3 +1,4 @@
+// Church Gala 2026page
 import Image from 'next/image'
 import Link from 'next/link'
 import { ArrowLeft, ArrowDown, CalendarDays } from 'lucide-react'
