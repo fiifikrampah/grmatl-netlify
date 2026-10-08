@@ -1,6 +1,8 @@
 import { createClient } from '@supabase/supabase-js'
 import { Resend } from 'resend'
 import { NextResponse, after } from 'next/server'
+import { getEventBySlug } from '@/lib/events.config'
+import { GALA_EVENT_SLUG, validateGalaRegistration } from '@/lib/gala-registration'
 
 const NOTIFICATION_EMAIL = 'grmmedia16@gmail.com'
 
@@ -26,11 +28,17 @@ function formatFieldLabel(key: string): string {
 }
 
 // Build email HTML from form response
+function escapeHtml(value: string): string {
+  return value.replace(/[&<>"']/g, (character) => ({
+    '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;',
+  })[character]!)
+}
+
 function buildEmailHtml(eventSlug: string, responseData: Record<string, unknown>): string {
   const rows = Object.entries(responseData)
     .map(([key, value]) => {
-      const label = formatFieldLabel(key)
-      const val = value == null ? '' : String(value)
+      const label = escapeHtml(formatFieldLabel(key))
+      const val = escapeHtml(value == null ? '' : String(value))
       return `<tr><td style="padding:8px 12px;border-bottom:1px solid #eee;font-weight:600;color:#333;">${label}</td><td style="padding:8px 12px;border-bottom:1px solid #eee;color:#555;">${val}</td></tr>`
     })
     .join('')
@@ -41,7 +49,7 @@ function buildEmailHtml(eventSlug: string, responseData: Record<string, unknown>
 <head><meta charset="utf-8"></head>
 <body style="font-family:sans-serif;line-height:1.5;color:#333;">
   <h2 style="color:#2070B4;">New Event Registration</h2>
-  <p><strong>Event:</strong> ${eventSlug}</p>
+  <p><strong>Event:</strong> ${escapeHtml(eventSlug)}</p>
   <table style="border-collapse:collapse;width:100%;max-width:500px;">
     ${rows}
   </table>
@@ -64,10 +72,22 @@ export async function POST(request: Request) {
       )
     }
 
+    let validatedResponseData = response_data
+    if (event_slug === GALA_EVENT_SLUG) {
+      if (!getEventBySlug('church-gala')?.isRegistrationOpen) {
+        return NextResponse.json({ error: 'Gala registration is closed.' }, { status: 403 })
+      }
+      const result = validateGalaRegistration(response_data)
+      if (result.error) {
+        return NextResponse.json({ error: result.error }, { status: 400 })
+      }
+      validatedResponseData = result.data
+    }
+
     // Insert only — no .select().single() because the client doesn't need the row back.
     const { error: insertError } = await supabase
       .from('event_responses')
-      .insert({ event_slug, response_data })
+      .insert({ event_slug, response_data: validatedResponseData })
 
     if (insertError) {
       // Log full error details for debugging
@@ -96,7 +116,7 @@ export async function POST(request: Request) {
     if (resend) {
       const fromEmail = process.env.RESEND_FROM_EMAIL || 'onboarding@resend.dev'
       const fromName = process.env.RESEND_FROM_NAME || 'GRM Events'
-      const html = buildEmailHtml(event_slug, response_data as Record<string, unknown>)
+      const html = buildEmailHtml(event_slug, validatedResponseData as Record<string, unknown>)
 
       after(async () => {
         try {

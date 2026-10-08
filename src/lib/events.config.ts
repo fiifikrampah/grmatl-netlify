@@ -41,6 +41,17 @@ export interface EventConfig {
 
 export const events: EventConfig[] = [
   {
+    slug: 'church-gala',
+    title: 'Church Gala 2026',
+    description: 'Celebrating God’s faithfulness and the beauty of our nations as a church.\n\n📅 Saturday, November 28th, 2026\nTime, venue, and more details to follow.',
+    path: '/events/church-gala',
+    shortPath: '/gala',
+    isRegistrationOpen: true,
+    display: true,
+    eventDate: '2026-11-28',
+    imageUrl: '/images/events/flyers/church-gala-2026-teaser.webp',
+  },
+  {
     slug: 'summer-camp',
     title: 'Summer Camp 2026',
     description: 'Join us for an exciting week of fun, learning, and fellowship at our annual Youth & Children\'s Summer Camp.\n\n📅 Monday, July 20th to Friday, July 24th, 2026',

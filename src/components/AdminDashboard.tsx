@@ -8,6 +8,7 @@ import { Card, CardContent } from '@/components/ui/card'
 import { Button } from '@/components/ui/button'
 import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle } from '@/components/ui/dialog'
 import { Sparkline } from '@/components/admin/Sparkline'
+import { GALA_EVENT_SLUG } from '@/lib/gala-registration'
 
 type Source = 'event' | 'connect'
 
@@ -477,6 +478,13 @@ export default function AdminDashboard() {
                   </div>
                 )}
               </div>
+
+              {selected.source === 'event' && selected.key === GALA_EVENT_SLUG ? (
+                <div className="mb-5 rounded-xl border border-amber-200 bg-amber-50 p-4 text-sm text-gray-700" aria-label="Gala attendance summary">
+                  <p><strong>{rows.reduce((total, row) => total + (row.data.bringing_guest === 'Yes' ? 2 : 1), 0)}</strong> total attendees, including <strong>{rows.filter((row) => row.data.bringing_guest === 'Yes').length}</strong> guests</p>
+                  <p className="mt-1"><strong>{rows.filter((row) => row.data.has_food_allergies === 'Yes').length}</strong> registrations reporting food allergies. See individual responses for details.</p>
+                </div>
+              ) : null}
 
               {/* ===== Content ===== */}
               {rows.length === 0 ? (

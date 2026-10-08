@@ -28,6 +28,7 @@ function getEventDate(event: { slug: string; description: string }): Date | null
 
 // Helper to get ambient color based on event slug
 function getEventColor(slug: string) {
+  if (slug === 'church-gala') return 'bg-amber-200/60';
   if (slug === 'fire-friday') return 'bg-rose-900/60';
   if (slug === 'founders-day') return 'bg-amber-200/60';
   if (slug === 'heart-to-heart-prayer-breakfast') return 'bg-red-200/60';
@@ -125,7 +126,7 @@ export default function EventsPage() {
                           alt={event.title}
                           fill
                           sizes="(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 33vw"
-                          className="object-cover transition-transform duration-700 group-hover:scale-105"
+                          className={event.slug === 'church-gala' ? 'object-contain bg-[#171611]' : 'object-cover transition-transform duration-700 group-hover:scale-105'}
                           quality={92}
                         />
                       ) : (
