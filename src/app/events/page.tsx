@@ -112,7 +112,7 @@ export default function EventsPage() {
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 md:gap-10">
             {sortedEvents.map((event, index) => (
               <Reveal key={event.slug} delay={index * 100} className="h-full">
-                <Link href={event.path} className="group block h-full">
+                <Link href={event.slug === 'church-gala' ? event.shortPath ?? event.path : event.path} className="group block h-full">
                   <article className="h-full flex flex-col bg-white rounded-[2rem] overflow-hidden border border-gray-100 shadow-sm hover:shadow-xl hover:-translate-y-1 transition-all duration-300 relative">
 
                     {/* Hover Ambient Blur Effect */}

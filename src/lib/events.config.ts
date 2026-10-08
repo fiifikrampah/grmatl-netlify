@@ -45,7 +45,7 @@ export const events: EventConfig[] = [
     title: 'Church Gala 2026',
     description: 'Celebrating God’s faithfulness and the beauty of our nations as a church.\n\n📅 Saturday, November 28th, 2026\nTime, venue, and more details to follow.',
     path: '/events/church-gala',
-    shortPath: '/gala',
+    shortPath: '/church-gala',
     isRegistrationOpen: true,
     display: true,
     eventDate: '2026-11-28',

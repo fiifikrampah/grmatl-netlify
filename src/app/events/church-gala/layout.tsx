@@ -23,11 +23,11 @@ const flyer = '/images/events/flyers/church-gala-2026-teaser.webp'
 export const metadata: Metadata = {
   title,
   description,
-  alternates: { canonical: '/events/church-gala' },
+  alternates: { canonical: '/church-gala' },
   openGraph: {
     title,
     description,
-    url: '/events/church-gala',
+    url: '/church-gala',
     images: [{ url: flyer, width: 1024, height: 1536, alt: 'Church Gala 2026 — Saturday, November 28, 2026' }],
   },
   twitter: { card: 'summary_large_image', title, description, images: [flyer] },

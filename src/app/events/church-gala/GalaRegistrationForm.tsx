@@ -41,7 +41,7 @@ export default function GalaRegistrationForm() {
         const body = await response.json().catch(() => ({}))
         throw new Error(body.error || 'We couldn’t submit your registration. Please try again.')
       }
-      router.replace(pathname === '/gala' ? '/gala/success' : '/events/church-gala/success')
+      router.replace(pathname === '/church-gala' ? '/church-gala/success' : '/events/church-gala/success')
     } catch (error) {
       setSubmitError(error instanceof Error ? error.message : 'Please try again in a moment.')
       submitting.current = false

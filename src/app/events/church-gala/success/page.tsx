@@ -4,7 +4,7 @@ import { Check, ArrowRight } from 'lucide-react'
 
 export const metadata: Metadata = {
   title: 'Gala Registration Received | Great Redemption Ministries',
-  alternates: { canonical: '/events/church-gala/success' },
+  alternates: { canonical: '/church-gala/success' },
   robots: { index: false, follow: false },
 }
 
